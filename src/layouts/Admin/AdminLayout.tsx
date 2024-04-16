@@ -1,5 +1,12 @@
+import React from "react";
+import AdminRoutes from "../../routes/AdminRoutes";
+
 const AdminLayout = () => {
-  return <div>AdminLayout</div>;
+  return (
+    <React.Fragment>
+      <AdminRoutes />
+    </React.Fragment>
+  );
 };
 
 export default AdminLayout;

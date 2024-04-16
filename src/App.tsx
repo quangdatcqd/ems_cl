@@ -1,10 +1,19 @@
-import "./App.css";
+import { Routes, Route } from "react-router-dom";
+import { lazy, Suspense } from "react";
+
+const ClientLayout = lazy(() => import("../src/layouts/Client/ClientLayout"));
+const AdminLayout = lazy(() => import("../src/layouts/Admin/AdminLayout"));
+
+import Loading from "./components/Loading";
 
 function App() {
   return (
-    <>
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
-    </>
+    <Suspense fallback={<Loading />}>
+      <Routes>
+        <Route path="/*" element={<ClientLayout />} />
+        <Route path="/admin/*" element={<AdminLayout />} />
+      </Routes>
+    </Suspense>
   );
 }
 
