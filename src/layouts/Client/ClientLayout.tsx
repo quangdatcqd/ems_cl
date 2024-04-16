@@ -1,5 +1,12 @@
+import React from "react";
+import ClientRoutes from "../../routes/ClientRoutes";
+
 const ClientLayout = () => {
-  return <div>ClientLayout</div>;
+  return (
+    <React.Fragment>
+      <ClientRoutes />
+    </React.Fragment>
+  );
 };
 
 export default ClientLayout;
