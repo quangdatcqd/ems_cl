@@ -1,5 +1,6 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import authService from "../../services/adminAuth.service";
 
 const LoginLayout = () => {
   const validationSchema = Yup.object().shape({
@@ -15,8 +16,10 @@ const LoginLayout = () => {
       password: "",
     },
     validationSchema,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: async (formData) => { 
+      const authRes =  await authService.login(formData.username, formData.password);
+      console.log(authRes);
+      
     },
   });
 
