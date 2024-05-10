@@ -1,0 +1,27 @@
+.badge-custom {
+    padding: 4px 10px 6px; 
+    font-weight: 500;
+    border-radius: 10px;
+    font-size: 12px;
+}
+.Reviewing{
+    background-color: #f0b053; 
+    color: #ffffff;
+}
+.Enabled{
+    background-color: rgb(96 186 98); 
+    color: #ffffff;
+}
+.Disabled{
+    background-color: #d9d9d9; 
+    color: #969696;
+}
+.Locked{
+    background-color: #b23233; 
+    color: #ffefef;
+}
+
+/* "Reviewing",
+  "Enabled",
+  'Disabled',
+  'Locked' */

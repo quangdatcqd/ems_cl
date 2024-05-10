@@ -1,18 +1,26 @@
-import { Routes, Route } from "react-router-dom";
-import { lazy, Suspense } from "react";
-
-const ClientLayout = lazy(() => import("../src/layouts/Client/ClientLayout"));
-const AdminLayout = lazy(() => import("../src/layouts/Admin/AdminLayout"));
-
+import { Route } from "react-router-dom";
+import { lazy, Suspense } from "react"; 
+import Routes from "./routes";
 import Loading from "./components/Loading";
+import { Toaster } from 'react-hot-toast';
+import { ThemeProvider } from "./components/core/theme-provider/theme-provider";
+import DialogMessage from "./components/DialogMessage";
+import { DialogProvider } from "./context/dialogContext"; 
+ 
+import AuthProvider from "./provider/authProvider";
 
 function App() {
   return (
     <Suspense fallback={<Loading />}>
-      <Routes>
-        <Route path="/*" element={<ClientLayout />} />
-        <Route path="/admin/*" element={<AdminLayout />} />
-      </Routes>
+    <ThemeProvider>
+      <AuthProvider>
+      <DialogProvider> 
+        <Routes />
+        <Toaster position="top-right" />
+        <DialogMessage /> 
+      </DialogProvider> 
+      </AuthProvider> 
+      </ThemeProvider>
     </Suspense>
   );
 }
