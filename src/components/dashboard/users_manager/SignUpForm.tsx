@@ -21,18 +21,18 @@ const schema = zod.object({
   username: zod.string().min(1, { message: 'Username is required' }),
   name: zod.string().min(1, { message: 'Name is required' }),
   email: zod.string().min(1, { message: 'Email is required' }).email(),
-  password: zod.string().min(8, "New Password is too short - should be 8 chars minimum")
-    .refine(value => /[A-Z]/.test(value), {
+  password: zod.string() 
+    .refine(value =>value === "" ? true :  /[A-Z]/.test(value), {
       message: "Password must contain at least one uppercase letter.",
-    }).refine((value) => /[a-z]/.test(value), {
+    }).refine((value) => value === "" ? true : /[a-z]/.test(value), {
       message: "Password must contain at least one lowercase letter.",
-    }).refine((value) => /[0-9]/.test(value), {
+    }).refine((value) => value === "" ? true : /[0-9]/.test(value), {
       message: "Password must contain at least one number.",
     })
-    .refine((value) => /[^A-Za-z0-9]/.test(value), {
+    .refine((value) => value === "" ? true : /[^A-Za-z0-9]/.test(value), {
       message: "Password must contain at least one special character.",
     }),
-  confirmPassword: zod.string().min(6, { message: 'Password should be at least 6 characters' }),
+  confirmPassword: zod.string() ,
   phoneNumber: zod.string()
 }).refine(
   (values) => {
@@ -47,7 +47,7 @@ const schema = zod.object({
 
 type Values = zod.infer<typeof schema>;
 
-const defaultValues = { username: '', phoneNumber: '', name: '', email: '', password: 'Abc123Abc@', confirmPassword: 'Abc123Abc@' } satisfies Values;
+const defaultValues = { username: '', phoneNumber: '', name: '', email: '', password: '', confirmPassword: '' } satisfies Values;
 
 export function SignUpForm({handleCloseDlg}:{handleCloseDlg:Function}): React.JSX.Element {
 
@@ -80,8 +80,9 @@ export function SignUpForm({handleCloseDlg}:{handleCloseDlg:Function}): React.JS
       <Divider />
       <Stack spacing={3} sx={{ paddingTop: 2 }}>
         <Grid container spacing={3}>
+        {/* <Grid xs={12} item={true}><Alert color="warning">{"Type password if you want to set!"}</Alert>  </Grid> */}
 
-          <Grid md={6} xs={12} item={true}>
+          <Grid md={12} xs={12} item={true}>
             <Controller
               control={control}
               name="name"
@@ -94,7 +95,7 @@ export function SignUpForm({handleCloseDlg}:{handleCloseDlg:Function}): React.JS
               )}
             />
           </Grid>
-          <Grid md={6} xs={12} item={true}   >
+          <Grid md={12} xs={12} item={true}   >
             <Controller
               control={control}
               name="phoneNumber"
@@ -107,7 +108,7 @@ export function SignUpForm({handleCloseDlg}:{handleCloseDlg:Function}): React.JS
               )}
             />
           </Grid>
-          <Grid md={6} xs={12} item={true}>
+          <Grid md={12} xs={12} item={true}>
             <Controller
               control={control}
               name="username"
@@ -120,7 +121,7 @@ export function SignUpForm({handleCloseDlg}:{handleCloseDlg:Function}): React.JS
               )}
             />
           </Grid>
-          <Grid md={6} xs={12} item={true}>
+          <Grid md={12} xs={12} item={true}>
             <Controller
               control={control}
               name="email"
@@ -133,7 +134,7 @@ export function SignUpForm({handleCloseDlg}:{handleCloseDlg:Function}): React.JS
               )}
             />
           </Grid>
-          <Grid md={6} xs={12} item={true}>
+          {/* <Grid md={6} xs={12} item={true}>
             <Controller
               control={control}
               name="password"
@@ -204,7 +205,7 @@ export function SignUpForm({handleCloseDlg}:{handleCloseDlg:Function}): React.JS
                 </FormControl>
               )}
             />
-          </Grid>
+          </Grid> */}
           {errors.root ? <Grid xs={12} item={true}><Alert color="error">{errors.root.message}</Alert>  </Grid> : null}
           <Grid xs={12} item={true}>
             <Grid container spacing={1}>

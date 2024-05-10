@@ -16,15 +16,13 @@ import Typography from '@mui/material/Typography';
 import dayjs from 'dayjs';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { useSelection } from '../../../hooks/use-selection';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, LinearProgress, Popover } from '@mui/material';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever'; 
+import { Button, ClickAwayListener, Dialog, DialogActions, DialogContent, DialogTitle, Grow, IconButton, LinearProgress, MenuItem, MenuList, Paper, Popper } from '@mui/material';
+import CheckIcon from '@mui/icons-material/Check';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import "./users_manager.css"
 import { EditForm } from './EditForm';
 import userManagerService from '../../../services/admin/userManager.service';
 import toast from 'react-hot-toast';
-function noop(): void {
-  // do nothing
-}
 
 export interface Customer {
   id: string;
@@ -46,12 +44,13 @@ interface CustomersTableProps {
   rows?: Customer[];
   rowsPerPage?: number;
   isPending: boolean;
-  fetchUsers: Function
+  fetchUsers: Function,
+  setSort: Function
 }
 
 
 
-export function UserManagerTable({ count = 0, rows = [], page = 0, rowsPerPage = 0, isPending = false, fetchUsers }: CustomersTableProps): React.JSX.Element {
+export function UserManagerTable({ count = 0, rows = [], page = 0, rowsPerPage = 0, isPending = false, fetchUsers, setSort }: CustomersTableProps): React.JSX.Element {
 
   const [openDlg, setOpenDlg] = React.useState<any>({ open: false, userData: {} });
 
@@ -78,6 +77,17 @@ export function UserManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
     })
     fetchUsers();
   };
+
+
+  const handlePageChange = (event: React.MouseEvent | null, page: number) => {
+    setSort((sort: any) => ({ ...sort, page: page + 1 }))
+  }
+
+  const handlePerPageChange = (e: any) => {
+    setSort((sort: any) => ({ ...sort, limit: e.target.value }))
+
+  }
+
   return (
     <Card>
       {isPending && <LinearProgress />}
@@ -159,8 +169,7 @@ export function UserManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
                     <IconButton aria-label="edit" color="success" onClick={() => handleOpenEdit(row)}>
                       < BorderColorIcon />
                     </IconButton>
-                    <ConfirmPopover idUser={row.id} fetchUsers={fetchUsers}/>
-
+                    <ConfirmPopover idUser={row.id} fetchUsers={fetchUsers} />
                   </TableCell>
                 </TableRow>
               );
@@ -173,8 +182,8 @@ export function UserManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
 
         component="div"
         count={count}
-        onPageChange={noop}
-        onRowsPerPageChange={noop}
+        onPageChange={handlePageChange}
+        onRowsPerPageChange={handlePerPageChange}
         page={page}
         rowsPerPage={rowsPerPage}
         rowsPerPageOptions={[5, 10, 25]}
@@ -184,51 +193,98 @@ export function UserManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
 }
 
 
-const ConfirmPopover = ({idUser,fetchUsers}:{idUser:string,fetchUsers:Function}) => {
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null); 
-  const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => { 
-    setAnchorEl(event.currentTarget);
-   
-  };
+const ConfirmPopover = ({ idUser, fetchUsers }: { idUser: string, fetchUsers: Function }) => {
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  const handleRemoveUser = async () => {
-    const resRemove = await userManagerService.removeAdminUser(idUser); 
-    if(resRemove?.data){
-      handleClose();
+  const handleRemoveUser = async (event: Event | React.SyntheticEvent) => {
+    const resRemove = await userManagerService.removeAdminUser(idUser);
+    if (resRemove?.data) {
+      handleClose(event)
       toast.success("User remove successfully!")
       fetchUsers();
-    } else{
+    } else {
       toast.success(resRemove?.message)
     }
   };
+  const [open, setOpen] = React.useState(false);
+  const anchorRef = React.useRef<HTMLButtonElement>(null);
 
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
+  };
+  const handleClose = (event: Event | React.SyntheticEvent) => {
+    if (
+      anchorRef.current &&
+      anchorRef.current.contains(event.target as HTMLElement)
+    ) {
+      return;
+    }
+    setOpen(false);
+  };
+
+  function handleListKeyDown(event: React.KeyboardEvent) {
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      setOpen(false);
+    } else if (event.key === 'Escape') {
+      setOpen(false);
+    }
+  }
+  // return focus to the button when we transitioned from !open -> open
+  const prevOpen = React.useRef(open);
+  React.useEffect(() => {
+    if (prevOpen.current === true && open === false) {
+      anchorRef.current!.focus();
+    }
+
+    prevOpen.current = open;
+  }, [open]);
 
   return <>
-    <IconButton aria-label="remove" color="error" onClick={handleClick}>
+    <IconButton
+      ref={anchorRef}
+      id="composition-button"
+      aria-controls={open ? 'composition-menu' : undefined}
+      aria-expanded={open ? 'true' : undefined}
+      aria-haspopup="true"
+      onClick={handleToggle}
+      color='error'
+    >
       < DeleteForeverIcon />
     </IconButton>
-    <Popover
-      id={id}
+    <Popper
       open={open}
-      anchorEl={anchorEl}
-      onClose={handleClose}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'left',
-      }}
-      transformOrigin={{
-        vertical: 'bottom',
-        horizontal: 'center',
-      }}
+      anchorEl={anchorRef.current}
+      role={undefined}
+      placement="left-start"
+      transition
+      disablePortal
+      sx={{ zIndex: 9999 }}
     >
-      <Button aria-describedby={id} variant="outlined" color='error' onClick={handleRemoveUser}>
-        Comfirm!
-      </Button>
-    </Popover >
+      {({ TransitionProps, placement }) => (
+        <Grow
+          {...TransitionProps} style={{
+            transformOrigin:
+              placement === 'bottom-start' ? 'left top' : 'left bottom',
+          }}
+        >
+          <Paper  >
+            <ClickAwayListener onClickAway={handleClose}>
+              <MenuList
+                autoFocusItem={open}
+                id="composition-menu"
+                aria-labelledby="composition-button"
+                onKeyDown={handleListKeyDown}
+                sx={{ padding: 0 }}
+              >
+                <MenuItem sx={{ padding: 0 }}  >
+                  <Button sx={{ borderRadius: 1 }} color='warning' variant='outlined' onClick={handleRemoveUser} >
+                    <CheckIcon /> Confirm Deletion</Button>
+                </MenuItem>
+              </MenuList>
+            </ClickAwayListener>
+          </Paper>
+        </Grow>
+      )}
+    </Popper>
   </>
 }

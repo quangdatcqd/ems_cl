@@ -24,14 +24,14 @@ const schema = zod.object({
   name: zod.string().min(1, { message: 'Name is required' }),
   email: zod.string().min(1, { message: 'Email is required' }).email(),
   password: zod.string()
-    .refine(value =>  value === "" ? true : /[A-Z]/.test(value) , {
-        message: "Password must contain at least one uppercase letter.",
-      }).refine((value) => value === "" ? true : /[a-z]/.test(value), {
-        message: "Password must contain at least one lowercase letter.",
-      }).refine((value) => value === "" ? true : /[0-9]/.test(value), {
-        message: "Password must contain at least one number.",
-      })
-    .refine((value) =>  value === "" ? true :/[^A-Za-z0-9]/.test(value), {
+    .refine(value => value === "" ? true : /[A-Z]/.test(value), {
+      message: "Password must contain at least one uppercase letter.",
+    }).refine((value) => value === "" ? true : /[a-z]/.test(value), {
+      message: "Password must contain at least one lowercase letter.",
+    }).refine((value) => value === "" ? true : /[0-9]/.test(value), {
+      message: "Password must contain at least one number.",
+    })
+    .refine((value) => value === "" ? true : /[^A-Za-z0-9]/.test(value), {
       message: "Password must contain at least one special character.",
     }),
   confirmPassword: zod.string(),
@@ -61,8 +61,9 @@ const AccountType = [
 ]
 type Values = zod.infer<typeof schema>;
 
-export function EditForm({ data, handleCloseEdit }: { data: any, handleCloseEdit: Function }): React.JSX.Element {
-  const defaultValues = {
+export function EditForm({ data, handleCloseEdit }: { data: any, handleCloseEdit: Function }): React.JSX.Element { 
+ 
+ const  defaultValues = {
     username: data.userData.username,
     phoneNumber: data.userData.phoneNumber || "",
     name: data.userData.name,
@@ -71,25 +72,26 @@ export function EditForm({ data, handleCloseEdit }: { data: any, handleCloseEdit
     password: '',
     confirmPassword: '',
     id: data.userData.id
-  } satisfies Values; 
+  } satisfies Values;
+ 
+  
   const [showPassword, setShowPassword] = React.useState<boolean>();
   const [isPending, setIsPending] = React.useState<boolean>(false);
   const [status, setStatus] = React.useState<string>(data.userData.status);
   const [userType, setUserType] = React.useState<string>(data.userData.type);
-  const { control, handleSubmit, setError, formState: { errors }, } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
+  const { control, handleSubmit, setError, formState: { errors }, } = useForm<Values>({ defaultValues , resolver: zodResolver(schema) });
 
   const onSubmit = React.useCallback(async (values: Values, e: any): Promise<void> => {
-    setIsPending(true);
-
+    setIsPending(true); 
+    
     const data = await userManagerService.modifyAdminUser({ ...values, status: status });
     if (data?.statusCode) {
       setError('root', { type: 'server', message: data?.message });
-    } else {
-      control._reset();
+    } else {  
       toast.success("Modified user information successfully!");
       if (e.nativeEvent.submitter.innerText === "Update And Close") {
         handleCloseEdit({ open: false, userData: {} })
-      }
+      }  
     }
     setIsPending(false);
   },
