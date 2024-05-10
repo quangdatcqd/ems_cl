@@ -1,12 +1,10 @@
-'use client';
+ 
 
 import * as React from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Alert from '@mui/material/Alert';
-import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import Button from '@mui/material/Button'; 
+import FormControl from '@mui/material/FormControl'; 
 import FormHelperText from '@mui/material/FormHelperText';
 import InputLabel from '@mui/material/InputLabel';
 import Link from '@mui/material/Link';
@@ -18,8 +16,7 @@ import { EyeSlash as EyeSlashIcon } from '@phosphor-icons/react/dist/ssr/EyeSlas
 import { Controller, useForm } from 'react-hook-form';
 import { z as zod } from 'zod';
 
-import { paths } from '../../paths';
-import { authClient } from '../../lib/auth/client';
+import { paths } from '../../paths'; 
 import { useNavigate } from 'react-router-dom';
 import authService from '../../services/adminAuth.service';
 

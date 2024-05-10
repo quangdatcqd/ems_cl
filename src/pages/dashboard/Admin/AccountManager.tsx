@@ -1,23 +1,15 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import { Download as DownloadIcon } from '@phosphor-icons/react/dist/ssr/Download';
-import { Plus as PlusIcon } from '@phosphor-icons/react/dist/ssr/Plus';
-import { Upload as UploadIcon } from '@phosphor-icons/react/dist/ssr/Upload';
-import dayjs from 'dayjs';
+import Stack from '@mui/material/Stack'; 
+import { Plus as PlusIcon } from '@phosphor-icons/react/dist/ssr/Plus'; 
 
 import { UserManagerFilter } from '../../../components/dashboard/users_manager/UserManagerFilter';
-import { UserManagerTable } from '../../../components/dashboard/users_manager/UserManagerTable';
-import type { Customer } from '../../../components/dashboard/users_manager/UserManagerTable';
-import UserManagerService from '../../../services/admin/userManager.service';
-import { Box, useMediaQuery  } from '@mui/material';
+import { UserManagerTable } from '../../../components/dashboard/users_manager/UserManagerTable'; 
+import UserManagerService from '../../../services/admin/userManager.service'; 
 import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
+import DialogContent from '@mui/material/DialogContent'; 
 import DialogTitle from '@mui/material/DialogTitle';
-import Dialog, { DialogProps } from '@mui/material/Dialog';
-import AdminSignUp from '../../auth/Client/ClientSignUp';
+import Dialog  from '@mui/material/Dialog'; 
 import { SignUpForm } from '../../../components/dashboard/users_manager/SignUpForm';
 
 
@@ -34,15 +26,15 @@ interface UserType {
   }
 }
 
-const style = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)', 
-  bgcolor: 'background.paper', 
-  boxShadow: 24,
-  p: 4,
-};
+// const style = {
+//   position: 'absolute' as 'absolute',
+//   top: '50%',
+//   left: '50%',
+//   transform: 'translate(-50%, -50%)', 
+//   bgcolor: 'background.paper', 
+//   boxShadow: 24,
+//   p: 4,
+// };
 
 export default function AccountManager(): React.JSX.Element {
 
@@ -114,6 +106,6 @@ export default function AccountManager(): React.JSX.Element {
   );
 }
 
-function applyPagination(rows: Customer[], page: number, rowsPerPage: number): Customer[] {
-  return rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
-}
+// function applyPagination(rows: Customer[], page: number, rowsPerPage: number): Customer[] {
+//   return rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+// }

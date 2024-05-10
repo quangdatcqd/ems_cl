@@ -13,13 +13,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import Grid from '@mui/material/Unstable_Grid2';
 import { useAuth } from '../../../provider/authProvider';
 
-const states = [
-  { value: 'alabama', label: 'Alabama' },
-  { value: 'new-york', label: 'New York' },
-  { value: 'san-francisco', label: 'San Francisco' },
-  { value: 'los-angeles', label: 'Los Angeles' },
-] as const;
-
+ 
 export function AccountDetailsForm(): React.JSX.Element {
 const {auth} = useAuth();
 

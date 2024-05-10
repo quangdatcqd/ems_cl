@@ -1,5 +1,5 @@
-import { Route } from "react-router-dom";
-import { lazy, Suspense } from "react"; 
+ 
+import {  Suspense } from "react"; 
 import Routes from "./routes";
 import Loading from "./components/Loading";
 import { Toaster } from 'react-hot-toast';

@@ -5,7 +5,7 @@ export interface SignInWithPasswordParams {
     password: string;
   }
 const AdminRoute = "admin/auth/";
-const ClientRoute = "client/auth/";
+// const ClientRoute = "client/auth/";
 
 
 class AdminAuthService { 

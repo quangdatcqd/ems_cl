@@ -17,9 +17,7 @@ import dayjs from 'dayjs';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { useSelection } from '../../../hooks/use-selection';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, LinearProgress, Popover } from '@mui/material';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import RemoveIcon from '@mui/icons-material/Remove';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever'; 
 import "./users_manager.css"
 import { EditForm } from './EditForm';
 import userManagerService from '../../../services/admin/userManager.service';

@@ -1,22 +1,16 @@
 'use client';
 
 import * as React from 'react'; 
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import Box from '@mui/material/Box'; 
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import { ArrowSquareUpRight as ArrowSquareUpRightIcon } from '@phosphor-icons/react/dist/ssr/ArrowSquareUpRight';
-import { CaretUpDown as CaretUpDownIcon } from '@phosphor-icons/react/dist/ssr/CaretUpDown';
-
+import Typography from '@mui/material/Typography'; 
 import type { NavItemConfig } from '../../../types/nav'
 import { paths } from '../../../paths';
-import { isNavItemActive } from '../../../lib/is-nav-item-active';
-import { Logo } from '../../core/logo';
+import { isNavItemActive } from '../../../lib/is-nav-item-active'; 
 
 import { navItems } from './config';
-import { navIcons } from './nav-icons';
-import { Link } from '@mui/material';
+import { navIcons } from './nav-icons'; 
 import {  useLocation, useNavigate  } from 'react-router-dom';
 
 export function SideNav(): React.JSX.Element {

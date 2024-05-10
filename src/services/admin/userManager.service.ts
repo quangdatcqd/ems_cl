@@ -11,8 +11,9 @@ class UserManagerService {
 
 
     async getAllAdminUsers(params: object)  { 
-    
-        return axiosClient.get(AdminRoute, {
+        let  dat = JSON.stringify(params);
+        dat = "";
+        return axiosClient.get(AdminRoute+dat, {
             headers:authHeader()
         } )
         .then((res: any) => { 

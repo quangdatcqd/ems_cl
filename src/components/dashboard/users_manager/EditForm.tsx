@@ -71,18 +71,7 @@ export function EditForm({ data, handleCloseEdit }: { data: any, handleCloseEdit
     password: '',
     confirmPassword: '',
     id: data.userData.id
-  } satisfies Values;
-  const validationResult = schema.safeParse(defaultValues);
-
-  if (validationResult.success) {
-    // Mật khẩu hợp lệ (hoặc rỗng)
-    const validData = validationResult.data;
-    // Tiếp tục xử lý dữ liệu
-  } else {
-    // Mật khẩu không hợp lệ
-    const validationErrors = validationResult.error.flatten();
-    // Xử lý lỗi
-  }
+  } satisfies Values; 
   const [showPassword, setShowPassword] = React.useState<boolean>();
   const [isPending, setIsPending] = React.useState<boolean>(false);
   const [status, setStatus] = React.useState<string>(data.userData.status);
@@ -110,7 +99,7 @@ export function EditForm({ data, handleCloseEdit }: { data: any, handleCloseEdit
     setStatus(e.target.value)
   }
   const handleUserTypeChange = (e: SelectChangeEvent) => {
-    setStatus(e.target.value)
+    setUserType(e.target.value)
   }
 
   return (

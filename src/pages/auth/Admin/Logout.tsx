@@ -1,20 +1,20 @@
-import { useNavigate } from "react-router-dom";
-import { useClientAuth } from "../../provider/authProvider";
+// import { useNavigate } from "react-router-dom";
+// import { useClientAuth } from "../../provider/authProvider";
 
-const Logout = () => {
-  const { setClientAuth  } = useClientAuth();
-  const navigate = useNavigate();
+// const Logout = () => {
+//   const { setClientAuth  } = useClientAuth();
+//   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    setClientAuth(null);
-    navigate("/", { replace: true });
-  };
+//   const handleLogout = () => {
+//     setClientAuth(null);
+//     navigate("/", { replace: true });
+//   };
 
-  setTimeout(() => {
-    handleLogout();
-  }, 3 * 100);
+//   setTimeout(() => {
+//     handleLogout();
+//   }, 3 * 100);
 
-  return <>Logout Page</>;
-};
+//   return <>Logout Page</>;
+// };
 
-export default Logout;
+// export default Logout;
