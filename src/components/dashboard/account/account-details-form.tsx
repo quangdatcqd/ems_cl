@@ -8,10 +8,8 @@ import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import Divider from '@mui/material/Divider';
 import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import Select from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel'; 
+import OutlinedInput from '@mui/material/OutlinedInput'; 
 import Grid from '@mui/material/Unstable_Grid2';
 import { useAuth } from '../../../provider/authProvider';
 
@@ -39,25 +37,25 @@ const {auth} = useAuth();
             <Grid md={6} xs={12}>
               <FormControl fullWidth required>
                 <InputLabel>Full name</InputLabel>
-                <OutlinedInput defaultValue="Sofia" label="First name" name="firstName" />
+                <OutlinedInput defaultValue={auth?.userInfo.name} label="First name" name="firstName" />
               </FormControl>
             </Grid>
             <Grid md={6} xs={12}>
               <FormControl fullWidth required>
                 <InputLabel>User name</InputLabel>
-                <OutlinedInput defaultValue="Rivers" label="Last name" name="lastName" />
+                <OutlinedInput defaultValue={""} label="User name" name="lastName" />
               </FormControl>
             </Grid>
             <Grid md={6} xs={12}>
               <FormControl fullWidth required>
                 <InputLabel>Email address</InputLabel>
-                <OutlinedInput defaultValue="sofia@devias.io" label="Email address" name="email" />
+                <OutlinedInput defaultValue={""} label="Email address" name="email" />
               </FormControl>
             </Grid>
             <Grid md={6} xs={12}>
               <FormControl fullWidth>
                 <InputLabel>Phone number</InputLabel>
-                <OutlinedInput label="Phone number" name="phone" type="tel" />
+                <OutlinedInput label="Phone number" defaultValue={auth?.userInfo.phoneNumber} name="phone" type="tel" />
               </FormControl>
             </Grid>
             {/* <Grid md={6} xs={12}>

@@ -8,6 +8,8 @@ interface AuthProps {
     name: string;
     status: string;
     changePasswordRequired: boolean;
+    type:string,
+    phoneNumber:string,
   }
 }
 

@@ -1,4 +1,4 @@
-'use client';
+
 
 import * as React from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -12,40 +12,40 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { Controller, useForm } from 'react-hook-form';
 import { z as zod } from 'zod';
+import adminAuthService from '../../services/adminAuth.service';
+import DialogContext from '../../context/dialogContext';
+import { paths } from '../../paths';
+import { Link } from 'react-router-dom';
 
-import { authClient } from '@/lib/auth/client';
-
-const schema = zod.object({ email: zod.string().min(1, { message: 'Email is required' }).email() });
+const schema = zod.object({
+  email: zod.string().min(1, { message: 'Email is required' }).email(),
+  username: zod.string().min(1, { message: 'Username is required' })
+});
 
 type Values = zod.infer<typeof schema>;
 
-const defaultValues = { email: '' } satisfies Values;
+const defaultValues = { email: '', username: '' } satisfies Values;
 
 export function ResetPasswordForm(): React.JSX.Element {
   const [isPending, setIsPending] = React.useState<boolean>(false);
-
-  const {
-    control,
-    handleSubmit,
-    setError,
-    formState: { errors },
-  } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
+  const { setDialog } = React.useContext(DialogContext);
+  const { control, handleSubmit, setError, formState: { errors }, } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
 
   const onSubmit = React.useCallback(
     async (values: Values): Promise<void> => {
       setIsPending(true);
-
-      const { error } = await authClient.resetPassword(values);
-
-      if (error) {
-        setError('root', { type: 'server', message: error });
-        setIsPending(false);
-        return;
+      const dataReset = await adminAuthService.resetPassword(values);
+      if (dataReset?.statusCode !== 201) {
+        setError('root', { type: 'server', message: dataReset.message });
       }
-
+      else {
+        setDialog({
+          title: "Reset password",
+          open: true,
+          text: dataReset?.message
+        })
+      }
       setIsPending(false);
-
-      // Redirect to confirm password reset
     },
     [setError]
   );
@@ -57,6 +57,17 @@ export function ResetPasswordForm(): React.JSX.Element {
         <Stack spacing={2}>
           <Controller
             control={control}
+            name="username"
+            render={({ field }) => (
+              <FormControl error={Boolean(errors.username)}>
+                <InputLabel>username</InputLabel>
+                <OutlinedInput {...field} label="username" type="username" />
+                {errors.username ? <FormHelperText>{errors.username.message}</FormHelperText> : null}
+              </FormControl>
+            )}
+          />
+          <Controller
+            control={control}
             name="email"
             render={({ field }) => (
               <FormControl error={Boolean(errors.email)}>
@@ -66,6 +77,12 @@ export function ResetPasswordForm(): React.JSX.Element {
               </FormControl>
             )}
           />
+          <div>
+            <Link to={paths.admin.signIn} className='react-link'  > 
+                Back to sign in.
+              
+            </Link>
+          </div>
           {errors.root ? <Alert color="error">{errors.root.message}</Alert> : null}
           <Button disabled={isPending} type="submit" variant="contained">
             Send recovery link

@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.react-link{
+    color: #1c7aff;
+}
+.react-link:hover{
+    text-decoration: underline;
+}

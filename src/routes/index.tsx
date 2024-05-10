@@ -9,6 +9,8 @@ import Profile from "../pages/dashboard/Admin/Profile";
 import Settings from "../pages/dashboard/Admin/Settings";
 import AccountManager from "../pages/dashboard/Admin/AccountManager";
 import AdminSignUp from "../pages/auth/Client/ClientSignUp";
+import ResetPassword from "../pages/auth/Admin/ResetPassword";
+import ChangeResetPassword from "../pages/auth/Admin/ChangeResetPassword";
 
 const Routes = () => {
   const { auth } = useAuth(); 
@@ -25,7 +27,16 @@ const Routes = () => {
     {
       path: "*",
       element:<GenericNotFound   />  ,
-    },
+    }, 
+    {
+      path: paths.admin.resetPassword,
+      element: <ResetPassword/>,
+    }
+    , 
+    {
+      path: paths.admin.changePassword,
+      element: <ChangeResetPassword/>,
+    }, 
 
   ];
 
@@ -50,8 +61,18 @@ const Routes = () => {
         {
           path:paths.dashboard.settings,
           element:<Settings/>
-        }
-        ,
+        } 
+      ],
+    },
+  ];
+
+  
+  // Define routes accessible only to authenticated users
+  const routesForRootAdminAuthenticatedOnly = [
+    {
+      path: "/",
+      element: <ProtectedRoute />, // Wrap the component in ProtectedRoute
+      children: [ 
         {
           path:paths.dashboard.accountManager,
           element: <AccountManager/>
@@ -68,7 +89,7 @@ const Routes = () => {
     {
       path: paths.admin.signIn,
       element: <AdminLogin/>,
-    }, 
+    }
   ];
   
 
@@ -76,7 +97,8 @@ const Routes = () => {
   const router = createBrowserRouter([
     ...routesForPublic,
     ...(!auth ? routesForNotAuthenticatedOnly : []),
-    ...routesForAuthenticatedOnly 
+    ...(auth?.userInfo.type ==="RootAdmin" ? routesForRootAdminAuthenticatedOnly : []),
+    ...routesForAuthenticatedOnly  
   ]);
 
   // Provide the router configuration using RouterProvider

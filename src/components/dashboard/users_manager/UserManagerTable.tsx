@@ -23,6 +23,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import "./users_manager.css"
 import { EditForm } from './EditForm';
 import userManagerService from '../../../services/admin/userManager.service';
+import toast from 'react-hot-toast';
 function noop(): void {
   // do nothing
 }
@@ -160,7 +161,7 @@ export function UserManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
                     <IconButton aria-label="edit" color="success" onClick={() => handleOpenEdit(row)}>
                       < BorderColorIcon />
                     </IconButton>
-                    {/* <ConfirmPopover idUser={row.id}/> */}
+                    <ConfirmPopover idUser={row.id} fetchUsers={fetchUsers}/>
 
                   </TableCell>
                 </TableRow>
@@ -185,16 +186,25 @@ export function UserManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
 }
 
 
-const ConfirmPopover = ({idUser}:{idUser:string}) => {
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
-
+const ConfirmPopover = ({idUser,fetchUsers}:{idUser:string,fetchUsers:Function}) => {
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null); 
   const handleClick = async (event: React.MouseEvent<HTMLButtonElement>) => { 
     setAnchorEl(event.currentTarget);
-    const resRemove = await userManagerService.removeAdminUser(idUser);
+   
   };
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+  const handleRemoveUser = async () => {
+    const resRemove = await userManagerService.removeAdminUser(idUser); 
+    if(resRemove?.data){
+      handleClose();
+      toast.success("User remove successfully!")
+      fetchUsers();
+    } else{
+      toast.success(resRemove?.message)
+    }
   };
 
   const open = Boolean(anchorEl);
@@ -218,7 +228,7 @@ const ConfirmPopover = ({idUser}:{idUser:string}) => {
         horizontal: 'center',
       }}
     >
-      <Button aria-describedby={id} variant="outlined" color='error' onClick={handleClick}>
+      <Button aria-describedby={id} variant="outlined" color='error' onClick={handleRemoveUser}>
         Comfirm!
       </Button>
     </Popover >

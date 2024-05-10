@@ -18,7 +18,7 @@ export function Layout({ children }: LayoutProps): React.JSX.Element {
         display: { xs: 'flex', lg: 'grid' },
         flexDirection: 'column',
         gridTemplateColumns: '1fr 1fr',
-        minHeight: '100%',
+        minHeight: '100vh',
       }}
     >
       <Box sx={{ display: 'flex', flex: '1 1 auto', flexDirection: 'column' }}>
@@ -53,7 +53,14 @@ export function Layout({ children }: LayoutProps): React.JSX.Element {
               
             </Typography>
           </Stack>
-           
+          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Box
+              component="img"
+              alt="Widgets"
+              src="/assets/auth-widgets.png"
+              sx={{ height: 'auto', width: '100%', maxWidth: '600px' }}
+            />
+          </Box>
         </Stack>
       </Box>
     </Box>

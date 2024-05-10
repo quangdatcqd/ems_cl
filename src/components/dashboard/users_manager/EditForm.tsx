@@ -23,18 +23,18 @@ const schema = zod.object({
   username: zod.string().min(1, { message: 'Username is required' }),
   name: zod.string().min(1, { message: 'Name is required' }),
   email: zod.string().min(1, { message: 'Email is required' }).email(),
-  password: zod.string().min(8, "New Password is too short - should be 8 chars minimum")
-    .refine(value => /[A-Z]/.test(value), {
-      message: "Password must contain at least one uppercase letter.",
-    }).refine((value) => /[a-z]/.test(value), {
-      message: "Password must contain at least one lowercase letter.",
-    }).refine((value) => /[0-9]/.test(value), {
-      message: "Password must contain at least one number.",
-    })
-    .refine((value) => /[^A-Za-z0-9]/.test(value), {
+  password: zod.string()
+    .refine(value =>  value === "" ? true : /[A-Z]/.test(value) , {
+        message: "Password must contain at least one uppercase letter.",
+      }).refine((value) => value === "" ? true : /[a-z]/.test(value), {
+        message: "Password must contain at least one lowercase letter.",
+      }).refine((value) => value === "" ? true : /[0-9]/.test(value), {
+        message: "Password must contain at least one number.",
+      })
+    .refine((value) =>  value === "" ? true :/[^A-Za-z0-9]/.test(value), {
       message: "Password must contain at least one special character.",
     }),
-  confirmPassword: zod.string().min(1, { message: 'New Password is too short - should be 8 chars minimum' }),
+  confirmPassword: zod.string(),
   phoneNumber: zod.string(),
   status: zod.string(),
   id: zod.string(),
@@ -61,51 +61,62 @@ const AccountType = [
 ]
 type Values = zod.infer<typeof schema>;
 
-export function EditForm({ data ,handleCloseEdit}: { data: any ,handleCloseEdit:Function}): React.JSX.Element {
+export function EditForm({ data, handleCloseEdit }: { data: any, handleCloseEdit: Function }): React.JSX.Element {
   const defaultValues = {
     username: data.userData.username,
     phoneNumber: data.userData.phoneNumber || "",
     name: data.userData.name,
     email: data.userData.email,
     status: data.userData.status,
-    password: 'Abc123Abc@',
-    confirmPassword: 'Abc123Abc@',
+    password: '',
+    confirmPassword: '',
     id: data.userData.id
   } satisfies Values;
+  const validationResult = schema.safeParse(defaultValues);
 
+  if (validationResult.success) {
+    // Mật khẩu hợp lệ (hoặc rỗng)
+    const validData = validationResult.data;
+    // Tiếp tục xử lý dữ liệu
+  } else {
+    // Mật khẩu không hợp lệ
+    const validationErrors = validationResult.error.flatten();
+    // Xử lý lỗi
+  }
   const [showPassword, setShowPassword] = React.useState<boolean>();
   const [isPending, setIsPending] = React.useState<boolean>(false);
   const [status, setStatus] = React.useState<string>(data.userData.status);
-  const [userType, setUserType] = React.useState<string>(data.userData.type); 
+  const [userType, setUserType] = React.useState<string>(data.userData.type);
   const { control, handleSubmit, setError, formState: { errors }, } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
 
-  const onSubmit = React.useCallback( async (values: Values,e:any): Promise<void> => {  
-      setIsPending(true);
-   
-      const data = await userManagerService.modifyAdminUser({ ...values, status: status });
-      if (data?.statusCode) {
-        setError('root', { type: 'server', message: data?.message });
-      } else {
-        control._reset();
-        toast.success("Modified user information successfully!");  
-        if(e.nativeEvent.submitter.innerText=== "Update And Close") { 
-          handleCloseEdit({open:false,userData:{}})
-        }
+  const onSubmit = React.useCallback(async (values: Values, e: any): Promise<void> => {
+    setIsPending(true);
+
+    const data = await userManagerService.modifyAdminUser({ ...values, status: status });
+    if (data?.statusCode) {
+      setError('root', { type: 'server', message: data?.message });
+    } else {
+      control._reset();
+      toast.success("Modified user information successfully!");
+      if (e.nativeEvent.submitter.innerText === "Update And Close") {
+        handleCloseEdit({ open: false, userData: {} })
       }
-      setIsPending(false);
-    },
+    }
+    setIsPending(false);
+  },
     [setError, status]
   );
   const handleStatusChange = (e: SelectChangeEvent) => {
     setStatus(e.target.value)
   }
-  const handleUserTypeChange  = (e: SelectChangeEvent) => {
+  const handleUserTypeChange = (e: SelectChangeEvent) => {
     setStatus(e.target.value)
-  } 
-  
+  }
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Divider />
+      <Grid xs={12} item={true}><Alert color="warning">{"Type password if you want to change!"}</Alert>  </Grid>
       <Stack spacing={2} sx={{ paddingTop: 2 }}>
         <Grid container spacing={2}>
           <Grid md={6} xs={12} item={true}>
@@ -281,12 +292,14 @@ export function EditForm({ data ,handleCloseEdit}: { data: any ,handleCloseEdit:
                 </Button>
               </Grid>
               <Grid item>
-                <Button disabled={isPending} type="submit" tabIndex={10}   variant="outlined"  >
+                <Button disabled={isPending} type="submit" tabIndex={10} variant="outlined"  >
                   Update And Close
                 </Button>
               </Grid>
-            </Grid> 
+
+            </Grid>
           </Grid>
+
         </Grid>
       </Stack>
     </form >

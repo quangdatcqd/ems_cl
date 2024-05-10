@@ -44,7 +44,23 @@ class AdminAuthService {
         });
     }
 
-    signUp(formData: object) {
+    async resetPassword(formData: object) {
+        return axiosClient.post(AdminRoute + "forgot-password/send", formData)
+        .then((res: any) => {
+            return res.data;
+        }).catch((error: any) => {
+            return error.response.data
+        });
+    }
+    async changeResetPassword(formData: object) {
+        return axiosClient.post(AdminRoute + "forgot-password/reset", formData)
+        .then((res: any) => {
+            return res.data;
+        }).catch((error: any) => {
+            return error.response.data
+        });
+    }
+    async signUp(formData: object) {
         return axiosClient.post(AdminRoute + "register", formData)
         .then((res: any) => {
             return res.data;
@@ -52,10 +68,7 @@ class AdminAuthService {
             return error.response.data
         });
     }
-
-    getCurrentUser() {
-        return JSON.parse(localStorage.getItem("userInfo") || "{}");
-    }
+    
 }
 
 export default new AdminAuthService();

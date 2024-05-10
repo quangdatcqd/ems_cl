@@ -16,7 +16,7 @@ function App() {
       <AuthProvider>
       <DialogProvider> 
         <Routes />
-        <Toaster position="top-right" />
+        <Toaster position="bottom-left" />
         <DialogMessage /> 
       </DialogProvider> 
       </AuthProvider> 
