@@ -160,7 +160,7 @@ export function UserManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
                     <IconButton aria-label="edit" color="success" onClick={() => handleOpenEdit(row)}>
                       < BorderColorIcon />
                     </IconButton>
-                    <ConfirmPopover idUser={row.id}/>
+                    {/* <ConfirmPopover idUser={row.id}/> */}
 
                   </TableCell>
                 </TableRow>
