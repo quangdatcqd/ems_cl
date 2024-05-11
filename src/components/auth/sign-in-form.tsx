@@ -33,6 +33,7 @@ export function SignInForm(): React.JSX.Element {
   const {auth, setAuth } = useAuth();
   if (auth) {
     setInterval(()=>router(paths.home),100)
+    
   } 
 
   const [showPassword, setShowPassword] = React.useState<boolean>(); 
