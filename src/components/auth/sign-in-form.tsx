@@ -18,8 +18,7 @@ import { z as zod } from 'zod';
 import { paths } from '../../paths';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../provider/authProvider';
-import adminAuthService from '../../services/adminAuth.service';
-
+import adminAuthService from '../../services/adminAuth.service'; 
 const schema = zod.object({
   username: zod.string().min(1, { message: 'username is required' }),
   password: zod.string().min(8, "Password is too short - should be 8 chars minimum"),
@@ -29,13 +28,15 @@ type Values = zod.infer<typeof schema>;
 
 const defaultValues = { username: '', password: '' } satisfies Values;
 
-export function SignInForm(): React.JSX.Element {
+export function SignInForm(): React.JSX.Element { 
   const router = useNavigate();
-  const { setAuth } = useAuth();
-  const [showPassword, setShowPassword] = React.useState<boolean>();
+  const {auth, setAuth } = useAuth();
+  if (auth) {
+    setInterval(()=>router(paths.home),100)
+  } 
 
-  const [isPending, setIsPending] = React.useState<boolean>(false);
-
+  const [showPassword, setShowPassword] = React.useState<boolean>(); 
+  const [isPending, setIsPending] = React.useState<boolean>(false); 
   const { control, handleSubmit, setError, formState: { errors }, } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
 
   const onSubmit = React.useCallback(

@@ -1,10 +1,10 @@
-import {   RouterProvider, createBrowserRouter } from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { useAuth } from "../provider/authProvider";
-import { ProtectedRoute } from "./ProtectedRoute";   
+import { ProtectedRoute } from "./ProtectedRoute";
 import AdminLogin from "../pages/auth/Admin/AdminSignIn";
-import GenericNotFound from "../components/GenericNotFound"; 
+import GenericNotFound from "../components/GenericNotFound";
 import Overview from "../pages/dashboard/Admin/Overview";
-import { paths } from "../paths";  
+import { paths } from "../paths";
 import Profile from "../pages/dashboard/Admin/Profile";
 import Settings from "../pages/dashboard/Admin/Settings";
 import AccountManager from "../pages/dashboard/Admin/AccountManager";
@@ -13,7 +13,7 @@ import ResetPassword from "../pages/auth/Admin/ResetPassword";
 import ChangeResetPassword from "../pages/auth/Admin/ChangeResetPassword";
 
 const Routes = () => {
-  const { auth } = useAuth(); 
+  const { auth } = useAuth();
   // Define public routes accessible to all users
   const routesForPublic = [
     {
@@ -26,18 +26,19 @@ const Routes = () => {
     },
     {
       path: "*",
-      element:<GenericNotFound   />  ,
-    }, 
+      element: <GenericNotFound />,
+    },
     {
       path: paths.admin.resetPassword,
-      element: <ResetPassword/>,
-    }
-    , 
+      element: <ResetPassword />,
+    },
     {
       path: paths.admin.changePassword,
-      element: <ChangeResetPassword/>,
-    }, 
-
+      element: <ChangeResetPassword />,
+    }, {
+      path: paths.admin.signIn,
+      element: <AdminLogin />,
+    }
   ];
 
   // Define routes accessible only to authenticated users
@@ -48,57 +49,52 @@ const Routes = () => {
       children: [
         {
           path: paths.home,
-          element: <Overview/>,
+          element: <Overview />,
         },
         {
           path: paths.dashboard.overview,
-          element: <Overview/>,
+          element: <Overview />,
         },
         {
           path: paths.dashboard.account,
-          element: <Profile/>,
-        } ,
+          element: <Profile />,
+        },
         {
-          path:paths.dashboard.settings,
-          element:<Settings/>
-        } 
+          path: paths.dashboard.settings,
+          element: <Settings />
+        }
       ],
     },
   ];
 
-  
+
   // Define routes accessible only to authenticated users
   const routesForRootAdminAuthenticatedOnly = [
     {
       path: "/",
       element: <ProtectedRoute />, // Wrap the component in ProtectedRoute
-      children: [ 
+      children: [
         {
-          path:paths.dashboard.accountManager,
-          element: <AccountManager/>
+          path: paths.dashboard.accountManager,
+          element: <AccountManager />
         }
       ],
     },
   ];
   // Define routes accessible only to non-authenticated users
-  const routesForNotAuthenticatedOnly = [ 
+  const routesForNotAuthenticatedOnly = [
     {
       path: paths.admin.signUp,
-      element: <AdminSignUp/>
-    },
-    {
-      path: paths.admin.signIn,
-      element: <AdminLogin/>,
+      element: <AdminSignUp />
     }
   ];
-  
 
   // Combine and conditionally include routes based on authentication status
   const router = createBrowserRouter([
     ...routesForPublic,
     ...(!auth ? routesForNotAuthenticatedOnly : []),
-    ...(auth?.userInfo.type ==="RootAdmin" ? routesForRootAdminAuthenticatedOnly : []),
-    ...routesForAuthenticatedOnly  
+    ...(auth?.userInfo?.type === "RootAdmin" ? routesForRootAdminAuthenticatedOnly : []),
+    ...routesForAuthenticatedOnly
   ]);
 
   // Provide the router configuration using RouterProvider

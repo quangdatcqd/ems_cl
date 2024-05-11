@@ -21,18 +21,18 @@ const schema = zod.object({
   username: zod.string().min(1, { message: 'Username is required' }),
   name: zod.string().min(1, { message: 'Name is required' }),
   email: zod.string().min(1, { message: 'Email is required' }).email(),
-  password: zod.string() 
-    .refine(value =>value === "" ? true :  /[A-Z]/.test(value), {
+  password: zod.string()
+    .refine(value => /[A-Z]/.test(value), {
       message: "Password must contain at least one uppercase letter.",
-    }).refine((value) => value === "" ? true : /[a-z]/.test(value), {
+    }).refine((value) => /[a-z]/.test(value), {
       message: "Password must contain at least one lowercase letter.",
-    }).refine((value) => value === "" ? true : /[0-9]/.test(value), {
+    }).refine((value) => /[0-9]/.test(value), {
       message: "Password must contain at least one number.",
     })
-    .refine((value) => value === "" ? true : /[^A-Za-z0-9]/.test(value), {
+    .refine((value) => /[^A-Za-z0-9]/.test(value), {
       message: "Password must contain at least one special character.",
     }),
-  confirmPassword: zod.string() ,
+  confirmPassword: zod.string(),
   phoneNumber: zod.string()
 }).refine(
   (values) => {
@@ -49,7 +49,7 @@ type Values = zod.infer<typeof schema>;
 
 const defaultValues = { username: '', phoneNumber: '', name: '', email: '', password: '', confirmPassword: '' } satisfies Values;
 
-export function SignUpForm({handleCloseDlg}:{handleCloseDlg:Function}): React.JSX.Element {
+export function SignUpForm({ handleCloseDlg }: { handleCloseDlg: Function }): React.JSX.Element {
 
   const [showPassword, setShowPassword] = React.useState<boolean>();
   const [isPending, setIsPending] = React.useState<boolean>(false);
@@ -57,7 +57,7 @@ export function SignUpForm({handleCloseDlg}:{handleCloseDlg:Function}): React.JS
   const { control, handleSubmit, setError, formState: { errors }, } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
 
   const onSubmit = React.useCallback(
-    async (values: Values,e:any): Promise<void> => {
+    async (values: Values, e: any): Promise<void> => {
 
       setIsPending(true);
       const data = await userManagerService.createAdminUser(values);
@@ -66,7 +66,7 @@ export function SignUpForm({handleCloseDlg}:{handleCloseDlg:Function}): React.JS
       } else {
         control._reset();
         toast.success("New user created successfully!");
-        if(e.nativeEvent.submitter.innerText === "Create And Close") { 
+        if (e.nativeEvent.submitter.innerText === "Create And Close") {
           handleCloseDlg(false)
         }
       }
@@ -80,9 +80,9 @@ export function SignUpForm({handleCloseDlg}:{handleCloseDlg:Function}): React.JS
       <Divider />
       <Stack spacing={3} sx={{ paddingTop: 2 }}>
         <Grid container spacing={3}>
-        {/* <Grid xs={12} item={true}><Alert color="warning">{"Type password if you want to set!"}</Alert>  </Grid> */}
+          {/* <Grid xs={12} item={true}><Alert color="warning">{"Type password if you want to set!"}</Alert>  </Grid> */}
 
-          <Grid md={12} xs={12} item={true}>
+          <Grid md={6} xs={12} item={true}>
             <Controller
               control={control}
               name="name"
@@ -95,7 +95,7 @@ export function SignUpForm({handleCloseDlg}:{handleCloseDlg:Function}): React.JS
               )}
             />
           </Grid>
-          <Grid md={12} xs={12} item={true}   >
+          <Grid md={6} xs={12} item={true}   >
             <Controller
               control={control}
               name="phoneNumber"
@@ -108,7 +108,7 @@ export function SignUpForm({handleCloseDlg}:{handleCloseDlg:Function}): React.JS
               )}
             />
           </Grid>
-          <Grid md={12} xs={12} item={true}>
+          <Grid md={6} xs={12} item={true}>
             <Controller
               control={control}
               name="username"
@@ -121,7 +121,7 @@ export function SignUpForm({handleCloseDlg}:{handleCloseDlg:Function}): React.JS
               )}
             />
           </Grid>
-          <Grid md={12} xs={12} item={true}>
+          <Grid md={6} xs={12} item={true}>
             <Controller
               control={control}
               name="email"
@@ -134,7 +134,7 @@ export function SignUpForm({handleCloseDlg}:{handleCloseDlg:Function}): React.JS
               )}
             />
           </Grid>
-          {/* <Grid md={6} xs={12} item={true}>
+          <Grid md={6} xs={12} item={true}>
             <Controller
               control={control}
               name="password"
@@ -205,7 +205,7 @@ export function SignUpForm({handleCloseDlg}:{handleCloseDlg:Function}): React.JS
                 </FormControl>
               )}
             />
-          </Grid> */}
+          </Grid>
           {errors.root ? <Grid xs={12} item={true}><Alert color="error">{errors.root.message}</Alert>  </Grid> : null}
           <Grid xs={12} item={true}>
             <Grid container spacing={1}>
@@ -215,11 +215,11 @@ export function SignUpForm({handleCloseDlg}:{handleCloseDlg:Function}): React.JS
                 </Button>
               </Grid>
               <Grid item>
-                <Button disabled={isPending} type="submit" tabIndex={10}   variant="outlined" >
+                <Button disabled={isPending} type="submit" tabIndex={10} variant="outlined" >
                   Create And Close
                 </Button>
               </Grid>
-            </Grid> 
+            </Grid>
           </Grid>
         </Grid>
       </Stack>

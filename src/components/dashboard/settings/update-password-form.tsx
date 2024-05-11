@@ -17,6 +17,8 @@ import { z as zod } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Alert, FormHelperText, Grid } from '@mui/material';
 import adminAuthService from '../../../services/adminAuth.service';
+import toast from 'react-hot-toast';
+import { useAuth } from '../../../provider/authProvider';
 
 const schema = zod.object({
   username: zod.string().min(1, { message: 'username is required' }),
@@ -50,14 +52,16 @@ export function UpdatePasswordForm(): React.JSX.Element {
   const [showPassword, setShowPassword] = React.useState<boolean>();
   const [isPending, setIsPending] = React.useState<boolean>(false);
   const { control, handleSubmit, setError, formState: { errors }, } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
-
+  const {setAuth} = useAuth();
   const onSubmit = React.useCallback( 
-    async (values: Values): Promise<void> => {
-    
+    async (values: Values): Promise<void> => { 
       setIsPending(true);
       const data = await adminAuthService.updatePassword(values); 
       if (data?.statusCode) { 
         setError('root', { type: 'server', message: data.message });
+      }else{
+        toast.success("Password changed successfully!")
+        setAuth(data?.data)
       }
       setIsPending(false);
     },

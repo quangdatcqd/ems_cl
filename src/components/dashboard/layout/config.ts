@@ -30,8 +30,7 @@ if (auth?.userInfo?.type === AccountType.RootAdmin) {
   );
 } else if (auth?.userInfo?.type === AccountType.Client) {
   navItems.push();
-} 
-console.log(auth);
+}  
 
 export { navItems };
 

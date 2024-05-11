@@ -83,7 +83,7 @@ export default function AccountManager(): React.JSX.Element {
         open={openDlg}
         onClose={handleCloseDlg}
         fullWidth={true}
-        maxWidth={"sm"}
+        maxWidth={"md"}
       >
         <DialogTitle>Add New User</DialogTitle>
         <DialogContent>
