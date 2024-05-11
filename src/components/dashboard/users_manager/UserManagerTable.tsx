@@ -1,4 +1,4 @@
-'use client';
+ 
 
 import * as React from 'react';
 import Box from '@mui/material/Box';
@@ -79,7 +79,7 @@ export function UserManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
   };
 
 
-  const handlePageChange = (event: React.MouseEvent | null, page: number) => {
+  const handlePageChange = ( _: React.MouseEvent | null, page: number) => {
     setSort((sort: any) => ({ ...sort, page: page + 1 }))
   }
 

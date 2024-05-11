@@ -1,4 +1,4 @@
-'use client';
+ 
 
 import * as React from 'react';
 import { createTheme } from '../../../styles/theme/create-theme';
