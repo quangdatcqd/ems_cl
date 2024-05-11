@@ -31,18 +31,10 @@ const schema = zod.object({
   phoneNumber: zod.string()
   // terms: zod.boolean().refine((value) => value, 'You must accept the terms and conditions'),
 });
-// {
-//   "username": "cqd",
-//   "password": "Cqdcqd113@",
-//   "confirmPassword": "Cqdcqd113@",
-//   "name": "Quang Đạt",
-//   "email": "cqdtestmail@gmail.com",
-//   "phoneNumber": "0389824667"
-// }
 
 type Values = zod.infer<typeof schema>;
 
-const defaultValues = { username: 'cqd113', name: 'Quang Đạt', email: 'cqdtestmail@gmail.com', password: 'Cqdcqd113@', confirmPassword: 'Cqdcqd113@', phoneNumber: '0389824668' } satisfies Values;
+const defaultValues = { username: '', name: '', email: '', password: '', confirmPassword: '', phoneNumber: '' } satisfies Values;
 
 export function SignUpForm(): React.JSX.Element {
   const router = useNavigate();
