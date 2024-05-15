@@ -146,7 +146,7 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
                   <TableCell>{dayjs(row.startTime).format('YYYY-MM-DD')}</TableCell>
                   <TableCell>{dayjs(row.endTime).format('YYYY-MM-DD')}</TableCell>
                   <TableCell>{row.location}</TableCell>
-                  <TableCell><Link className='react-link' to={paths.website.setupPath+`/${row.id}`}>view</Link></TableCell>
+                  <TableCell><Link className='react-link' to={paths.website.setupPath+`/${row.id}`}>editor</Link></TableCell>
                   <TableCell >
                     <IconButton aria-label="edit" color="success" onClick={() => handleOpenEdit(row)}>
                       < BorderColorIcon />
