@@ -8,6 +8,7 @@ export const paths = {
     resetPassword: base+'/admin/reset-password',
     changePassword: base+'/admin/reset-password/:userId/:code'
   },
+
   dashboard: {
     overview: base+'/dashboard',
     account: base+'/dashboard/account',
@@ -15,6 +16,19 @@ export const paths = {
     integrations: base+'/dashboard/integrations',
     settings:base+ '/dashboard/settings',
     accountManager:base+'/dashboard/account-manager',
+    eventManager:base+'/dashboard/event-manager',
+  },
+  website: {
+    setupRouter: base+'/website/setup/:id',
+    setupPath :base+'/website/setup',
+    viewRouter:base+ '/website/:id',
+    viewPath:base+ '/website/',
+    resetPassword: base+'/admin/reset-password',
+    changePassword: base+'/admin/reset-password/:userId/:code'
+  },
+  sections: {
+    sectionRouter: base+'/section/:id',
+    sectionPath :base+'/section/', 
   },
   errors: { notFound: base+'/errors/not-found' },
 } as const;

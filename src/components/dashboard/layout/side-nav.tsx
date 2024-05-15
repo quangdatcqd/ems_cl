@@ -82,11 +82,8 @@ export function SideNav(): React.JSX.Element {
 
 function renderNavItems({ items = [], pathname }: { items?: NavItemConfig[]; pathname: string }): React.JSX.Element {
   const children = items.reduce((acc: React.ReactNode[], curr: NavItemConfig): React.ReactNode[] => {
-    const { key, ...item } = curr;
-  
-    
-    acc.push(<NavItem key={key} pathname={pathname} {...item} />);
-
+    const { key, ...item } = curr; 
+    acc.push(<NavItem key={key} pathname={pathname} {...item} />); 
     return acc;
   }, []);
 
@@ -142,7 +139,7 @@ function NavItem({ disabled, external, href, icon, matcher, pathname, title }: N
             component="span"
             sx={{ color: 'inherit', fontSize: '0.875rem', fontWeight: 500, lineHeight: '28px' }}
           >
-            {title}
+            {title} 
           </Typography>
         </Box>
       </Box>

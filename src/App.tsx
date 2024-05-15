@@ -12,7 +12,7 @@ import AuthProvider from "./provider/authProvider";
 function App() {
   return (
     <Suspense fallback={<Loading />}>
-    <ThemeProvider>
+    <ThemeProvider> 
       <AuthProvider>
       <DialogProvider> 
         <Routes />

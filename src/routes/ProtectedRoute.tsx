@@ -2,6 +2,7 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../provider/authProvider"; 
 import AdminLayout from "../layouts/Admin/AdminLayout";
 import { paths } from "../paths";
+import CreateSiteLayout from "../layouts/Admin/CreateSiteLayout";
 
 
 export const ProtectedRoute = () => {
@@ -11,3 +12,6 @@ export const ProtectedRoute = () => {
     if (!auth)  return <Navigate to={paths.admin.signIn} />;
     else return <AdminLayout><Outlet/></AdminLayout> ;
   };
+
+
+ 

@@ -6,8 +6,7 @@ const auth = getCurrentUser();
 
 const AccountType = {
   Client: 'Client',
-  Admin: 'Admin',
-  RootAdmin: 'RootAdmin',
+  Admin: 'Admin' 
 };
 
 let navItems = [
@@ -20,9 +19,10 @@ let navItems = [
  // { key: 'error', title: 'Error', href: paths.errors.notFound, icon: 'x-square' },
 ] as NavItemConfig[];
 
-if (auth?.userInfo?.type === AccountType.RootAdmin) {
+if (auth?.userInfo?.type === AccountType.Admin) {
   navItems.push(
-    { key: 'account-manager', title: 'Account Manager', href: paths.dashboard.accountManager, icon: 'users' },
+    { key: 'account-manager', title: 'Accounts', href: paths.dashboard.accountManager, icon: 'users' },
+    { key: 'event-manager', title: 'Events', href: paths.dashboard.eventManager, icon: 'users' },
   );
 } else if (auth?.userInfo?.type === AccountType.Admin) {
   navItems.push(

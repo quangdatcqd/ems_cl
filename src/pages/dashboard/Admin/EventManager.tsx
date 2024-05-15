@@ -3,29 +3,18 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { Plus as PlusIcon } from '@phosphor-icons/react/dist/ssr/Plus';
 
-import { UserManagerFilter } from '../../../components/dashboard/users_manager/user-manager-filter';
-import { UserManagerTable } from '../../../components/dashboard/users_manager/user-manager-table';
-import UserManagerService from '../../../services/admin/userManager.service';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
-import { SignUpForm } from '../../../components/dashboard/users_manager/sign-up-form';
+import { EventManagerFilter } from '../../../components/dashboard/event_manager/event-manager-filter';
+import { EvenManagerTable } from '../../../components/dashboard/event_manager/event-manager-table';
+import { EventCreateForm } from '../../../components/dashboard/event_manager/event-create-form';
+import eventService from '../../../services/admin/eventService.service';
+import {  EventDataType, EventResponseType } from '../../../types/event';
 
-
-interface UserType {
-  data: any;
-  metadata: {
-    count: number,
-    page: number,
-    last: number,
-    limit: number,
-    sort: {
-      createdAt: string
-    }
-  }
-} 
-export default function AccountManager(): React.JSX.Element { 
+ 
+export default function AccountManager(): React.JSX.Element {
   const initialValues = {
     data: [],
     metadata: {
@@ -38,18 +27,18 @@ export default function AccountManager(): React.JSX.Element {
       }
     }
   }
-  const [userData, setUserData] = React.useState<UserType>(initialValues);
+  const [userData, setUserData] = React.useState<EventResponseType>(initialValues);
   const [isPending, setIsPending] = React.useState<boolean>(false);
   const [openDlg, setOpenDlg] = React.useState<boolean>(false);
   const [sort, setSort] = React.useState<any>();
   const fetchUsers = async () => {
     setIsPending(true)
-    const users = await UserManagerService.getAllAdminUsers(sort);
+    const users = await eventService.getAllEvents(sort);
     setUserData(users)
     setIsPending(false)
   }
-  React.useEffect(() => { 
-    fetchUsers(); 
+  React.useEffect(() => {
+    fetchUsers();
   }, [sort])
   const handleCloseDlg = () => {
     fetchUsers();
@@ -69,19 +58,19 @@ export default function AccountManager(): React.JSX.Element {
         open={openDlg}
         onClose={handleCloseDlg}
         fullWidth={true}
-        maxWidth={"md"}
+        maxWidth={"sm"}
       >
-        <DialogTitle>Add New User</DialogTitle>
+        <DialogTitle>Add New Event</DialogTitle>
         <DialogContent>
-          <SignUpForm handleCloseDlg={handleCloseDlg} />
+          <EventCreateForm handleCloseDlg={handleCloseDlg} />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDlg}>Close</Button>
         </DialogActions>
       </Dialog>
 
-      <UserManagerFilter setSort={setSort} />
-      <UserManagerTable
+      <EventManagerFilter setSort={setSort} />
+      <EvenManagerTable
         fetchUsers={fetchUsers}
         count={userData.metadata.count}
         page={userData.metadata.page - 1}

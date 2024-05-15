@@ -1,6 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { useAuth } from "../provider/authProvider";
-import { ProtectedRoute } from "./ProtectedRoute";
+import {  ProtectedRoute } from "./ProtectedRoute";
 import AdminLogin from "../pages/auth/Admin/AdminSignIn";
 import GenericNotFound from "../components/GenericNotFound";
 import Overview from "../pages/dashboard/Admin/Overview";
@@ -11,6 +11,11 @@ import AccountManager from "../pages/dashboard/Admin/AccountManager";
 import AdminSignUp from "../pages/auth/Client/ClientSignUp";
 import ResetPassword from "../pages/auth/Admin/ResetPassword";
 import ChangeResetPassword from "../pages/auth/Admin/ChangeResetPassword";
+import EventManager from "../pages/dashboard/Admin/EventManager";
+import CustomSite from "../pages/website/SetupSite";
+import RenderSection from "../pages/website/RenderSection";
+import SetupSite from "../pages/website/SetupSite";
+import RenderWebSite from "../pages/website/RenderWebSite";
 
 const Routes = () => {
   const { auth } = useAuth();
@@ -62,14 +67,29 @@ const Routes = () => {
         {
           path: paths.dashboard.settings,
           element: <Settings />
-        }
+        }, 
       ],
+    },
+  ]; 
+  // Define routes accessible only to authenticated users
+  const routesForCreateSiteAuthenticatedOnly = [
+    {
+      path: paths.website.setupRouter,
+      element: <SetupSite />,
+    },
+    {
+      path: paths.sections.sectionRouter,
+      element: <RenderSection />
+    },
+    {
+      path: paths.website.viewRouter,
+      element: <RenderWebSite />
     },
   ];
 
 
   // Define routes accessible only to authenticated users
-  const routesForRootAdminAuthenticatedOnly = [
+  const routesForAdminAuthenticatedOnly = [
     {
       path: "/",
       element: <ProtectedRoute />, // Wrap the component in ProtectedRoute
@@ -77,6 +97,10 @@ const Routes = () => {
         {
           path: paths.dashboard.accountManager,
           element: <AccountManager />
+        },
+        {
+          path: paths.dashboard.eventManager,
+          element: <EventManager />
         }
       ],
     },
@@ -93,8 +117,10 @@ const Routes = () => {
   const router = createBrowserRouter([
     ...routesForPublic,
     ...(!auth ? routesForNotAuthenticatedOnly : []),
-    ...(auth?.userInfo?.type === "RootAdmin" ? routesForRootAdminAuthenticatedOnly : []),
-    ...routesForAuthenticatedOnly
+    ...(auth?.userInfo?.type === "Admin" ?
+      [...routesForAdminAuthenticatedOnly, ...routesForCreateSiteAuthenticatedOnly]
+      : []),
+    ...routesForAuthenticatedOnly 
   ]);
 
   // Provide the router configuration using RouterProvider

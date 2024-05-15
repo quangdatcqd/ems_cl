@@ -62,13 +62,7 @@ export function SignInForm(): React.JSX.Element {
   return (
     <Stack spacing={4}>
       <Stack spacing={1}>
-        <Typography variant="h4">Sign in</Typography>
-        {/* <Typography color="text.secondary" variant="body2">
-          Don&apos;t have an account?{' '}
-          <NavLink to={paths.admin.signUp} > 
-            <span  style={{textDecoration:"underline", color:'blue'}} > Sign up </span>
-          </NavLink>
-        </Typography> */}
+        <Typography variant="h4">Sign in</Typography> 
       </Stack>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={2}>
@@ -127,17 +121,7 @@ export function SignInForm(): React.JSX.Element {
             Sign in
           </Button>
         </Stack>
-      </form>
-      <Alert color="warning">
-        Use{' '}
-        <Typography component="span" sx={{ fontWeight: 700 }} variant="inherit">
-          cqd113
-        </Typography>{' '}
-        with password{' '}
-        <Typography component="span" sx={{ fontWeight: 700 }} variant="inherit">
-          Cqdcqd113@
-        </Typography>
-      </Alert>
+      </form> 
     </Stack>
   );
 }

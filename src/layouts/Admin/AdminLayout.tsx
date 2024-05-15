@@ -4,8 +4,9 @@ import GlobalStyles from '@mui/material/GlobalStyles';
 
 import Box from '@mui/material/Box';
 import { MainNav } from '../../components/dashboard/layout/main-nav';
-import { SideNav } from '../../components/dashboard/layout/side-nav';  
-
+import { SideNav } from '../../components/dashboard/layout/side-nav';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 interface LayoutProps {
   children: React.ReactNode;
 }
@@ -38,8 +39,10 @@ export default function AdminLayout({ children }: LayoutProps): React.JSX.Elemen
         <Box sx={{ display: 'flex', flex: '1 1 auto', flexDirection: 'column', pl: { lg: 'var(--SideNav-width)' } }}>
           <MainNav />
           <main>
-            <Container maxWidth="xl" sx={{ py: '20px' }}>   
-              {children} 
+            <Container maxWidth="xl" sx={{ py: '20px' }}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                {children}
+              </LocalizationProvider>
             </Container>
           </main>
         </Box>
