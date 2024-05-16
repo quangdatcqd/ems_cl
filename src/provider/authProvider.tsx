@@ -1,4 +1,5 @@
-import { createContext, useContext, useEffect, useMemo, useState, ReactNode } from "react";
+import {   useContext, useEffect, useMemo, useState, ReactNode } from "react";
+import { AuthContext } from "../context/authContext";
 
 interface AuthProps {
   accessToken: string;
@@ -14,18 +15,10 @@ interface AuthProps {
 }
 
 
-interface AuthContextProps {
-  auth: AuthProps | null;
-  setAuth: React.Dispatch<React.SetStateAction<AuthProps | null>>;
-}
 
-const AuthContext = createContext<AuthContextProps>({
-  auth: null,
-  setAuth: () => { },
-});
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [auth, setAuth] = useState<AuthProps | null>(() => JSON.parse(localStorage.getItem("auth") || "null"));
+  const [auth, setAuth] = useState<AuthProps | null>(() => JSON.parse(localStorage.getItem("auth") || "{}"));
 
   useEffect(() => {
     if (auth) {

@@ -8,14 +8,17 @@ import toast from 'react-hot-toast';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useNavigate } from 'react-router-dom';
 import { paths } from '../../paths';
+import { useWebEditorConfig } from '../../provider/webEditorProvider';
+
+
 export function MainNav({eventData}:{eventData:any}): React.JSX.Element {
   const [loading ,setLoading] = React.useState(false)
   const router = useNavigate();
-
+  const {webConfigs} = useWebEditorConfig();
 
   const handleUpdateWebConfig = async ()=>{ 
     setLoading(true)
-    const dataSave = await eventService.modifyEvent(eventData)
+    const dataSave = await eventService.modifyEvent({...eventData,webConfig:JSON.stringify(webConfigs)})
     if(dataSave?.statusCode){
       toast.error(dataSave.message);
     }else{
@@ -33,7 +36,7 @@ export function MainNav({eventData}:{eventData:any}): React.JSX.Element {
           variant="outlined"
           tabIndex={-1}
           startIcon={<VisibilityIcon />} 
-          onClick={()=>router(paths.website.viewPath+eventData.id)} 
+          onClick={()=>router(paths.website.viewPath+eventData.id )} 
         >
           Preview
         </LoadingButton>

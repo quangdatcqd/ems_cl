@@ -1,21 +1,17 @@
 
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import eventService from '../../services/admin/eventService.service';
+ 
 import { ListSections } from '../../components/website/components/sections/ListSections';
-import Header from '../../components/website/components/Header';
-import Footer from '../../components/website/components/Footer';
+import { ListHeaders } from '../../components/website/components/headers/ListHeaders';
+import { ListFooters } from '../../components/website/components/footers/ListFooters';
+import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import eventService from '../../services/admin/eventService.service';
+import { WebConfigType } from '../../context/webEditorContext';
+ 
+export default function WebEditor() { 
 
-
-interface WebConfigType {
-    header: boolean,
-    footer: boolean,
-    sections: { name: string }[]
-}
-
-export default function RenderWebSite() {
     const params = useParams();
-    const [webConfig, setWebConfig] = useState<WebConfigType>();
+    const [webConfig, setWebConfig] = useState<WebConfigType[]>();
     const fetchWebConfig = async () => {
         const eventRs = await eventService.getEventByID(params.id)
         if (!eventRs?.statusCode) {
@@ -25,24 +21,28 @@ export default function RenderWebSite() {
     useEffect(() => {
         fetchWebConfig();
     }, [])
-    let Component: any = [];
-    if (webConfig?.header) Component.push(Header) 
-    webConfig?.sections?.forEach(element => {
-        Component.push(...ListSections.filter((Section: any) => Section?.name === element?.name))
+    let Component: any = []; 
+    webConfig?.forEach((element, index) => {
+        let Element: any = ListSections.find(Section => Section.name === element.name);
+        Element && Component.push( <Element key={index} config={element}/> )
+
+        Element = ListHeaders.find(Section => Section.name === element.name);
+        Element && Component.push(<Element key={index} config={element}/>   )
+        Element = ListFooters.find(Section => Section.name === element.name);
+        Element && Component.push(<Element key={index} config={element}/> ) 
     }); 
-    if (webConfig?.footer) Component.push(Footer) 
     return (
-        <div className='bg-white flexible-box flex-grow ' >
-            {
-                Component.map((Comp: any, index: number) => (
-                    <div key={index}  >
-                        <div  >
-                            <Comp />
-                        </div> 
-                    </div>
-                ))
-            }
+        <div className='bg-white flexible-box flex-grow'  > 
+            {   Component }
         </div>
     );
 }
 
+
+
+
+
+
+
+
+ 

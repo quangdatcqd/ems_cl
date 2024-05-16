@@ -1,6 +1,22 @@
-import React from 'react';
+export const  Header1Config = {
+    name: "Header1",
+    bgType: "image",
+    bgValue: "/assets/background-images/bg1.webp",
+    elements: [
+      {
+        name: "text",
+        text: "WELCOME"
+      },
+      {
+        name: "text",
+        text: "Welcome visitors to your site with a short, engaging introduction. Double click to edit and add your own text."
+      },
 
-function Header() {
+    ]
+} 
+
+
+export default function Header1( ) {
     return (
         <div className='bg-white px-10  py-2 '>
             <div className=' w-[90%] mx-auto flex justify-between h-24 items-center  '>
@@ -18,6 +34,4 @@ function Header() {
             </div>
         </div>
     );
-}
-
-export default Header;
+} 

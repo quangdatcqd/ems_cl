@@ -1,7 +1,11 @@
 import { ReactNode, createContext, useState } from "react";
 
 export interface DialogContextType {
-  dialog: any ;
+  dialog: {
+    title:string,
+    open:boolean,
+    text:string
+  } ;
   setDialog: React.Dispatch<React.SetStateAction<any>>;
 }
 

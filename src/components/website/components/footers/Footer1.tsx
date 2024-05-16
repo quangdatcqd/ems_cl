@@ -1,6 +1,23 @@
-import React from 'react';
 
-function Footer() {
+export const  Footer1Config = {
+    name: "Footer1",
+    bgType: "image",
+    bgValue: "/assets/background-images/bg1.webp",
+    elements: [
+      {
+        name: "text",
+        text: "WELCOME"
+      },
+      {
+        name: "text",
+        text: "Welcome visitors to your site with a short, engaging introduction. Double click to edit and add your own text."
+      },
+
+    ]
+}
+
+
+export default  function Footer1() {
     return (
         <div className='bg-white p-10    '>
             {/* <div className='w-100   flex items-center justify-center '>
@@ -28,5 +45,3 @@ function Footer() {
         </div>
     );
 }
-
-export default Footer;
