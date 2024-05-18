@@ -7,6 +7,8 @@ export interface WebConfigType {
     elements: {
         name: string;
         text: string;
+        color:string;
+        align:string
     }[];
 }
 

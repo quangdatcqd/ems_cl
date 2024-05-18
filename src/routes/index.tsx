@@ -1,6 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { useAuth } from "../provider/authProvider";
-import {  ProtectedRoute } from "./ProtectedRoute";
+import { ProtectedRoute } from "./ProtectedRoute";
 import AdminLogin from "../pages/auth/Admin/AdminSignIn";
 import GenericNotFound from "../components/GenericNotFound";
 import Overview from "../pages/dashboard/Admin/Overview";
@@ -11,10 +11,10 @@ import AccountManager from "../pages/dashboard/Admin/AccountManager";
 import AdminSignUp from "../pages/auth/Client/ClientSignUp";
 import ResetPassword from "../pages/auth/Admin/ResetPassword";
 import ChangeResetPassword from "../pages/auth/Admin/ChangeResetPassword";
-import EventManager from "../pages/dashboard/Admin/EventManager"; 
+import EventManager from "../pages/dashboard/Admin/EventManager";
 import RenderSection from "../pages/website/RenderSection";
 import SetupSite from "../pages/website/SetupSite";
-import {WebRender} from "../pages/website/RenderWebSite";
+import { WebRender } from "../pages/website/RenderWebSite";
 
 const Routes = () => {
   const { auth } = useAuth();
@@ -66,10 +66,10 @@ const Routes = () => {
         {
           path: paths.dashboard.settings,
           element: <Settings />
-        }, 
+        },
       ],
     },
-  ]; 
+  ];
   // Define routes accessible only to authenticated users
   const routesForCreateSiteAuthenticatedOnly = [
     {
@@ -83,7 +83,11 @@ const Routes = () => {
     {
       path: paths.website.viewRouter,
       element: <WebRender />
-    } 
+    },
+    {
+      path: paths.website.viewTemplateRouter,
+      element: <WebRender />
+    }
   ];
 
 
@@ -119,7 +123,7 @@ const Routes = () => {
     ...(auth?.userInfo?.type === "Admin" ?
       [...routesForAdminAuthenticatedOnly, ...routesForCreateSiteAuthenticatedOnly]
       : []),
-    ...routesForAuthenticatedOnly 
+    ...routesForAuthenticatedOnly
   ]);
 
   // Provide the router configuration using RouterProvider

@@ -23,6 +23,8 @@ export const paths = {
     setupPath :base+'/website/setup',
     viewRouter:base+ '/website/:id',
     viewPath:base+ '/website/',
+    viewTemplateRouter:base+ '/website-demo/:template',
+    viewTemplatePath:base+ '/website-demo/',
  
   },
   sections: {

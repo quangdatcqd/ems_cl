@@ -8,11 +8,15 @@ export const Gallery1Config = {
     elements: [
         {
             name: "text",
-            text: "View Gallery"
+            text: "View Gallery",
+            color: "#266445",
+            align: "center"
         },
         {
             name: "text",
-            text: "There may be no better way to communicate what we do than through images. As you browse our site, take a few moments to let your eyes linger here, and see if you can get a feel for our signature touch."
+            text: "There may be no better way to communicate what we do than through images. As you browse our site, take a few moments to let your eyes linger here, and see if you can get a feel for our signature touch.",
+            color: "#266445",
+            align: "center"
         },
         {
             name: "image",
@@ -46,12 +50,22 @@ export default function Gallery1({ config = Gallery1Config }: any): React.JSX.El
     let styled = config?.bgType === "image" ? { backgroundImage: `url('${config?.bgValue}')` } : { backgroundColor: config?.bgValue }
     return (
         <div className={`w-100 bg-no-repeat  py-20 bg-cover`} style={{ minHeight: "500px", ...styled }}  >
-            {/* <img src={bgImage} className='w-full' alt="" /> */}
+
             <div className='container rounded   mx-auto  '>
                 <div className='w-[650px]  mx-auto  '>
-                    <p className='text-center text-5xl text-[#266445] font-["DINNeuzeitGrotesk"] ' dangerouslySetInnerHTML={{ __html: config.elements[0].text }}></p>
-                    {/* <TextElement text={"Wellcome"} /> */}
-                    <p className='text-[#266445] text-center mt-8 font-["Avenir-Light"] ' dangerouslySetInnerHTML={{ __html: config.elements[1].text }}></p>
+                    <p className={`text-5xl font-["DINNeuzeitGrotesk"]`}
+                        dangerouslySetInnerHTML={{ __html: config.elements[0].text }}
+                        style={{
+                            textAlign: config.elements[0].align,
+                            color: config.elements[0].color
+                        }} />
+
+                    <p className={` mt-8 font-["Avenir-Light"]`}
+                        dangerouslySetInnerHTML={{ __html: config.elements[1].text }}
+                        style={{
+                            textAlign: config.elements[1].align,
+                            color: config.elements[1].color
+                        }} />
                 </div>
                 <div className='text-center my-10'>
                     <div className="grid grid-cols-3 gap-8">

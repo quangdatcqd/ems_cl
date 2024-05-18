@@ -7,12 +7,12 @@ import CloseIcon from '@rsuite/icons/Close';
 import { paths } from '../../paths';
 import { useWebEditorConfig } from '../../provider/webEditorProvider';
 import { NavComponents } from './components/WebComponent';
-import { NavTemplates } from './components/WebTemplates' ;
+import { NavTemplates } from './components/WebTemplates';
 
 
 
-export function SideNav(): React.JSX.Element {
-  const [activeKey, setActiveKey] = React.useState('');
+export function SideNav({activeKey,setActiveKey}:any): React.JSX.Element {
+
   const handleSelectNav = (navKey: string) => {
     setActiveKey(navKey)
   }
@@ -77,24 +77,26 @@ export function SideNavExpand({ activeKey, setActiveKey }: { activeKey: string, 
             <IconButton onClick={() => setActiveKey("")} className='absolute right-2 top-2 z-10' circle icon={<CloseIcon />} />
           </div>
           <div className='w-full flex  '>
-            <div className='py-2 px-3 bg-slate-50 flex    flex-col items-start'>
-              {
-                activeKey === "Sections" && NavComponents.map((nav, index) => (
-                  <span key={index}
-                    className={`py-1 px-3 pb-2 mb-2 hover:bg-sky-100 hover:text-sky-600 cursor-pointer rounded-3xl ${activeSection === nav.key && "text-sky-600 bg-sky-100"}`}
-                    onClick={() => handleChangeSection(nav.key)}
-                  >{nav.key}</span>
-                ))
-              }
-              {
+            {activeKey === "Sections" &&
+              <div className='py-2 px-3 bg-slate-50 flex    flex-col items-start'>
+                {
+                  NavComponents.map((nav, index) => (
+                    <span key={index}
+                      className={`py-1 px-3 pb-2 mb-2 hover:bg-sky-100 hover:text-sky-600 cursor-pointer rounded-3xl ${activeSection === nav.key && "text-sky-600 bg-sky-100"}`}
+                      onClick={() => handleChangeSection(nav.key)}
+                    >{nav.key}</span>
+                  ))
+                }
+                {/* {
                 activeKey === "Templates" && NavTemplates.map((nav, index) => (
                   <span key={index}
                     className={`py-1 px-10 pb-2 mb-2 hover:bg-sky-100 hover:text-sky-600 cursor-pointer rounded-3xl ${activeSection === nav.name && "text-sky-600 bg-sky-100"}`}
                     onClick={() => handleClickTemplate(nav)}
                   >{nav.name}</span>
                 ))
-              }
-            </div>
+              } */}
+              </div>
+            }
             {
               activeKey === "Sections" &&
               <div className='p-2 drop-shadow-sm bg-white overflow-y-scroll custom-scroll w-full '
@@ -107,6 +109,25 @@ export function SideNavExpand({ activeKey, setActiveKey }: { activeKey: string, 
                       scaleFactor={0.25}
                       src={paths.sections.sectionPath + section.component.name.toLowerCase()}
                     />))
+                }
+              </div>
+            }
+            {
+              activeKey === "Templates" &&
+              <div className='p-2 drop-shadow-sm bg-white overflow-y-scroll custom-scroll w-full '
+                style={{ height: "calc(100vh - 150px)" }}
+              >
+                {
+                  NavTemplates?.map((temp: any, index: number) => (
+                    <div onClick={() => handleClickTemplate(temp)}>
+                      <ScaledIframe key={index}
+                        name={temp?.name}
+                        scaleFactor={0.2}
+                        drag={false}
+                        src={paths.website.viewTemplatePath + temp.name } 
+                      />
+                    </div>
+                  ))
                 }
               </div>
             }
@@ -125,37 +146,40 @@ interface IframeProps {
   src: string;
   scaleFactor: number;
   name: string;
+  drag?: boolean;
 }
 
-const ScaledIframe: React.FC<IframeProps> = ({ src, scaleFactor, name }) => {
+const ScaledIframe: React.FC<IframeProps> = ({ src, scaleFactor, name, drag = true }) => {
   const { setDragComponentName } = useWebEditorConfig();
   const [iframeHeight, setIframeHeight] = React.useState(0);
-  const adjustIframeHeight = (event: any) => {
+  const adjustIframeHeight = (event: any) => { 
     if (event.target) {
       const iframeH = event.target.contentWindow?.document.body.scrollHeight || 0;
       const newHeight = iframeH * scaleFactor;
-      event.target.style.height = `${iframeH}px`;
-      setIframeHeight(newHeight)
+      event.target.style.height = `${iframeH>0?iframeH:3000}px`;
+      setIframeHeight(newHeight) 
+      
     }
-  };
+  }; 
 
   return (
     <div
       onDragStart={() => setDragComponentName(name)}
-      className={`border-sky-50 border-4 hover:border-sky-200   w-100  overflow-hidden mt-2   rounded-xl select-none cursor-move`}
-      style={{ height: iframeHeight }}
-      draggable
+      className={`border-sky-50 border-4 hover:border-sky-200   w-100  overflow-hidden mt-2   rounded-xl select-none  `}
+      style={{ height: drag?iframeHeight:"300px" , cursor:drag?"move":"default", }}
+      draggable={drag}
     >
       <iframe
         onLoad={adjustIframeHeight}
         src={src}
         style={{
-          width: '939.4px',
-          height: 'auto',
+          width: drag?'939.4px':"1805px",
+          height: "auto",
           transform: `scale(${scaleFactor})`,
           transformOrigin: 'top left',
           userSelect: "none",
-          pointerEvents: 'none'
+          pointerEvents: 'none',
+         
         }}
       />
     </div>

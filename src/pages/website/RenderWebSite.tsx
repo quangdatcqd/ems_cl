@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import eventService from '../../services/admin/eventService.service';
 import { WebConfigType } from '../../context/webEditorContext'; 
 import { WebComponents } from '../../components/website/components/WebComponent';
+import { NavTemplates } from '../../components/website/components/WebTemplates';
 
 export  function WebRender() {
 
@@ -15,8 +16,12 @@ export  function WebRender() {
             if (eventRs?.data?.webConfig !== "") setWebConfig(JSON.parse(eventRs?.data?.webConfig))
         }
     }
-    useEffect(() => {
-        fetchWebConfig();
+    useEffect(() => { 
+        if(params?.template){
+            const template = NavTemplates.find(temp =>temp.name===params.template);
+            if(template) setWebConfig(template.config)
+        }
+        if(params?.id) fetchWebConfig();
     }, [])
     return (
         <div className='bg-white flexible-box flex-grow'  >
