@@ -1,6 +1,8 @@
-import type { NavItemConfig } from '../../../types/nav';
-import { paths } from '../../../paths';
-import { getCurrentUser } from '../../../helpers/common.helper';
+import { getCurrentUser } from "../../helpers/common.helper";
+import { paths } from "../../paths";
+import { NavItemConfig } from "../../types/nav";
+
+  
 
 const auth = getCurrentUser();
 

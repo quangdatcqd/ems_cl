@@ -1,8 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../provider/authProvider"; 
 import AdminLayout from "../layouts/Admin/AdminLayout";
-import { paths } from "../paths";
-import CreateSiteLayout from "../layouts/Admin/CreateSiteLayout";
+import { paths } from "../paths"; 
 
 
 export const ProtectedRoute = () => {

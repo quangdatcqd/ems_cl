@@ -7,8 +7,7 @@ import CloseIcon from '@rsuite/icons/Close';
 import { paths } from '../../paths';
 import { useWebEditorConfig } from '../../provider/webEditorProvider';
 import { NavComponents } from './components/WebComponent';
-import { NavTemplates } from './components/WebTemplates';
-import { dividerClasses } from '@mui/material';
+import { NavTemplates } from './components/WebTemplates' ;
 
 
 

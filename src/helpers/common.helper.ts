@@ -1,8 +1,4 @@
-import { NavComponents, WebComponents } from "../components/website/components/WebComponent";
-import { Footer1Config } from "../components/website/components/footers/Footer1";
-import { Header1Config } from "../components/website/components/headers/Header1";
-import { Form1Config } from "../components/website/components/wellcomes/Form1";
-import { Wellcome1Config } from "../components/website/components/wellcomes/Wellcome1";
+import {  WebComponents } from "../components/website/components/WebComponent"; 
 
 export const getCurrentUser = () => {
     return getLocalStorage('auth')

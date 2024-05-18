@@ -11,7 +11,7 @@ import { EventManagerFilter } from '../../../components/dashboard/event_manager/
 import { EvenManagerTable } from '../../../components/dashboard/event_manager/event-manager-table';
 import { EventCreateForm } from '../../../components/dashboard/event_manager/event-create-form';
 import eventService from '../../../services/admin/eventService.service';
-import {  EventDataType, EventResponseType } from '../../../types/event';
+import {  EventResponseType } from '../../../types/event';
 
  
 export default function AccountManager(): React.JSX.Element {

@@ -12,7 +12,7 @@ import eventService from '../../../services/admin/eventService.service';
 import toast from 'react-hot-toast';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
-import { EventType } from '../../../types/event';
+import { EventDataType } from '../../../types/event';
 const schema = zod.object({
   id: zod.string(),
   name: zod.string().min(1, { message: 'Name is required' }),
@@ -24,7 +24,7 @@ const schema = zod.object({
 type Values = zod.infer<typeof schema>;
 
 
-export function EventEditForm({ eventData, handleCloseEdit }: { eventData: EventType, handleCloseEdit: Function }): React.JSX.Element {
+export function EventEditForm({ eventData, handleCloseEdit }: { eventData: EventDataType, handleCloseEdit: Function }): React.JSX.Element {
 
   const defaultValues = {
     id: eventData.id, name: eventData.name,

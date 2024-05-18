@@ -3,13 +3,12 @@
 import { useEffect, useRef, useState } from 'react';
 import DropArea from './drop-area';
 import { useWebEditorConfig } from '../../provider/webEditorProvider';
-import { Button, IconButton, Input, Radio } from 'rsuite';
+import {   IconButton, Input, Radio } from 'rsuite';
 import { HexColorPicker } from "react-colorful";
 import MinusIcon from '@rsuite/icons/Minus';
 import { WebComponents } from './components/WebComponent';
 import TrashIcon from '@rsuite/icons/Trash';
-export default function WebEditor() {
-    const [showDropArea, setShowDropArea] = useState(true);
+export default function WebEditor() { 
     const [boxEditor, setBoxEditor] = useState<any>(null);
     const { webConfigs, handleDragEnter, handleRemoveSection } = useWebEditorConfig();
     const webEditorRef = useRef<any>();
@@ -39,7 +38,7 @@ export default function WebEditor() {
         <>
 
             <div className='bg-white flexible-box flex-grow p-3 mt-20 ml-14  relative' ref={webEditorRef}  >
-                {showDropArea && <DropArea handleDragEnter={() => handleDragEnter(0)} />}
+                 <DropArea handleDragEnter={() => handleDragEnter(0)} /> 
                 {
                     boxEditor?.pos && <div
                         style={{
@@ -73,10 +72,10 @@ export default function WebEditor() {
                         const Element: any = WebComponents.find(Section => Section.component.name === element.name);
                         return <div key={index}>
                             <div className='parent cursor-pointer border-2 hover:border-sky-300'
-                                onClick={(e) => handleSelectSection(element.name, index)} >
+                                onClick={() => handleSelectSection(element.name, index)} >
                                 <Element.component config={element} />
                             </div>
-                            {showDropArea && <DropArea handleDragEnter={() => handleDragEnter(index + 1)} />}
+                             <DropArea handleDragEnter={() => handleDragEnter(index + 1)} /> 
                         </div>
                     })
                 }
