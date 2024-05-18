@@ -1,15 +1,14 @@
 import React from 'react';
-import Button1 from '../elements/Button1';
-import TextElement from '../elements/TextElement';
+import Button1 from '../elements/Button1'; 
 
-export const Section1Config = {
-    name: "Section1",
+export const Wellcome1Config = {
+    name: "Wellcome1",
     bgType: "image",
     bgValue: "/assets/background-images/bg1.webp",
     elements: [
         {
             name: "text",
-            text: "WELCOME"
+            text: "Wellcome"
         },
         {
             name: "text",
@@ -19,15 +18,15 @@ export const Section1Config = {
     ]
 }
 
-export default function Section1({ config=Section1Config }: any): React.JSX.Element {
+export default function Wellcome1({ config=Wellcome1Config }: any): React.JSX.Element {
     let styled = config?.bgType === "image" ? { backgroundImage: `url('${config?.bgValue}')` } : { backgroundColor: config?.bgValue }
     return (
-        <div className={`w-100 relative  `} style={{ minHeight: "500px", ...styled }}  >
+        <div className={`w-100 relative bg-no-repeat  bg-cover`} style={{ minHeight: "500px",   ...styled }}  >
             {/* <img src={bgImage} className='w-full' alt="" /> */}
             <div className='bg-[#ffffff] max-w-[20rem]  sm:max-w-[30rem] md:max-w-[40rem] rounded   mx-auto   transform translate-y-1/4 px-5 py-10'>
-                <p className='uppercase font-[500] text-center text-5xl text-[#361502]' dangerouslySetInnerHTML={{ __html: config.elements[0].text }}></p>
+                <p className='font-["DINNeuzeitGrotesk"]  font-[500] text-center text-5xl text-[#266445]' dangerouslySetInnerHTML={{ __html: config.elements[0].text }}></p>
                 {/* <TextElement text={"Wellcome"} /> */}
-                <p className='text-[#361502] text-center mt-10' dangerouslySetInnerHTML={{ __html: config.elements[1].text }}></p>
+                <p className='text-[#266445] text-center mt-10' dangerouslySetInnerHTML={{ __html: config.elements[1].text }}></p>
                 <div className='text-center my-10'>
                     <Button1 title="Start Now" />
                 </div>

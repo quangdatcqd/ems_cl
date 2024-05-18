@@ -2,14 +2,13 @@
 
 import * as React from 'react';
 import { Sidenav, Nav, IconButton } from 'rsuite';
-import AddOutlineIcon from '@rsuite/icons/AddOutline';
 import SiteIcon from '@rsuite/icons/Site';
 import CloseIcon from '@rsuite/icons/Close';
-import { ListSections } from './components/sections/ListSections';
 import { paths } from '../../paths';
-import { ListHeaders } from './components/headers/ListHeaders';
-import { ListFooters } from './components/footers/ListFooters';
 import { useWebEditorConfig } from '../../provider/webEditorProvider';
+import { NavComponents } from './components/WebComponent';
+import { NavTemplates } from './components/WebTemplates';
+import { dividerClasses } from '@mui/material';
 
 
 
@@ -23,8 +22,9 @@ export function SideNav(): React.JSX.Element {
       <Sidenav expanded={false}  >
         <Sidenav.Body>
           <Nav activeKey={activeKey} onSelect={handleSelectNav}>
-            <Nav.Item eventKey="Elements" style={{ backgroundColor: "white" }} icon={<AddOutlineIcon />}>Elements </Nav.Item>
-            <Nav.Item eventKey="Sections" icon={<SiteIcon />}> Section </Nav.Item>
+            {/* <Nav.Item eventKey="Elements" style={{ backgroundColor: "white" }} icon={<AddOutlineIcon />}>Elements </Nav.Item> */}
+            <Nav.Item eventKey="Sections" icon={<SiteIcon />}> Sections </Nav.Item>
+            <Nav.Item eventKey="Templates" icon={<SiteIcon />}> Templates </Nav.Item>
           </Nav>
         </Sidenav.Body>
       </Sidenav>
@@ -39,46 +39,78 @@ export function SideNav(): React.JSX.Element {
 
 
 export function SideNavExpand({ activeKey, setActiveKey }: { activeKey: string, setActiveKey: any }): React.JSX.Element {
-  let components;
-  const [activeSection, setActiveSection] = React.useState('Headers');
-  const handleChangeSection = (section: string) => {
-    setActiveSection(section)
+
+  const [activeSection, setActiveSection] = React.useState(activeKey === "Sections" ? 'Headers' : "");
+  const [components, setComponents] = React.useState<{
+    components: any,
+    config: any
+  }[]>();
+
+  const { setWebConfigs } = useWebEditorConfig();
+
+  const handleChangeSection = (key: string) => {
+    const findComp: any = NavComponents.find(comp => comp.key === key);
+
+    if (findComp) setComponents(findComp.components)
+    else setComponents([])
+    setActiveSection(key)
   }
 
-  if (activeSection === "Headers") components = ListHeaders;
-  if (activeSection === "Sections") components = ListSections;
-  if (activeSection === "Footers") components = ListFooters;
+  const handleClickTemplate = (template: any) => {
+    setWebConfigs(template.config)
+    setActiveSection(template.name)
+  }
+
+  React.useEffect(() => {
+    if (activeKey === "Sections") {
+      const findComp: any = NavComponents.find(comp => comp.key === "Headers");
+      if (findComp) setComponents(findComp.components)
+    }
+  }, [])
 
   return (
     <>
       {
         activeKey !== "" &&
-        <div className="fixed bg-white left-14 top-[80px]   drop-shadow-xl w-[27rem] z-10 h-screen " >
+        <div className={`fixed bg-white left-14 top-[80px]   drop-shadow-xl max-w-[24.4rem] z-10 h-screen `} >
           <div className=' right-0 relative w-full '>
             <p className='px-5 py-3  font-[500] ' > Add {activeKey}</p>
             <IconButton onClick={() => setActiveKey("")} className='absolute right-2 top-2 z-10' circle icon={<CloseIcon />} />
           </div>
           <div className='w-full flex  '>
             <div className='py-2 px-3 bg-slate-50 flex    flex-col items-start'>
-              <span className={`py-1 px-5 pb-2 mb-2 hover:bg-sky-100 hover:text-sky-600 cursor-pointer rounded-3xl ${activeSection === "Headers" && "text-sky-600 bg-sky-100"}`}
-                onClick={() => handleChangeSection("Headers")}
-              >Headers</span>
-              <span className={`py-1 px-5 pb-2 mb-2 hover:bg-sky-100 hover:text-sky-600 cursor-pointer rounded-3xl ${activeSection === "Sections" && "text-sky-600 bg-sky-100"}`}
-                onClick={() => handleChangeSection("Sections")}>Sections</span>
-              <span className={`py-1 px-5 pb-2 mb-2 hover:bg-sky-100 hover:text-sky-600 cursor-pointer rounded-3xl ${activeSection === "Footers" && "text-sky-600 bg-sky-100"}`}
-                onClick={() => handleChangeSection("Footers")}>Footers</span>
-            </div>
-            <div className=' p-2 drop-shadow-sm bg-white overflow-y-scroll custom-scroll w-full '>
               {
-                components?.map((section, index) => {
-                  return <ScaledIframe key={index}
-                    name={section.name}
-                    scaleFactor={0.3}
-                    src={paths.sections.sectionPath + section.name.toLowerCase()}
-                  />
-                })
+                activeKey === "Sections" && NavComponents.map((nav, index) => (
+                  <span key={index}
+                    className={`py-1 px-3 pb-2 mb-2 hover:bg-sky-100 hover:text-sky-600 cursor-pointer rounded-3xl ${activeSection === nav.key && "text-sky-600 bg-sky-100"}`}
+                    onClick={() => handleChangeSection(nav.key)}
+                  >{nav.key}</span>
+                ))
+              }
+              {
+                activeKey === "Templates" && NavTemplates.map((nav, index) => (
+                  <span key={index}
+                    className={`py-1 px-10 pb-2 mb-2 hover:bg-sky-100 hover:text-sky-600 cursor-pointer rounded-3xl ${activeSection === nav.name && "text-sky-600 bg-sky-100"}`}
+                    onClick={() => handleClickTemplate(nav)}
+                  >{nav.name}</span>
+                ))
               }
             </div>
+            {
+              activeKey === "Sections" &&
+              <div className='p-2 drop-shadow-sm bg-white overflow-y-scroll custom-scroll w-full '
+                style={{ height: "calc(100vh - 150px)" }}
+              >
+                {
+                  components?.map((section: any, index: number) => (
+                    <ScaledIframe key={index}
+                      name={section?.component.name}
+                      scaleFactor={0.25}
+                      src={paths.sections.sectionPath + section.component.name.toLowerCase()}
+                    />))
+                }
+              </div>
+            }
           </div>
         </div >
       }

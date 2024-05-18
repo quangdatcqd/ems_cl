@@ -1,47 +1,53 @@
 
-export const  Footer1Config = {
+export interface Footer1ConfigType {
+    name: string,
+    bgType: string,
+    bgValue: string,
+    elements:
+    {
+        name: string,
+        text: string
+    }
+}
+
+export const Footer1Config = {
     name: "Footer1",
-    bgType: "image",
-    bgValue: "/assets/background-images/bg1.webp",
+    bgType: "color",
+    bgValue: "white",
     elements: [
-      {
-        name: "text",
-        text: "WELCOME"
-      },
-      {
-        name: "text",
-        text: "Welcome visitors to your site with a short, engaging introduction. Double click to edit and add your own text."
-      },
+        {
+            name: "image",
+            text: "/assets/logos/logo1.png"
+        },
+        {
+            name: "text",
+            text: "500 Terry Francine Street<br/>San Francisco CA 94158"
+        },
+        {
+            name: "text",
+            text: " Tel: 123-456-7890 <br/> Fax: 123-456-7890<br/>info@mysite.com"
+        },
+        {
+            name: "text",
+            text: "©2035 by Twilight Events. Powered and secured by DOT"
+        },
 
     ]
 }
 
 
-export default  function Footer1() {
+export default function Footer1({ config = Footer1Config }: any) {
+    let styled = config?.bgType === "image" ? { backgroundImage: `url('${config?.bgValue}')` } : { backgroundColor: config?.bgValue }
     return (
-        <div className='bg-white p-10    '>
-            {/* <div className='w-100   flex items-center justify-center '>
-                    <img src="/assets/logos/logo1.png" width={100} className='object-cover transform scale-150' alt="" />
-                </div> */}
-            <div className=' w-[90%] mx-auto flex justify-center h-24 items-center  '>
+        <div className='bg-white py-10 bg-no-repeat bg-cover'  style={{   ...styled }} > 
+            <div className=' w-[980px] mx-auto flex justify-center h-24 items-center  '>
                 <div className='w-60  '>
-                <img src="/assets/logos/logo1.png" width={80} className='object-cover transform scale-150' alt="" />
+                    <img src={config.elements[0].text} width={80} className='object-cover transform scale-150' alt="" />
                 </div>
-                <div className='w-60  '>
-                    500 Terry Francine Street <br />
-                    San Francisco CA 94158
-                </div>
-                <div className='w-60 '>
-                    Tel: 123-456-7890 <br />
-                    Fax: 123-456-7890<br />
-                    info@mysite.com
-                </div>
-                <div className='w-60'>
-                    ©2035 by Twilight Events.   <br />
-                    Powered and secured by DOT
-                </div>
-            </div>
-            {/* <div className='w-100 border-t-2 border-red-200' ></div> */}
+                <div className='w-60  ' dangerouslySetInnerHTML={{ __html: config.elements[1].text }} />
+                <div className='w-60  ' dangerouslySetInnerHTML={{ __html: config.elements[2].text }} />
+                <div className='w-60  ' dangerouslySetInnerHTML={{ __html: config.elements[3].text }} /> 
+            </div> 
         </div>
     );
 }

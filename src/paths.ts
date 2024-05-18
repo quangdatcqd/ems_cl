@@ -23,8 +23,7 @@ export const paths = {
     setupPath :base+'/website/setup',
     viewRouter:base+ '/website/:id',
     viewPath:base+ '/website/',
-    resetPassword: base+'/admin/reset-password',
-    changePassword: base+'/admin/reset-password/:userId/:code'
+ 
   },
   sections: {
     sectionRouter: base+'/section/:id',

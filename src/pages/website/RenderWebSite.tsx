@@ -1,14 +1,11 @@
-
  
-import { ListSections } from '../../components/website/components/sections/ListSections';
-import { ListHeaders } from '../../components/website/components/headers/ListHeaders';
-import { ListFooters } from '../../components/website/components/footers/ListFooters';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import eventService from '../../services/admin/eventService.service';
-import { WebConfigType } from '../../context/webEditorContext';
- 
-export default function WebEditor() { 
+import { WebConfigType } from '../../context/webEditorContext'; 
+import { WebComponents } from '../../components/website/components/WebComponent';
+
+export  function WebRender() {
 
     const params = useParams();
     const [webConfig, setWebConfig] = useState<WebConfigType[]>();
@@ -21,19 +18,14 @@ export default function WebEditor() {
     useEffect(() => {
         fetchWebConfig();
     }, [])
-    let Component: any = []; 
-    webConfig?.forEach((element, index) => {
-        let Element: any = ListSections.find(Section => Section.name === element.name);
-        Element && Component.push( <Element key={index} config={element}/> )
-
-        Element = ListHeaders.find(Section => Section.name === element.name);
-        Element && Component.push(<Element key={index} config={element}/>   )
-        Element = ListFooters.find(Section => Section.name === element.name);
-        Element && Component.push(<Element key={index} config={element}/> ) 
-    }); 
     return (
-        <div className='bg-white flexible-box flex-grow'  > 
-            {   Component }
+        <div className='bg-white flexible-box flex-grow'  >
+            {
+                webConfig?.map((element, index) => {
+                    const Element: any = WebComponents.find(Section => Section.component.name === element.name);
+                    return(<Element.component key={index} config={element} />)
+                })
+            }
         </div>
     );
 }
@@ -45,4 +37,3 @@ export default function WebEditor() {
 
 
 
- 

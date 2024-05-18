@@ -11,11 +11,10 @@ import AccountManager from "../pages/dashboard/Admin/AccountManager";
 import AdminSignUp from "../pages/auth/Client/ClientSignUp";
 import ResetPassword from "../pages/auth/Admin/ResetPassword";
 import ChangeResetPassword from "../pages/auth/Admin/ChangeResetPassword";
-import EventManager from "../pages/dashboard/Admin/EventManager";
-import CustomSite from "../pages/website/SetupSite";
+import EventManager from "../pages/dashboard/Admin/EventManager"; 
 import RenderSection from "../pages/website/RenderSection";
 import SetupSite from "../pages/website/SetupSite";
-import RenderWebSite from "../pages/website/RenderWebSite";
+import {WebRender} from "../pages/website/RenderWebSite";
 
 const Routes = () => {
   const { auth } = useAuth();
@@ -83,8 +82,8 @@ const Routes = () => {
     },
     {
       path: paths.website.viewRouter,
-      element: <RenderWebSite />
-    },
+      element: <WebRender />
+    } 
   ];
 
 

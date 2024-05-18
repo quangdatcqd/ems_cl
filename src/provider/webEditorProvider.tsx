@@ -9,11 +9,13 @@ interface WebEditorProviderProps {
 export default function WebEditorProvider({ children }: WebEditorProviderProps) {
   const [webConfig, setWebConfig] = useState<WebConfigType | null>(null);
   const [dragComponentName, setDragComponentName] = useState<string | null>(null);
-  const [webConfigs, setWebConfigs] = useState<WebConfigType[]>([]);
+  const [webConfigs, setWebConfigs] = useState<WebConfigType[]>([]); 
   
-  const handleDragEnter = (index: number) => {
+  const handleDragEnter = (index: number) => { 
     if (dragComponentName) {
       const baseConfigSection = getBaseConfigSection(dragComponentName);
+      console.log(baseConfigSection);
+      
       if (baseConfigSection)
         setWebConfigs((prevWebConfigs) => {
           const newWebConfigs = [...prevWebConfigs];
