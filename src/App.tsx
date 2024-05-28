@@ -10,15 +10,14 @@ import WebEditorProvider from "./provider/webEditorProvider";
 import { GoogleOAuthProvider } from '@react-oauth/google'; 
 
 
-function App() {
-  
+function App() { 
 
   return (
     <Suspense fallback={<Loading />}>
       <ThemeProvider>
         <AuthProvider>
           <WebEditorProvider> 
-              <GoogleOAuthProvider clientId="754923245716-lr4bar37omhol71vjct1ggd6hni5sntl.apps.googleusercontent.com">
+              <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
                 <Routes />
               </GoogleOAuthProvider> 
             <Toaster position="bottom-left" /> 
