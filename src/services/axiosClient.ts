@@ -2,7 +2,7 @@ import axios from 'axios';
 import { paths } from '../paths';
 
 // Tạo một instance của Axios
-const axiosClient = axios.create({ baseURL: "http://localhost:3001/" ,withCredentials :true});
+const axiosClient = axios.create({ baseURL: "http://localhost:3000/" ,withCredentials :true});
 
 // Thiết lập interceptor
 axiosClient.interceptors.response.use(

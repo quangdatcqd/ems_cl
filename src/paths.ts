@@ -37,7 +37,7 @@ export const paths = {
     auth: { 
       signIn: pathClient + '/sign-in',
       signInFBRouter: pathClient + '/sign-in/:userData',
-      signFBPath: 'http://localhost:3001/client/auth/facebook/login',
+      signFBPath: 'http://localhost:3000/client/auth/facebook/login',
       signUp: pathClient + '/sign-up',
       resetPassword: pathClient + '/reset-password',
       changePassword: pathClient + '/reset-password/:userId/:code'

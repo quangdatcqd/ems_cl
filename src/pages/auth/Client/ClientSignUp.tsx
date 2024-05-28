@@ -92,7 +92,7 @@ export default function ClientSignUp(): React.JSX.Element {
             <InputSignUp register={register("phoneNumber")} placeholder={'Phone Number'} error={errors.phoneNumber?.message} />
           </div>
           <div className='flex flex-col sm:flex-row justify-center   gap-2'>
-            <div>
+            <div className='w-100'>
               <div className='text-white  relative '>
                 <InputSignUp register={register("password")} type={showPassword ? 'text' : 'password'} placeholder={'Password'} />
                 <div className='absolute right-2 top-[50%] -translate-y-[50%] p-1 rounded-full hover:bg-[#ffe6e644]'>
@@ -117,7 +117,7 @@ export default function ClientSignUp(): React.JSX.Element {
                   }
                 </div>
               </div>
-              {errors?.password?.message && <span className='text-[#f4ff4c] pl-1' >{errors.password.message}</span>}
+              {errors?.password?.message && <div className='text-[#f4ff4c] pl-1 sm:w-[14rem] w-[100%] ' >{errors.password.message}</div>}
             </div>
             <div>
               <div className='text-white  relative '>
@@ -144,7 +144,7 @@ export default function ClientSignUp(): React.JSX.Element {
                   }
                 </div>
               </div>
-              {errors?.confirmPassword?.message && <span className='text-[#f4ff4c] pl-1' >{errors.confirmPassword.message}</span>}
+              {errors?.confirmPassword?.message && <div className='text-[#f4ff4c] pl-1' >{errors.confirmPassword.message}</div>}
             </div>
           </div> 
           <div className=' '>{errors.root ? <Alert color="error">{errors.root.message}</Alert> : null}</div>
@@ -173,7 +173,7 @@ function InputSignUp({ register, type = "text", placeholder, error }: any) {
         placeholder={placeholder}
         type={type}
         className='bg-[#e9e9e920] sm:w-[14rem] w-[100%]   placeholder:text-white focus:bg-transparent hover:bg-transparent outline-none border border-[#d0d0d0d3] rounded-3xl py-2 px-5 text-white' />
-      {error && <span className='text-[#f4ff4c] pl-1' >{error}</span>}
+      {error && <div className='text-[#f4ff4c] pl-1' >{error}</div>}
     </div>
   )
 }
