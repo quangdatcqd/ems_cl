@@ -10,7 +10,7 @@ const AdminRoute = "admin/admin-users";
 class UserManagerService {
 
 
-    async getAllAdminUsers(param: object) { 
+    async getAllAdminUsers(param: object) {
         return axiosClient.get(AdminRoute, {
             headers: authHeader(),
             params: param
@@ -31,7 +31,7 @@ class UserManagerService {
             });
     }
 
-    async modifyAdminUser(formData: object) {
+    async modifyAdminUser(formData: any) { 
         return axiosClient.put(AdminRoute, formData, { headers: authHeader() })
             .then((res: any) => {
                 return res.data;

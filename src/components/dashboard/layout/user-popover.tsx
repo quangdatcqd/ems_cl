@@ -25,8 +25,7 @@ export interface UserPopoverProps {
 export function UserPopover({ anchorEl, onClose, open }: UserPopoverProps): React.JSX.Element {
   const {auth,setAuth} = useAuth();
 
-  const router = useNavigate();
-
+  const router = useNavigate(); 
   const handleSignOut = React.useCallback(async (): Promise<void> => {
     try {
       const data = await authService.signOut(auth?.userInfo); 
@@ -34,7 +33,7 @@ export function UserPopover({ anchorEl, onClose, open }: UserPopoverProps): Reac
         localStorage.removeItem("auth");
         setAuth(null);
         // UserProvider, for this case, will not refresh the router and we need to do it manually
-        router(paths.admin.signIn);
+        router(paths.admin.auth.signIn);
       } 
       // After refresh, AuthGuard will handle the redirect
     } catch (err) { 
@@ -57,13 +56,13 @@ export function UserPopover({ anchorEl, onClose, open }: UserPopoverProps): Reac
       </Box>
       <Divider />
       <MenuList disablePadding sx={{ p: '8px', '& .MuiMenuItem-root': { borderRadius: 1 } }}>
-        <MenuItem  onClick={()=>router(paths.dashboard.settings)}>
+        <MenuItem  onClick={()=>router(paths.admin.dashboard.settings)}>
           <ListItemIcon>
             <GearSixIcon fontSize="var(--icon-fontSize-md)" />
           </ListItemIcon>
           Settings
         </MenuItem>
-        <MenuItem   onClick={()=>router(paths.dashboard.account)}>
+        <MenuItem   onClick={()=>router(paths.admin.dashboard.account)}>
           <ListItemIcon>
             <UserIcon fontSize="var(--icon-fontSize-md)" />
           </ListItemIcon>

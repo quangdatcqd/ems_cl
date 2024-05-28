@@ -1,35 +1,50 @@
 
-const base = "";
-export const paths = {
-  home: base+'/',
+export const pathAdmin = "/admin";
+export const pathClient = "/auth";
+export const paths = { 
   admin: {
-    signIn: base+'/admin/sign-in',
-    signUp:base+ '/admin/sign-up',
-    resetPassword: base+'/admin/reset-password',
-    changePassword: base+'/admin/reset-password/:userId/:code'
+    auth: {
+      signIn: pathAdmin + '/sign-in',
+      signUp: pathAdmin + '/sign-up',
+      resetPassword: pathAdmin + '/reset-password',
+      changePassword: pathAdmin + '/reset-password/:userId/:code'
+    },
+    dashboard: {
+      overview: pathAdmin + '/dashboard',
+      account: pathAdmin + '/dashboard/account',
+      customers: pathAdmin + '/dashboard/customers',
+      integrations: pathAdmin + '/dashboard/integrations',
+      settings: pathAdmin + '/dashboard/settings',
+      adminAccountManager: pathAdmin + '/dashboard/account-manager',
+      clientAccountManager: pathAdmin + '/dashboard/client-account-manager',
+      eventManager: pathAdmin + '/dashboard/event-manager', 
+    },
+    website: {
+      setupRouter: pathAdmin + '/website/setup/:id',
+      setupPath: pathAdmin + '/website/setup',
+      viewRouter: pathAdmin + '/website/:id',
+      viewPath: pathAdmin + '/website/',
+      viewTemplateRouter: pathAdmin + '/website-demo/:template',
+      viewTemplatePath: pathAdmin + '/website-demo/',
+
+    },
+    sections: {
+      sectionRouter: pathAdmin + '/section/:id',
+      sectionPath: pathAdmin + '/section/',
+    },
+  },
+  client: {
+    auth: { 
+      signIn: pathClient + '/sign-in',
+      signInFBRouter: pathClient + '/sign-in/:userData',
+      signFBPath: 'http://localhost:3001/client/auth/facebook/login',
+      signUp: pathClient + '/sign-up',
+      resetPassword: pathClient + '/reset-password',
+      changePassword: pathClient + '/reset-password/:userId/:code'
+    },
+    home: '/',
   },
 
-  dashboard: {
-    overview: base+'/dashboard',
-    account: base+'/dashboard/account',
-    customers:base+ '/dashboard/customers',
-    integrations: base+'/dashboard/integrations',
-    settings:base+ '/dashboard/settings',
-    accountManager:base+'/dashboard/account-manager',
-    eventManager:base+'/dashboard/event-manager',
-  },
-  website: {
-    setupRouter: base+'/website/setup/:id',
-    setupPath :base+'/website/setup',
-    viewRouter:base+ '/website/:id',
-    viewPath:base+ '/website/',
-    viewTemplateRouter:base+ '/website-demo/:template',
-    viewTemplatePath:base+ '/website-demo/',
- 
-  },
-  sections: {
-    sectionRouter: base+'/section/:id',
-    sectionPath :base+'/section/', 
-  },
-  errors: { notFound: base+'/errors/not-found' },
+
+  errors: { notFound: pathAdmin + '/errors/not-found' },
 } as const;

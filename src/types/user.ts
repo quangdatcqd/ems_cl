@@ -5,6 +5,8 @@ export interface UserDataType {
   username: string;
   email: string; 
   phoneNumber: string;
+  googleId:string,
+  facebookId:string,
   type: string;
   createdAt: Date;
   status: string;

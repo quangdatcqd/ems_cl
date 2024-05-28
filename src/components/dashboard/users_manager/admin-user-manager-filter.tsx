@@ -1,17 +1,19 @@
-import * as React from 'react';
-import Card from '@mui/material/Card';
+import * as React from 'react'; 
 import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import { MagnifyingGlass as MagnifyingGlassIcon } from '@phosphor-icons/react/dist/ssr/MagnifyingGlass';
 import { useDebouncedCallback } from 'use-debounce'; 
-export function UserManagerFilter({ setSort }: { setSort: Function }): React.JSX.Element {
+export function AdminUserManagerFilter({ setSort }: { setSort: Function }): React.JSX.Element {  
   const debounce = useDebouncedCallback((e) => setSort(
-    (sort: any) => ({   ...sort, keyword:e.target.value})
+    (sort: any) => ({ ...sort, keyword: e.target.value  })
   ), 700)
+
+
+  
   return (
-    <Card sx={{ p: 2 }}>
+    <div className='flex justify-between items-center'>
       <OutlinedInput
-        fullWidth
+        fullWidth 
         onChange={debounce}
         placeholder="Search users"
         startAdornment={
@@ -20,8 +22,7 @@ export function UserManagerFilter({ setSort }: { setSort: Function }): React.JSX
           </InputAdornment>
         }
         sx={{ maxWidth: '350px', height: "40px" }}
-
-      />
-    </Card>
+      /> 
+    </div>
   );
 }

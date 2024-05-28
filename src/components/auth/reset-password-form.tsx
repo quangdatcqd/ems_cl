@@ -78,7 +78,7 @@ export function ResetPasswordForm(): React.JSX.Element {
             )}
           />
           <div>
-            <Link to={paths.admin.signIn} className='react-link'  > 
+            <Link to={paths.admin.auth.signIn} className='react-link'  > 
                 Back to sign in.
               
             </Link>

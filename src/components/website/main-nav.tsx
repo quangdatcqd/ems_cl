@@ -42,7 +42,7 @@ export function MainNav({ eventData }: { eventData: any }): React.JSX.Element {
           variant="text"
           tabIndex={-1}
           startIcon={<ArrowBackIcon />}
-          onClick={() => router(paths.dashboard.eventManager)}
+          onClick={() => router(paths.admin.dashboard.eventManager)}
         >
           Home
         </Button>
@@ -68,7 +68,7 @@ export function MainNav({ eventData }: { eventData: any }): React.JSX.Element {
             variant="text"
             tabIndex={-1}
             startIcon={<VisibilityIcon />}
-            onClick={() => router(paths.website.viewPath + eventData.id)}
+            onClick={() => router(paths.admin.website.viewPath + eventData.id)}
           >
             Preview
           </LoadingButton>

@@ -11,7 +11,8 @@ import { isNavItemActive } from '../../../lib/is-nav-item-active';
 
 import { navItems } from './config';
 import { navIcons } from './nav-icons'; 
-import {  useLocation, useNavigate  } from 'react-router-dom';
+import {  Link, useLocation, useNavigate  } from 'react-router-dom';
+import { Logo } from '../../core/logo';
 
 export function SideNav(): React.JSX.Element {
   const location = useLocation();  
@@ -43,12 +44,12 @@ export function SideNav(): React.JSX.Element {
         zIndex: 'var(--SideNav-zIndex)',
         '&::-webkit-scrollbar': { display: 'none' },
       }}
-    >
-      {/* <Stack spacing={2} sx={{ p: 3 }}>
-        <Link   href={paths.home} sx={{ display: 'inline-flex' }}>
+    > 
+       <Stack spacing={2} sx={{ p: 3 }}>
+       <Link  to={paths.admin.dashboard.overview} >
           <Logo color="light" height={32} width={122} />
         </Link>
-        <Box
+        {/* <Box
           sx={{
             alignItems: 'center',
             backgroundColor: 'var(--mui-palette-neutral-950)',
@@ -68,8 +69,8 @@ export function SideNav(): React.JSX.Element {
             </Typography>
           </Box>
           <CaretUpDownIcon />
-        </Box>
-      </Stack> */}
+        </Box> */}
+      </Stack> 
       <Divider sx={{ borderColor: 'var(--mui-palette-neutral-700)' }} />
       <Box component="nav" sx={{ flex: '1 1 auto', p: '12px' }}>
         {renderNavItems({ pathname :location.pathname, items: navItems })}
@@ -103,7 +104,7 @@ function NavItem({ disabled, external, href, icon, matcher, pathname, title }: N
   const Icon = icon ? navIcons[icon] : null;
   const navigate = useNavigate();
   return (
-    <li onClick={()=> navigate(href || paths.dashboard.overview)}> 
+    <li onClick={()=> navigate(href || paths.admin.dashboard.overview)}> 
       <Box 
         sx={{
           alignItems: 'center',

@@ -3,15 +3,15 @@ import * as React from 'react';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-import { paths } from '../../paths';
-import { DynamicLogo } from '../core/logo';
+import { paths } from '../../paths'; 
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
+import { DynamicLogo } from '../../components/core/logo';
 export interface LayoutProps {
   children: React.ReactNode;
 }
 
-export function Layout({ children }: LayoutProps): React.JSX.Element {
+export function AdminAuthLayout({ children }: LayoutProps): React.JSX.Element {
   return (
     <Box
       sx={{

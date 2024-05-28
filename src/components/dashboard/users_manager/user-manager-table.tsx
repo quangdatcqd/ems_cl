@@ -2,8 +2,7 @@
 
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import Checkbox from '@mui/material/Checkbox';
+import Card from '@mui/material/Card'; 
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
@@ -15,7 +14,7 @@ import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import dayjs from 'dayjs';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-import { useSelection } from '../../../hooks/use-selection';
+// import { useSelection } from '../../../hooks/use-selection';
 import { Button, ClickAwayListener, Dialog, DialogActions, DialogContent, DialogTitle, Grow, IconButton, LinearProgress, MenuItem, MenuList, Paper, Popper } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -43,14 +42,14 @@ export function UserManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
 
   const [openDlg, setOpenDlg] = React.useState<any>({ open: false, userData: {} });
 
-  const rowIds = React.useMemo(() => {
-    return rows.map((customer) => customer.id);
-  }, [rows]);
+  // const rowIds = React.useMemo(() => {
+  //   return rows.map((customer) => customer.id);
+  // }, [rows]);
 
-  const { selectAll, deselectAll, selectOne, deselectOne, selected } = useSelection(rowIds);
+  // const { selectAll, deselectAll, selectOne, deselectOne, selected } = useSelection(rowIds);
 
-  const selectedSome = (selected?.size ?? 0) > 0 && (selected?.size ?? 0) < rows.length;
-  const selectedAll = rows.length > 0 && selected?.size === rows.length;
+  // const selectedSome = (selected?.size ?? 0) > 0 && (selected?.size ?? 0) < rows.length;
+  // const selectedAll = rows.length > 0 && selected?.size === rows.length;
 
   const handleOpenEdit = (value: any) => {
 
@@ -98,7 +97,7 @@ export function UserManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
         <Table sx={{ minWidth: '800px' }}>
           <TableHead>
             <TableRow>
-              <TableCell padding="checkbox">
+              {/* <TableCell padding="checkbox">
                 <Checkbox
                   checked={selectedAll}
                   indeterminate={selectedSome}
@@ -110,24 +109,27 @@ export function UserManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
                     }
                   }}
                 />
-              </TableCell>
+              </TableCell> */}
               <TableCell>Name</TableCell>
               <TableCell>Username</TableCell>
               <TableCell>Email</TableCell>
               <TableCell>Phone</TableCell>
               <TableCell>Signed Up</TableCell>
               <TableCell>Type</TableCell>
+              <TableCell>Role</TableCell>
               <TableCell>Status</TableCell>
               <TableCell>Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {rows.map((row) => {
-              const isSelected = selected?.has(row.id);
-
+              // const isSelected = selected?.has(row.id);
+              let userTypeCreated = "Default";
+              if(row.googleId) userTypeCreated = "Google";
+              if(row.facebookId) userTypeCreated = "Meta";
               return (
-                <TableRow hover key={row.id} selected={isSelected}>
-                  <TableCell padding="checkbox">
+                <TableRow hover key={row.id}  >
+                  {/* <TableCell padding="checkbox">
                     <Checkbox
                       checked={isSelected}
                       onChange={(event) => {
@@ -138,7 +140,7 @@ export function UserManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
                         }
                       }}
                     />
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell>
                     <Stack sx={{ alignItems: 'center' }} direction="row" spacing={2}>
                       {/* <Avatar src={row.avatar} /> */}
@@ -150,6 +152,7 @@ export function UserManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
 
                   <TableCell>{row.phoneNumber}</TableCell>
                   <TableCell>{dayjs(row.createdAt).format('MMM D, YYYY')}</TableCell>
+                  <TableCell >  {userTypeCreated}  </TableCell>
                   <TableCell >  {row.type}  </TableCell>
                   <TableCell >
                     <span className={'badge-custom ' + row.status}>{row.status} </span>

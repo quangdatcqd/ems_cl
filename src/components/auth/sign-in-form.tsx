@@ -32,7 +32,7 @@ export function SignInForm(): React.JSX.Element {
   const router = useNavigate();
   const {auth, setAuth } = useAuth();
   if (auth) {
-    setInterval(()=>router(paths.home),100)
+    setInterval(()=>router(paths.client.home),100)
     
   } 
 
@@ -51,7 +51,7 @@ export function SignInForm(): React.JSX.Element {
       }
       else {
         setAuth(data.data);
-        window.location.href = paths.dashboard.overview
+        window.location.href = paths.admin.dashboard.overview
       }
       setIsPending(false);
     },
@@ -112,7 +112,7 @@ export function SignInForm(): React.JSX.Element {
             )}
           />
           <div> 
-            <Link to={paths.admin.resetPassword} className='react-link' >
+            <Link to={paths.admin.auth.resetPassword} className='react-link' >
               Forgot password?
             </Link> 
           </div>

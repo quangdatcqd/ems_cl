@@ -65,7 +65,7 @@ export function SignUpForm(): React.JSX.Element {
         <Typography variant="h4">Sign up</Typography>
         <Typography color="text.secondary" variant="body2">
           Already have an account?{' '}
-          <Link href={paths.admin.signIn} underline="hover" variant="subtitle2">
+          <Link href={paths.admin.auth.signIn} underline="hover" variant="subtitle2">
             Sign in
           </Link>
         </Typography>

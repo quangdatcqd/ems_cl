@@ -107,7 +107,7 @@ export function SideNavExpand({ activeKey, setActiveKey }: { activeKey: string, 
                     <ScaledIframe key={index}
                       name={section?.component.name}
                       scaleFactor={0.25}
-                      src={paths.sections.sectionPath + section.component.name.toLowerCase()}
+                      src={paths.admin.sections.sectionPath + section.component.name.toLowerCase()}
                     />))
                 }
               </div>
@@ -124,7 +124,7 @@ export function SideNavExpand({ activeKey, setActiveKey }: { activeKey: string, 
                         name={temp?.name}
                         scaleFactor={0.2}
                         drag={false}
-                        src={paths.website.viewTemplatePath + temp.name } 
+                        src={paths.admin.website.viewTemplatePath + temp.name } 
                       />
                     </div>
                   ))

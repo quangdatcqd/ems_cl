@@ -22,7 +22,8 @@ import toast from 'react-hot-toast';
 const schema = zod.object({
   username: zod.string().min(1, { message: 'Username is required' }),
   name: zod.string().min(1, { message: 'Name is required' }),
-  email: zod.string().min(1, { message: 'Email is required' }).email(),
+  email: zod.string(),
+  // .min(1, { message: 'Email is required' }).email(),
   password: zod.string()
     .refine(value => value === "" ? true : /[A-Z]/.test(value), {
       message: "Password must contain at least one uppercase letter.",
@@ -66,7 +67,7 @@ export function EditForm({ data, handleCloseEdit }: { data: any, handleCloseEdit
     username: data.userData.username,
     phoneNumber: data.userData.phoneNumber || "",
     name: data.userData.name,
-    email: data.userData.email,
+    email: data.userData.email || "",
     status: data.userData.status,
     password: '',
     confirmPassword: '',

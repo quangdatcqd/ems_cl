@@ -16,7 +16,14 @@
     src: url('assets/fonts/DINNeuzeitGrotesk.ttf') format('truetype');
     font-weight: bold;
 }
-
+.google-icon {
+    font-size: 30px;
+    margin-top: -2px;
+    font-weight: bold;
+    background: linear-gradient(to top, #4285F4,#0F9D58, #F4B400 , #DB4437 );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 .container {
     width: 980px;
 }

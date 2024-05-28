@@ -1,10 +1,9 @@
-import React from "react";
-import ClientRoutes from "../../routes/ClientRoutes";
+import React from "react"; 
 
 const ClientLayout = () => {
   return (
     <React.Fragment>
-      <ClientRoutes />
+      home client
     </React.Fragment>
   );
 };

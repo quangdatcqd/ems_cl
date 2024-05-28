@@ -2,8 +2,7 @@
 
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import Checkbox from '@mui/material/Checkbox';
+import Card from '@mui/material/Card'; 
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
@@ -15,7 +14,7 @@ import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import dayjs from 'dayjs';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-import { useSelection } from '../../../hooks/use-selection';
+// import { useSelection } from '../../../hooks/use-selection';
 import { Button, ClickAwayListener, Dialog, DialogActions, DialogContent, DialogTitle, Grow, IconButton, LinearProgress, MenuItem, MenuList, Paper, Popper } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -44,14 +43,14 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
 
   const [openDlg, setOpenDlg] = React.useState<any>({ open: false, userData: {} });
 
-  const rowIds = React.useMemo(() => {
-    return rows.map((customer) => customer.id);
-  }, [rows]);
+  // const rowIds = React.useMemo(() => {
+  //   return rows.map((customer) => customer.id);
+  // }, [rows]);
 
-  const { selectAll, deselectAll, selectOne, deselectOne, selected } = useSelection(rowIds);
+  // const { selectAll, deselectAll, selectOne, deselectOne, selected } = useSelection(rowIds);
 
-  const selectedSome = (selected?.size ?? 0) > 0 && (selected?.size ?? 0) < rows.length;
-  const selectedAll = rows.length > 0 && selected?.size === rows.length;
+  // const selectedSome = (selected?.size ?? 0) > 0 && (selected?.size ?? 0) < rows.length;
+  // const selectedAll = rows.length > 0 && selected?.size === rows.length;
 
   const handleOpenEdit = (value: any) => {
 
@@ -99,7 +98,7 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
         <Table sx={{ minWidth: '800px' }}>
           <TableHead>
             <TableRow>
-              <TableCell padding="checkbox">
+              {/* <TableCell padding="checkbox">
                 <Checkbox
                   checked={selectedAll}
                   indeterminate={selectedSome}
@@ -111,7 +110,7 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
                     }
                   }}
                 />
-              </TableCell>
+              </TableCell> */}
               <TableCell>Event Name</TableCell>
               <TableCell>Start Time</TableCell>
               <TableCell>End Time</TableCell>
@@ -121,12 +120,10 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => {
-              const isSelected = selected?.has(row.id);
-
+            {rows.map((row) => {  
               return (
-                <TableRow hover key={row.id} selected={isSelected}>
-                  <TableCell padding="checkbox">
+                <TableRow hover key={row.id}  >
+                  {/* <TableCell padding="checkbox">
                     <Checkbox
                       checked={isSelected}
                       onChange={(event) => {
@@ -137,7 +134,7 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
                         }
                       }}
                     />
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell>
                     <Stack sx={{ alignItems: 'center' }} direction="row" spacing={2}> 
                       <Typography variant="subtitle2">{row.name}</Typography>
@@ -146,7 +143,7 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
                   <TableCell>{dayjs(row.startTime).format('YYYY-MM-DD')}</TableCell>
                   <TableCell>{dayjs(row.endTime).format('YYYY-MM-DD')}</TableCell>
                   <TableCell>{row.location}</TableCell>
-                  <TableCell><Link className='react-link' to={paths.website.setupPath+`/${row.id}`}>editor</Link></TableCell>
+                  <TableCell><Link className='react-link' to={paths.admin.website.setupPath+`/${row.id}`}>editor</Link></TableCell>
                   <TableCell >
                     <IconButton aria-label="edit" color="success" onClick={() => handleOpenEdit(row)}>
                       < BorderColorIcon />

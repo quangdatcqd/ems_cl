@@ -16,7 +16,7 @@ axiosClient.interceptors.response.use(
       // Chuyển hướng đến trang đăng nhập
       alert("Unauthorized login please!")
       localStorage.removeItem("auth")
-      window.location.href= paths.admin.signIn 
+      window.location.href= paths.admin.auth.signIn 
     } 
     return Promise.reject(error);
   }

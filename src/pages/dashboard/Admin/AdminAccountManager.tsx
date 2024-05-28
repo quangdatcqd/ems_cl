@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { Plus as PlusIcon } from '@phosphor-icons/react/dist/ssr/Plus';
 
-import { UserManagerFilter } from '../../../components/dashboard/users_manager/user-manager-filter';
+import { AdminUserManagerFilter } from '../../../components/dashboard/users_manager/admin-user-manager-filter';
 import { UserManagerTable } from '../../../components/dashboard/users_manager/user-manager-table';
 import UserManagerService from '../../../services/admin/userManager.service';
 import DialogActions from '@mui/material/DialogActions';
@@ -25,7 +25,7 @@ interface UserType {
     }
   }
 } 
-export default function AccountManager(): React.JSX.Element { 
+export default function AdminAccountManager(): React.JSX.Element { 
   const initialValues = {
     data: [],
     metadata: {
@@ -80,7 +80,7 @@ export default function AccountManager(): React.JSX.Element {
         </DialogActions>
       </Dialog>
 
-      <UserManagerFilter setSort={setSort} />
+      <AdminUserManagerFilter setSort={setSort} />
       <UserManagerTable
         fetchUsers={fetchUsers}
         count={userData.metadata.count}

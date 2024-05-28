@@ -15,8 +15,8 @@ let navItems = [ ] as NavItemConfig[];
 
 if (auth?.userInfo?.type === AccountType.Admin) {
   navItems.push(
-    { key: '', title: '', href: paths.dashboard.accountManager, icon: 'users' },
-    { key: 'edit', title: '', href: paths.dashboard.eventManager, icon: 'users' },
+    { key: '', title: '', href: paths.admin.dashboard.adminAccountManager, icon: 'users' },
+    { key: 'edit', title: '', href: paths.admin.dashboard.eventManager, icon: 'users' },
   );
 } 
 
