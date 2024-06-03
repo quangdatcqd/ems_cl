@@ -38,7 +38,7 @@ const schema = zod.object({
   confirmPassword: zod.string(),
   phoneNumber: zod.string(),
   status: zod.string(),
-  id: zod.string(),
+  _id: zod.string(),
 }).refine(
   (values) => {
     return values.password === values.confirmPassword;
@@ -62,7 +62,8 @@ const AccountType = [
 type Values = zod.infer<typeof schema>;
 
 export function EditForm({ data, handleCloseEdit }: { data: any, handleCloseEdit: Function }): React.JSX.Element { 
- 
+  
+  
  const  defaultValues = {
     username: data.userData.username,
     phoneNumber: data.userData.phoneNumber || "",
@@ -71,16 +72,17 @@ export function EditForm({ data, handleCloseEdit }: { data: any, handleCloseEdit
     status: data.userData.status,
     password: '',
     confirmPassword: '',
-    id: data.userData.id
+    _id: data.userData._id
   } satisfies Values;
- 
+  
   
   const [showPassword, setShowPassword] = React.useState<boolean>();
   const [isPending, setIsPending] = React.useState<boolean>(false);
   const [status, setStatus] = React.useState<string>(data.userData.status);
   const [userType, setUserType] = React.useState<string>(data.userData.type);
   const { control, handleSubmit, setError, formState: { errors }, } = useForm<Values>({ defaultValues , resolver: zodResolver(schema) });
-
+  
+  
   const onSubmit = React.useCallback(async (values: Values, e: any): Promise<void> => {
     setIsPending(true); 
     

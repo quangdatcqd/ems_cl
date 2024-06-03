@@ -122,7 +122,7 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
           <TableBody>
             {rows.map((row) => {  
               return (
-                <TableRow hover key={row.id}  >
+                <TableRow hover key={row._id}  >
                   {/* <TableCell padding="checkbox">
                     <Checkbox
                       checked={isSelected}
@@ -143,12 +143,12 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
                   <TableCell>{dayjs(row.startTime).format('YYYY-MM-DD')}</TableCell>
                   <TableCell>{dayjs(row.endTime).format('YYYY-MM-DD')}</TableCell>
                   <TableCell>{row.location}</TableCell>
-                  <TableCell><Link className='react-link' to={paths.admin.website.setupPath+`/${row.id}`}>editor</Link></TableCell>
+                  <TableCell><Link className='react-link' to={paths.admin.website.setupPath+`/${row._id}`}>editor</Link></TableCell>
                   <TableCell >
                     <IconButton aria-label="edit" color="success" onClick={() => handleOpenEdit(row)}>
                       < BorderColorIcon />
                     </IconButton>
-                    <ConfirmPopover idUser={row.id} fetchUsers={fetchUsers} />
+                    <ConfirmPopover idUser={row._id} fetchUsers={fetchUsers} />
                   </TableCell>
                 </TableRow>
               );

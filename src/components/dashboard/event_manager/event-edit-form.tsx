@@ -14,7 +14,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 import { EventDataType } from '../../../types/event';
 const schema = zod.object({
-  id: zod.string(),
+  _id: zod.string(),
   name: zod.string().min(1, { message: 'Name is required' }),
   startTime: zod.string().min(1, { message: 'Start time is required' }),
   endTime: zod.string().min(1, { message: 'End time is required' }),
@@ -27,21 +27,23 @@ type Values = zod.infer<typeof schema>;
 export function EventEditForm({ eventData, handleCloseEdit }: { eventData: EventDataType, handleCloseEdit: Function }): React.JSX.Element {
 
   const defaultValues = {
-    id: eventData.id, name: eventData.name,
-    startTime: eventData.startTime, endTime: eventData.endTime,
+    _id: eventData._id,
+    name: eventData.name,
+    startTime: eventData.startTime,
+    endTime: eventData.endTime,
     location: eventData.location
   } satisfies Values;
 
+
   const [isPending, setIsPending] = React.useState<boolean>(false);
   const { control, handleSubmit, setError, formState: { errors }, setValue } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
-
+  
   const onSubmit = React.useCallback(async (values: Values, e: any): Promise<void> => {
     setIsPending(true);
     const data = await eventService.modifyEvent(values);
     if (data?.statusCode) {
       setError('root', { type: 'server', message: data?.message });
-    } else {
-      control._reset();
+    } else { 
       toast.success("Modified event information successfully!");
       if (e.nativeEvent.submitter.innerText === "Update And Close") {
         handleCloseEdit({ open: false, userData: {} })

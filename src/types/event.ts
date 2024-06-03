@@ -1,5 +1,5 @@
 export interface EventDataType { 
-  id: string;
+  _id: string;
   name: string,
   startTime: string,
   endTime: string,

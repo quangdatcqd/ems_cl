@@ -128,7 +128,7 @@ export function UserManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
               if(row.googleId) userTypeCreated = "Google";
               if(row.facebookId) userTypeCreated = "Meta";
               return (
-                <TableRow hover key={row.id}  >
+                <TableRow hover key={row._id}  >
                   {/* <TableCell padding="checkbox">
                     <Checkbox
                       checked={isSelected}
@@ -161,7 +161,7 @@ export function UserManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
                     <IconButton aria-label="edit" color="success" onClick={() => handleOpenEdit(row)}>
                       < BorderColorIcon />
                     </IconButton>
-                    <ConfirmPopover idUser={row.id} fetchUsers={fetchUsers} />
+                    <ConfirmPopover idUser={row._id} fetchUsers={fetchUsers} />
                   </TableCell>
                 </TableRow>
               );

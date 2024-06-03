@@ -14,9 +14,9 @@ axiosClient.interceptors.response.use(
     // Xử lý các lỗi
     if (error.response.status === 401) { 
       // Chuyển hướng đến trang đăng nhập
-      alert("Unauthorized login please!")
-      localStorage.removeItem("auth")
-      window.location.href= paths.admin.auth.signIn 
+      // alert("Unauthorized login please!")
+      // localStorage.removeItem("auth")
+      // window.location.href= paths.client.auth.signIn 
     } 
     return Promise.reject(error);
   }

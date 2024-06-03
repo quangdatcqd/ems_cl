@@ -12,11 +12,12 @@ import { useWebEditorConfig } from '../../provider/webEditorProvider';
 import { Button } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
+import { EventDataType } from '../../types/event';
 
 
 
 
-export function MainNav({ eventData }: { eventData: any }): React.JSX.Element {
+export function MainNav({ eventData }: { eventData: EventDataType }): React.JSX.Element {
   const [loading, setLoading] = React.useState(false)
   const router = useNavigate();
   const { webConfigs,setWebConfigs } = useWebEditorConfig();
@@ -68,7 +69,7 @@ export function MainNav({ eventData }: { eventData: any }): React.JSX.Element {
             variant="text"
             tabIndex={-1}
             startIcon={<VisibilityIcon />}
-            onClick={() => router(paths.admin.website.viewPath + eventData.id)}
+            onClick={() => router(paths.admin.website.viewPath + eventData._id)}
           >
             Preview
           </LoadingButton>
