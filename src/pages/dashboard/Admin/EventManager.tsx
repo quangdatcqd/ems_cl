@@ -1,12 +1,7 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import { Plus as PlusIcon } from '@phosphor-icons/react/dist/ssr/Plus';
-
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import Dialog from '@mui/material/Dialog';
+import { Plus as PlusIcon } from '@phosphor-icons/react/dist/ssr/Plus'; 
 import { EventManagerFilter } from '../../../components/dashboard/event_manager/event-manager-filter';
 import { EvenManagerTable } from '../../../components/dashboard/event_manager/event-manager-table';
 import { EventCreateForm } from '../../../components/dashboard/event_manager/event-create-form';
@@ -53,22 +48,8 @@ export default function AccountManager(): React.JSX.Element {
         <Button startIcon={<PlusIcon fontSize="var(--icon-fontSize-md)" />} onClick={handleOpenDlg} variant="contained">
           Add
         </Button>
-      </Stack>
-      <Dialog
-        open={openDlg}
-        onClose={handleCloseDlg}
-        fullWidth={true}
-        maxWidth={"sm"}
-      >
-        <DialogTitle>Add New Event</DialogTitle>
-        <DialogContent>
-          <EventCreateForm handleCloseDlg={handleCloseDlg} />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDlg}>Close</Button>
-        </DialogActions>
-      </Dialog>
-
+      </Stack> 
+      <EventCreateForm openDlg={openDlg} handleCloseDlg={handleCloseDlg} />
       <EventManagerFilter setSort={setSort} />
       <EvenManagerTable
         fetchUsers={fetchUsers}

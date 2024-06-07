@@ -31,6 +31,7 @@ export  function WebRender() {
                     return(<Element.component key={index} config={element} />)
                 })
             }
+            <div className='join_button'>Join now</div>
         </div>
     );
 }

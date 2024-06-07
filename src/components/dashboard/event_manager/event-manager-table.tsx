@@ -1,8 +1,8 @@
- 
+
 
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Card from '@mui/material/Card'; 
+import Card from '@mui/material/Card';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
@@ -18,15 +18,16 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import { Button, ClickAwayListener, Dialog, DialogActions, DialogContent, DialogTitle, Grow, IconButton, LinearProgress, MenuItem, MenuList, Paper, Popper } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-  
+
 import toast from 'react-hot-toast';
-import eventService  from '../../../services/admin/eventService.service';
+import eventService from '../../../services/admin/eventService.service';
 import { EventEditForm } from './event-edit-form';
 import { EventDataType } from '../../../types/event';
 import { Link } from 'react-router-dom';
 import { paths } from '../../../paths';
+import { EventFoodMenu } from './event-food-menu';
 
- 
+
 interface EvenManagerTableProps {
   count?: number;
   page?: number;
@@ -41,7 +42,8 @@ interface EvenManagerTableProps {
 
 export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage = 0, isPending = false, fetchUsers, setSort }: EvenManagerTableProps): React.JSX.Element {
 
-  const [openDlg, setOpenDlg] = React.useState<any>({ open: false, userData: {} });
+  const [openDlgEdit, setOpenDlgEdit] = React.useState<any>({ open: false, userData: {} });
+  const [openDlgMenu, setOpenDlgMenu] = React.useState<any>({ open: true, eventId: null });
 
   // const rowIds = React.useMemo(() => {
   //   return rows.map((customer) => customer.id);
@@ -54,46 +56,46 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
 
   const handleOpenEdit = (value: any) => {
 
-    setOpenDlg({
+    setOpenDlgEdit({
       open: true,
       userData: value
     })
   };
   const handleCloseEdit = () => {
-    setOpenDlg({
+    setOpenDlgEdit({
       open: false,
       userData: {}
     })
     fetchUsers();
   };
 
+  const handleOpenMenu = (value: any) => {
 
-  const handlePageChange = ( _: React.MouseEvent | null, page: number) => {
+    setOpenDlgMenu({
+      open: true,
+      eventId: value
+    })
+  };
+  const handleCloseMenu = () => {
+    setOpenDlgMenu({
+      open: false,
+      eventId: null
+    }) 
+  };
+
+
+  const handlePageChange = (_: React.MouseEvent | null, page: number) => {
     setSort((sort: any) => ({ ...sort, page: page + 1 }))
   }
 
   const handlePerPageChange = (e: any) => {
     setSort((sort: any) => ({ ...sort, limit: e.target.value }))
-
   }
 
   return (
     <Card>
       {isPending && <LinearProgress />}
-      <Dialog
-        open={openDlg.open}
-        onClose={handleCloseEdit}
-        fullWidth={true}
-        maxWidth={"md"}
-      >
-        <DialogTitle>Modify User</DialogTitle>
-        <DialogContent sx={{ paddingBottom: 0 }}>
-          <EventEditForm eventData={openDlg.userData} handleCloseEdit={handleCloseEdit} />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseEdit}>Close</Button>
-        </DialogActions>
-      </Dialog>
+
       <Box sx={{ overflowX: 'auto' }}>
         <Table sx={{ minWidth: '800px' }}>
           <TableHead>
@@ -114,13 +116,14 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
               <TableCell>Event Name</TableCell>
               <TableCell>Start Time</TableCell>
               <TableCell>End Time</TableCell>
-              <TableCell>Location</TableCell>   
-              <TableCell>Website</TableCell>   
+              <TableCell>Location</TableCell>
+              <TableCell>Food </TableCell>
+              <TableCell>Website</TableCell>
               <TableCell>Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => {  
+            {rows.map((row) => {
               return (
                 <TableRow hover key={row._id}  >
                   {/* <TableCell padding="checkbox">
@@ -136,14 +139,15 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
                     />
                   </TableCell> */}
                   <TableCell>
-                    <Stack sx={{ alignItems: 'center' }} direction="row" spacing={2}> 
+                    <Stack sx={{ alignItems: 'center' }} direction="row" spacing={2}>
                       <Typography variant="subtitle2">{row.name}</Typography>
                     </Stack>
                   </TableCell>
                   <TableCell>{dayjs(row.startTime).format('YYYY-MM-DD')}</TableCell>
                   <TableCell>{dayjs(row.endTime).format('YYYY-MM-DD')}</TableCell>
                   <TableCell>{row.location}</TableCell>
-                  <TableCell><Link className='react-link' to={paths.admin.website.setupPath+`/${row._id}`}>editor</Link></TableCell>
+                  <TableCell> <Button onClick={handleOpenMenu}>Menu</Button> </TableCell>
+                  <TableCell><Link className='react-link' to={paths.admin.website.setupPath + `/${row._id}`}>editor</Link></TableCell>
                   <TableCell >
                     <IconButton aria-label="edit" color="success" onClick={() => handleOpenEdit(row)}>
                       < BorderColorIcon />
@@ -158,7 +162,6 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
       </Box>
       <Divider />
       <TablePagination
-
         component="div"
         count={count}
         onPageChange={handlePageChange}
@@ -167,6 +170,39 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
         rowsPerPage={rowsPerPage}
         rowsPerPageOptions={[5, 10, 25]}
       />
+
+
+      <Dialog
+        open={openDlgEdit.open}
+        onClose={handleCloseEdit}
+        fullWidth={true}
+        maxWidth={"md"}
+      >
+        <DialogTitle>Modify User</DialogTitle>
+        <DialogContent sx={{ paddingBottom: 0 }}>
+          <EventEditForm eventData={openDlgEdit.userData} handleCloseEdit={handleCloseEdit} />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseEdit}>Close</Button>
+        </DialogActions>
+      </Dialog>
+
+
+
+      <Dialog
+        open={openDlgMenu.open}
+        onClose={handleCloseMenu}
+        fullWidth={true}
+        maxWidth={"md"}
+      >
+        <DialogTitle>Food Menu</DialogTitle>
+        <DialogContent sx={{ paddingBottom: 0 }}>
+          <EventFoodMenu openDlgMenu={openDlgMenu} handleCloseDlg={handleCloseMenu} />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseMenu}>Close</Button>
+        </DialogActions>
+      </Dialog>
     </Card>
   );
 }
