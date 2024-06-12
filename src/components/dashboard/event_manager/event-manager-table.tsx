@@ -25,7 +25,7 @@ import { EventEditForm } from './event-edit-form';
 import { EventDataType } from '../../../types/event';
 import { Link } from 'react-router-dom';
 import { paths } from '../../../paths';
-import { EventFoodMenu } from './event-food-menu';
+import { FoodMenu } from './food_manager/food-menu';
 
 
 interface EvenManagerTableProps {
@@ -193,11 +193,12 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
         open={openDlgMenu.open}
         onClose={handleCloseMenu}
         fullWidth={true}
-        maxWidth={"md"}
+        maxWidth={"xl"}
+        
       >
         <DialogTitle>Food Menu</DialogTitle>
         <DialogContent sx={{ paddingBottom: 0 }}>
-          <EventFoodMenu openDlgMenu={openDlgMenu} handleCloseDlg={handleCloseMenu} />
+          <FoodMenu openDlgMenu={openDlgMenu} handleCloseDlg={handleCloseMenu} />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseMenu}>Close</Button>
