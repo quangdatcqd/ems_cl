@@ -1,7 +1,7 @@
 
 export const pathAdmin = "/admin";
 export const pathClient = "/auth";
-export const paths = { 
+export const paths = {
   admin: {
     auth: {
       signIn: pathAdmin + '/sign-in',
@@ -17,7 +17,8 @@ export const paths = {
       settings: pathAdmin + '/dashboard/settings',
       adminAccountManager: pathAdmin + '/dashboard/account-manager',
       clientAccountManager: pathAdmin + '/dashboard/client-account-manager',
-      eventManager: pathAdmin + '/dashboard/event-manager', 
+      eventManager: pathAdmin + '/dashboard/event-manager',
+      eventFoodRegis: pathAdmin + '/dashboard/event-food-regis',
     },
     website: {
       setupRouter: pathAdmin + '/website/setup/:id',
@@ -25,8 +26,7 @@ export const paths = {
       viewRouter: pathAdmin + '/website/:id',
       viewPath: pathAdmin + '/website/',
       viewTemplateRouter: pathAdmin + '/website-demo/:template',
-      viewTemplatePath: pathAdmin + '/website-demo/',
-
+      viewTemplatePath: pathAdmin + '/website-demo/', 
     },
     sections: {
       sectionRouter: pathAdmin + '/section/:id',
@@ -34,7 +34,7 @@ export const paths = {
     },
   },
   client: {
-    auth: { 
+    auth: {
       signIn: pathClient + '/sign-in',
       signInFBRouter: pathClient + '/sign-in/:userData',
       signFBPath: 'http://localhost:3000/client/auth/facebook/login',
@@ -43,8 +43,14 @@ export const paths = {
       changePassword: pathClient + '/reset-password/:userId/:code'
     },
     home: '/',
+   
   },
-
-
+  imagePath: import.meta.env.VITE_SERVER_URL + "/images/", 
+  website: {
+    viewRouter: '/website/:id',
+    viewPath:   '/website/', 
+    joinEventRouter: '/website/join-event/:eventId',
+    joinEventPath: '/website/join-event/',
+  },
   errors: { notFound: pathAdmin + '/errors/not-found' },
 } as const;

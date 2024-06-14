@@ -69,7 +69,7 @@ export function MainNav({ eventData }: { eventData: EventDataType }): React.JSX.
             variant="text"
             tabIndex={-1}
             startIcon={<VisibilityIcon />}
-            onClick={() => router(paths.admin.website.viewPath + eventData._id)}
+            onClick={() => router(paths.website.viewPath + eventData._id)}
           >
             Preview
           </LoadingButton>

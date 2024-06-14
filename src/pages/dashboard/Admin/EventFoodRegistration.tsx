@@ -7,9 +7,11 @@ import { EvenManagerTable } from '../../../components/dashboard/event_manager/ev
 import { EventCreateForm } from '../../../components/dashboard/event_manager/event-create-form';
 import eventService from '../../../services/admin/eventService.service';
 import {  EventResponseType } from '../../../types/event';
+import { FoodResTable } from '../../../components/dashboard/event_food_registration/food-res-table';
+import eventFoodRegisServiceService from '../../../services/admin/eventFoodRegisService.service';
 
  
-export default function AccountManager(): React.JSX.Element {
+export default function EventFoodRegistration(): React.JSX.Element {
   const initialValues = {
     data: [],
     metadata: {
@@ -22,21 +24,21 @@ export default function AccountManager(): React.JSX.Element {
       }
     }
   }
-  const [eventData, setEventData] = React.useState<EventResponseType>(initialValues);
+  const [foodResData, setFoodResData] = React.useState<EventResponseType>(initialValues);
   const [isPending, setIsPending] = React.useState<boolean>(false);
   const [openDlg, setOpenDlg] = React.useState<boolean>(false);
   const [sort, setSort] = React.useState<any>();
-  const fetchEvents = async () => {
+  const fetchFoodRes = async () => {
     setIsPending(true)
-    const events = await eventService.getAllEvents(sort);
-    setEventData(events)
+    const users = await eventFoodRegisServiceService.getAllFoodRes(sort);
+    setFoodResData(users)
     setIsPending(false)
   }
   React.useEffect(() => {
-    fetchEvents();
+    fetchFoodRes();
   }, [sort])
   const handleCloseDlg = () => {
-    fetchEvents();
+    fetchFoodRes();
     setOpenDlg(false)
   }
   const handleOpenDlg = () => {
@@ -51,12 +53,12 @@ export default function AccountManager(): React.JSX.Element {
       </Stack> 
       <EventCreateForm openDlg={openDlg} handleCloseDlg={handleCloseDlg} />
       <EventManagerFilter setSort={setSort} />
-      <EvenManagerTable
-        fetchEvents={fetchEvents}
-        count={eventData.metadata.count}
-        page={eventData.metadata.page - 1}
-        rows={eventData.data}
-        rowsPerPage={eventData.metadata.limit}
+      <FoodResTable
+        fetchFoodRes={fetchFoodRes}
+        count={foodResData.metadata.count}
+        page={foodResData.metadata.page - 1}
+        rows={foodResData.data}
+        rowsPerPage={foodResData.metadata.limit}
         isPending={isPending}
         setSort={setSort}
       />

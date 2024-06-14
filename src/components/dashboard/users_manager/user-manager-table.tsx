@@ -1,8 +1,8 @@
- 
+
 
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Card from '@mui/material/Card'; 
+import Card from '@mui/material/Card';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
@@ -23,6 +23,7 @@ import { EditForm } from './edit-form';
 import userManagerService from '../../../services/admin/userManager.service';
 import toast from 'react-hot-toast';
 import { UserDataType } from '../../../types/user';
+import { ConfirmPopover } from '../../ConfirmPopover';
 
 
 
@@ -42,14 +43,7 @@ export function UserManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
 
   const [openDlg, setOpenDlg] = React.useState<any>({ open: false, userData: {} });
 
-  // const rowIds = React.useMemo(() => {
-  //   return rows.map((customer) => customer.id);
-  // }, [rows]);
 
-  // const { selectAll, deselectAll, selectOne, deselectOne, selected } = useSelection(rowIds);
-
-  // const selectedSome = (selected?.size ?? 0) > 0 && (selected?.size ?? 0) < rows.length;
-  // const selectedAll = rows.length > 0 && selected?.size === rows.length;
 
   const handleOpenEdit = (value: any) => {
 
@@ -67,7 +61,7 @@ export function UserManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
   };
 
 
-  const handlePageChange = ( _: React.MouseEvent | null, page: number) => {
+  const handlePageChange = (_: React.MouseEvent | null, page: number) => {
     setSort((sort: any) => ({ ...sort, page: page + 1 }))
   }
 
@@ -76,6 +70,16 @@ export function UserManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
 
   }
 
+
+  const handleRemoveUser = async (idUser: string) => {
+    const resRemove = await userManagerService.removeAdminUser(idUser);
+    if (resRemove?.data) {
+      toast.success("User remove successfully!")
+      fetchUsers();
+    } else {
+      toast.success(resRemove?.message)
+    }
+  };
   return (
     <Card>
       {isPending && <LinearProgress />}
@@ -125,8 +129,8 @@ export function UserManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
             {rows.map((row) => {
               // const isSelected = selected?.has(row.id);
               let userTypeCreated = "Default";
-              if(row.googleId) userTypeCreated = "Google";
-              if(row.facebookId) userTypeCreated = "Meta";
+              if (row.googleId) userTypeCreated = "Google";
+              if (row.facebookId) userTypeCreated = "Meta";
               return (
                 <TableRow hover key={row._id}  >
                   {/* <TableCell padding="checkbox">
@@ -158,10 +162,8 @@ export function UserManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
                     <span className={'badge-custom ' + row.status}>{row.status} </span>
                   </TableCell>
                   <TableCell >
-                    <IconButton aria-label="edit" color="success" onClick={() => handleOpenEdit(row)}>
-                      < BorderColorIcon />
-                    </IconButton>
-                    <ConfirmPopover idUser={row._id} fetchUsers={fetchUsers} />
+                    <Actions handleOpenEdit={() => handleOpenEdit(row)} handleRemoveUser={() => handleRemoveUser(row._id)} />
+                    {/* <ConfirmPopover idUser={row._id} fetchUsers={fetchUsers} /> */}
                   </TableCell>
                 </TableRow>
               );
@@ -185,7 +187,32 @@ export function UserManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
 }
 
 
-const ConfirmPopover = ({ idUser, fetchUsers }: { idUser: string, fetchUsers: Function }) => {
+const Actions = ({ handleOpenEdit, handleRemoveUser }: any) => {
+  const [openConfirmDelete, setOpenConfirmDelete] = React.useState(false);
+  const anchorRef = React.useRef<any>(null);
+  return (
+    <>
+      <IconButton aria-label="edit" color="success" onClick={handleOpenEdit}>
+        < BorderColorIcon />
+      </IconButton>
+
+      <IconButton
+        ref={anchorRef}
+        onClick={() => setOpenConfirmDelete(!openConfirmDelete)}
+        color='error'
+      >
+        < DeleteForeverIcon />
+      </IconButton>
+      <ConfirmPopover message='Confirm!'
+        open={openConfirmDelete} setOpen={setOpenConfirmDelete}
+        actionFunc={handleRemoveUser}
+        anchorRef={anchorRef}
+      />
+    </>
+  )
+}
+
+const ConfirmPopodver = ({ idUser, fetchUsers }: { idUser: string, fetchUsers: Function }) => {
 
   const handleRemoveUser = async (event: Event | React.SyntheticEvent) => {
     const resRemove = await userManagerService.removeAdminUser(idUser);

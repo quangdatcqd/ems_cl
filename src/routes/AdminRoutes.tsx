@@ -17,6 +17,7 @@ import { AdminSignIn } from "../pages/auth/Admin/AdminSignIn";
 import { AdminAuthLayout } from "../layouts/Admin/AdminAuthLayout";
 import { ResetPassword } from "../pages/auth/Admin/ResetPassword";
 import { ChangeResetPassword } from "../pages/auth/Admin/ChangeResetPassword";
+import EventFoodRegistration from "../pages/dashboard/Admin/EventFoodRegistration";
 
 const AdminProtectedRoute = () => {
     const { auth } = useAuth();
@@ -29,7 +30,7 @@ const routesForPublicAdmin = [
     {
         path: "*",
         element: <GenericNotFound />,
-    }
+    }, 
 ];
 
 // Define routes accessible only to authenticated users
@@ -49,6 +50,10 @@ const routesForAdminAuthenticatedOnly = [
             {
                 path: paths.admin.dashboard.eventManager,
                 element: <EventManager />
+            },
+            {
+                path: paths.admin.dashboard.eventFoodRegis,
+                element: <EventFoodRegistration />
             },
             {
                 path: paths.admin.dashboard.overview,
@@ -72,10 +77,7 @@ const routesForAdminAuthenticatedOnly = [
         path: paths.admin.sections.sectionRouter,
         element: <RenderSection />
     },
-    {
-        path: paths.admin.website.viewRouter,
-        element: <WebRender />
-    },
+    
     {
         path: paths.admin.website.viewTemplateRouter,
         element: <WebRender />

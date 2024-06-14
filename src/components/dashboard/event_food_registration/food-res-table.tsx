@@ -21,7 +21,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 import toast from 'react-hot-toast';
 import eventService from '../../../services/admin/eventService.service';
-import { EventEditForm } from './event-edit-form';
+import { EventEditForm } from './food-res-edit';
 import { EventDataType } from '../../../types/event';
 import { Link } from 'react-router-dom';
 import { paths } from '../../../paths';
@@ -31,16 +31,16 @@ import { FoodMenu } from './food_manager/food-menu';
 interface EvenManagerTableProps {
   count?: number;
   page?: number;
-  rows?: EventDataType[];
+  rows?: any;
   rowsPerPage?: number;
   isPending: boolean;
-  fetchEvents: Function,
+  fetchFoodRes: Function,
   setSort: Function
 }
 
 
 
-export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage = 0, isPending = false, fetchEvents, setSort }: EvenManagerTableProps): React.JSX.Element {
+export function FoodResTable({ count = 0, rows = [], page = 0, rowsPerPage = 0, isPending = false, fetchFoodRes, setSort }: EvenManagerTableProps): React.JSX.Element {
 
   const [openDlgEdit, setOpenDlgEdit] = React.useState<any>({ open: false, userData: {} });
   const [openDlgMenu, setOpenDlgMenu] = React.useState<any>({ open: false, eventId: null });
@@ -58,7 +58,7 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
       open: false,
       userData: {}
     })
-    fetchEvents();
+    fetchFoodRes();
   };
 
   const handleOpenMenu = (value: string) => { 
@@ -106,16 +106,14 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
                 />
               </TableCell> */}
               <TableCell>Event Name</TableCell>
-              <TableCell>Start Time</TableCell>
-              <TableCell>End Time</TableCell>
-              <TableCell>Location</TableCell>
-              <TableCell>Food </TableCell>
-              <TableCell>Website</TableCell>
+              <TableCell>User Name</TableCell>
+              <TableCell>Time</TableCell> 
+              <TableCell>Food Ordered </TableCell> 
               <TableCell>Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => {
+            {rows.map((row:any) => {
               return (
                 <TableRow hover key={row._id}  >
                   {/* <TableCell padding="checkbox">
@@ -132,19 +130,18 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
                   </TableCell> */}
                   <TableCell>
                     <Stack sx={{ alignItems: 'center' }} direction="row" spacing={2}>
-                      <Typography variant="subtitle2">{row.name}</Typography>
+                      <Typography variant="subtitle2">{row.event.name}</Typography>
                     </Stack>
                   </TableCell>
-                  <TableCell>{dayjs(row.startTime).format('YYYY-MM-DD')}</TableCell>
-                  <TableCell>{dayjs(row.endTime).format('YYYY-MM-DD')}</TableCell>
-                  <TableCell>{row.location}</TableCell>
+                  <TableCell>{row.user.name}</TableCell>
+                  <TableCell>{dayjs(row.createdAt).format('DD MMM YYYY')}</TableCell>
+              
                   <TableCell> <Button onClick={()=>handleOpenMenu(row._id)}>Menu</Button> </TableCell>
-                  <TableCell><Link className='react-link' to={paths.admin.website.setupPath + `/${row._id}`}>editor</Link></TableCell>
                   <TableCell >
                     <IconButton aria-label="edit" color="success" onClick={() => handleOpenEdit(row)}>
                       < BorderColorIcon />
                     </IconButton>
-                    <ConfirmPopover idUser={row._id} fetchEvents={fetchEvents} />
+                    <ConfirmPopover idUser={row._id} fetchFoodRes={fetchFoodRes} />
                   </TableCell>
                 </TableRow>
               );
@@ -188,7 +185,7 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
       >
         <DialogTitle>Food Menu</DialogTitle>
         <DialogContent sx={{ paddingBottom: 0 }}>
-          <FoodMenu eventId={openDlgMenu.eventId}  />
+           
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseMenu}>Close</Button>
@@ -199,14 +196,14 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
 }
 
 
-const ConfirmPopover = ({ idUser, fetchEvents }: { idUser: string, fetchEvents: Function }) => {
+const ConfirmPopover = ({ idUser, fetchFoodRes }: { idUser: string, fetchFoodRes: Function }) => {
 
   const handleRemoveUser = async (event: Event | React.SyntheticEvent) => {
     const resRemove = await eventService.removeEvent(idUser);
     if (resRemove?.data) {
       handleClose(event)
       toast.success("User remove successfully!")
-      fetchEvents();
+      fetchFoodRes();
     } else {
       toast.success(resRemove?.message)
     }

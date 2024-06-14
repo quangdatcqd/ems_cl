@@ -1,10 +1,12 @@
-  
+
 import ClientAuthLayout from "../layouts/Client/ClientAuthLayout";
 import Home from "../pages/Home";
 import { ChangeResetPassword } from "../pages/auth/Client/ChangeResetPassword";
 import ClientSignIn from "../pages/auth/Client/ClientSignIn";
 import ClientSignUp from "../pages/auth/Client/ClientSignUp";
 import ResetPassword from "../pages/auth/Client/ResetPassword";
+import EventRegistration from "../pages/event-registration/EventRegistration";
+import { WebRender } from "../pages/website/RenderWebSite";
 import { pathClient, paths } from "../paths";
 import { useAuth } from "../provider/authProvider";
 import { Navigate, Outlet } from "react-router-dom";
@@ -16,22 +18,22 @@ const ClientProtectedRoute = () => {
     else return <Outlet />;
 };
 
-export const routesForPublicClient = [  
+export const routesForPublicClient = [
     {
         path: pathClient,
-        element: <ClientAuthLayout><Outlet/></ClientAuthLayout>,
-        children: [ 
+        element: <ClientAuthLayout><Outlet /></ClientAuthLayout>,
+        children: [
             {
                 path: paths.client.auth.signIn,
-                element: <ClientSignIn/>
+                element: <ClientSignIn />
             },
             {
                 path: paths.client.auth.signInFBRouter,
-                element: <ClientSignIn/>
+                element: <ClientSignIn />
             },
             {
                 path: paths.client.auth.signUp,
-                element: <ClientSignUp/>
+                element: <ClientSignUp />
             },
             {
                 path: paths.client.auth.resetPassword,
@@ -42,7 +44,12 @@ export const routesForPublicClient = [
                 element: <ChangeResetPassword />,
             },
         ]
-    }
+    },
+    {
+        path: paths.website.viewRouter,
+        element: <WebRender />
+    },
+   
 ];
 
 // Define routes accessible only to authenticated users
@@ -53,12 +60,16 @@ export const routesForClientAuthenticatedOnly = [
         children: [
             {
                 path: "/",
-                element: <Home/>
-            } 
+                element: <Home />
+            }
         ],
+    },
+    {
+        path: paths.website.joinEventRouter,
+        element: <EventRegistration />
     },
 ];
 export const ClientRoutes = () => {
     const { auth } = useAuth();
-    return [...routesForPublicClient,...(auth?.userInfo ? routesForClientAuthenticatedOnly : []) ]
+    return [...routesForPublicClient, ...(auth?.userInfo ? routesForClientAuthenticatedOnly : [])]
 }

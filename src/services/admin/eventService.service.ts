@@ -58,6 +58,16 @@ class EventService {
                 return error.response.data
             });
     }
+
+    async getWebConfigEvent(id?: string) {
+        return axiosClient.get(AdminRoute+`/webconfig/${id}`, {
+            headers: authHeader() })
+            .then((res: any) => {
+                return res.data;
+            }).catch((error: any) => {
+                return error.response.data
+            });
+    }
 }
 
 export default new EventService();

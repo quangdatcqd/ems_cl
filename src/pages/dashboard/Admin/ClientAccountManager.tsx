@@ -60,11 +60,7 @@ export default function ClientAccountManager(): React.JSX.Element {
   }
   return (
     <Stack spacing={2}>
-      <Stack direction="row" spacing={3}>
-        <Button startIcon={<PlusIcon fontSize="var(--icon-fontSize-md)" />} onClick={handleOpenDlg} variant="contained">
-          Add
-        </Button>
-      </Stack>
+      
       <Dialog
         open={openDlg}
         onClose={handleCloseDlg}
