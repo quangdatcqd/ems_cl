@@ -49,6 +49,10 @@ export const routesForPublicClient = [
         path: paths.website.viewRouter,
         element: <WebRender />
     },
+    {
+        path: paths.website.joinEventRouter,
+        element: <EventRegistration />
+    },
    
 ];
 
@@ -63,11 +67,7 @@ export const routesForClientAuthenticatedOnly = [
                 element: <Home />
             }
         ],
-    },
-    {
-        path: paths.website.joinEventRouter,
-        element: <EventRegistration />
-    },
+    }
 ];
 export const ClientRoutes = () => {
     const { auth } = useAuth();

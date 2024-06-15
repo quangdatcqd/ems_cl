@@ -26,7 +26,7 @@ import { EventDataType } from '../../../types/event';
 import { Link } from 'react-router-dom';
 import { paths } from '../../../paths';
 import { FoodMenu } from './food_manager/food-menu';
-
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 interface EvenManagerTableProps {
   count?: number;
@@ -61,8 +61,8 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
     fetchEvents();
   };
 
-  const handleOpenMenu = (value: string) => { 
-    
+  const handleOpenMenu = (value: string) => {
+
     setOpenDlgMenu({
       open: true,
       eventId: value
@@ -72,7 +72,7 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
     setOpenDlgMenu({
       open: false,
       eventId: null
-    }) 
+    })
   };
 
 
@@ -83,6 +83,11 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
   const handlePerPageChange = (e: any) => {
     setSort((sort: any) => ({ ...sort, limit: e.target.value }))
   }
+
+  const copyToClipboard = (eventId:string) => {
+    navigator.clipboard.writeText( paths.WEB_URL + paths.website.viewPath + eventId);
+    toast.success('Copied to clipboard!');
+  };
 
   return (
     <Card>
@@ -115,7 +120,7 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => {
+            {rows.map((row) => { 
               return (
                 <TableRow hover key={row._id}  >
                   {/* <TableCell padding="checkbox">
@@ -138,9 +143,18 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
                   <TableCell>{dayjs(row.startTime).format('YYYY-MM-DD')}</TableCell>
                   <TableCell>{dayjs(row.endTime).format('YYYY-MM-DD')}</TableCell>
                   <TableCell>{row.location}</TableCell>
-                  <TableCell> <Button onClick={()=>handleOpenMenu(row._id)}>Menu</Button> </TableCell>
+                  <TableCell> 
+                      {
+                        row?.useFood===true  ?
+                        <Button onClick={() => handleOpenMenu(row._id)}>Menu</Button>
+                        : "Disabled"
+                      }
+                     </TableCell>
                   <TableCell><Link className='react-link' to={paths.admin.website.setupPath + `/${row._id}`}>editor</Link></TableCell>
-                  <TableCell >
+                  <TableCell > 
+                    <IconButton aria-label="edit" color="success" onClick={() => copyToClipboard(row._id)}>
+                      < ContentCopyIcon />
+                    </IconButton>
                     <IconButton aria-label="edit" color="success" onClick={() => handleOpenEdit(row)}>
                       < BorderColorIcon />
                     </IconButton>
@@ -178,17 +192,17 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
           <Button onClick={handleCloseEdit}>Close</Button>
         </DialogActions>
       </Dialog>
- 
+
       <Dialog
         open={openDlgMenu.open}
         onClose={handleCloseMenu}
         fullWidth={true}
-        maxWidth={"lg"}  
+        maxWidth={"lg"}
         fullScreen={isMobile}
       >
         <DialogTitle>Food Menu</DialogTitle>
         <DialogContent sx={{ paddingBottom: 0 }}>
-          <FoodMenu eventId={openDlgMenu.eventId}  />
+          <FoodMenu eventId={openDlgMenu.eventId} />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseMenu}>Close</Button>
@@ -247,7 +261,7 @@ const ConfirmPopover = ({ idUser, fetchEvents }: { idUser: string, fetchEvents: 
 
   return <>
     <IconButton
-      ref={anchorRef} 
+      ref={anchorRef}
       onClick={handleToggle}
       color='error'
     >

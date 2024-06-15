@@ -3,7 +3,8 @@ export interface EventDataType {
   name: string,
   startTime: string,
   endTime: string,
-  location: string 
+  location: string ,
+  useFood: boolean
 }
 export interface EventResponseType {
   data:EventDataType [];

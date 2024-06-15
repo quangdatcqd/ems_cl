@@ -4,10 +4,11 @@ const ClientRoute = "client/event-participants";
 
 class EventParticipantService {
 
-    async getEventParticipant(eventId: string) {
-        return   axiosClient.get(ClientRoute, {
-            headers: authHeader(),
-            params: { eventId }
+    
+
+    async getUserParticipants(eventId: string) {
+        return   axiosClient.get(ClientRoute+`/${eventId}`, {
+            headers: authHeader() 
         })  .then((res: any) => { 
             return res.data;
         }).catch((error: any) => { 

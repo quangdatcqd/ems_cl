@@ -29,7 +29,7 @@ export default function FoodItem({ item, setDataEdit, onDeleteItem }: TypeProps)
                 />
                 <div className="p-3 pt-2 pb-4">
                     <p className="font-[500] text-slate-500">{item.name}</p>
-                    <p className="font-[500] text-green-700 mt-1">${item.price}.00</p>
+                    <p className="font-[500] text-green-700 mt-1">${item.price}</p>
                     <p className=" text-slate-500 mt-1 text-[12px] text-end italic">Created: {dayjs(item.createdAt).format('YYYY-MM-DD hh:mm')} </p>
                 </div>
                 {/* <CardActions>

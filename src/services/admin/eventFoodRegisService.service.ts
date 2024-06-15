@@ -15,8 +15,19 @@ class EventFoodRegisService {
         });
 
     }
+    async getEventFoodRegis(eventId?: string, userId?: string) {
+        let URL = AdminRoute + `/${eventId}`;
+        if (userId) URL = AdminRoute + `/${eventId}/${userId}`;
 
-    async getEventFoodRegis(eventId?: string) {
+        return axiosClient.get(URL, {
+            headers: authHeader()
+        }).then((res: any) => {
+            return res.data;
+        }).catch((error: any) => {
+            return error.response.data
+        });
+    }
+    async getPublicEventFoodRegis(eventId?: string) {
         return axiosClient.get(AdminRoute + `/${eventId}/public`, {
             headers: authHeader()
         }).then((res: any) => {
@@ -24,10 +35,11 @@ class EventFoodRegisService {
         }).catch((error: any) => {
             return error.response.data
         });
-
     }
-    async createEventFoodRegis(formData: object) { 
-        return axiosClient.post(AdminRoute, formData,  {
+    async createEventFoodRegis(formData: any) {
+        let URL = AdminRoute + `/public`;
+        if (formData?.userId) URL = AdminRoute;
+        return axiosClient.post(URL, formData, {
             headers: authHeader()
         })
             .then((res: any) => {

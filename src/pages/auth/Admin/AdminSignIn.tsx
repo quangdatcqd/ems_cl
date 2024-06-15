@@ -29,10 +29,10 @@ type Values = zod.infer<typeof schema>;
 const defaultValues = { username: '', password: '' } satisfies Values;
 
 export function AdminSignIn(): React.JSX.Element {
-  const router = useNavigate();
+   
   const { auth, setAuth } = useAuth();
-  if (auth) {
-    setInterval(() => router(paths.admin.dashboard.overview), 100)
+  if (auth?.userInfo.type === 'Admin') {
+    setInterval(() => window.location.href=paths.admin.dashboard.overview , 100)
 
   }
 
@@ -55,7 +55,7 @@ export function AdminSignIn(): React.JSX.Element {
       }
       setIsPending(false);
     },
-    [router, setError]
+    [  setError]
 
   );
 

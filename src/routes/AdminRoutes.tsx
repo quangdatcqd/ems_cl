@@ -22,7 +22,7 @@ import EventFoodRegistration from "../pages/dashboard/Admin/EventFoodRegistratio
 const AdminProtectedRoute = () => {
     const { auth } = useAuth();
     // Check if the user is authenticated
-    if (!auth) return <Navigate to={paths.admin.auth.signIn} />;
+    if (auth?.userInfo?.type !== "Admin") return <Navigate to={paths.admin.auth.signIn} />;
     else return <AdminLayout><Outlet /></AdminLayout>;
 };
 
@@ -35,10 +35,12 @@ const routesForPublicAdmin = [
 
 // Define routes accessible only to authenticated users
 const routesForAdminAuthenticatedOnly = [
+     
     {
         path: pathAdmin,
         element: <AdminProtectedRoute />, // Wrap the component in AdminProtectedRoute
         children: [
+
             {
                 path: paths.admin.dashboard.adminAccountManager,
                 element: <AdminAccountManager />
@@ -59,6 +61,7 @@ const routesForAdminAuthenticatedOnly = [
                 path: paths.admin.dashboard.overview,
                 element: <Overview />,
             },
+           
             {
                 path: paths.admin.dashboard.account,
                 element: <Profile />,
@@ -100,31 +103,22 @@ const routesForAdminAuthentication = [
                 path: paths.admin.auth.signIn,
                 element: <AdminSignIn />,
             }
+            ,
+            {
+                path:pathAdmin,
+                element: <AdminSignIn />,
+            }
         ]
     }
 ]
-
-
-
-
-
-
-// Define routes accessible only to non-authenticated users
-//   const routesForNotAuthenticatedOnly = [
-//     {
-//       path: paths.admin.signUp,
-//       element: <AdminSignUp />
-//     }
-//   ];
-
-
-
+ 
 export const AdminRoutes = () => {
     const { auth } = useAuth();
+  
     return [
         // ...(!auth ? routesForNotAuthenticatedOnly : []),
-        ...routesForAdminAuthentication,
+        ...(auth?.userInfo?.type === "Admin" ? routesForAdminAuthenticatedOnly : []),
         ...routesForPublicAdmin,
-        ...(auth?.userInfo?.type === "Admin" ? routesForAdminAuthenticatedOnly : [])
+        ...routesForAdminAuthentication,
     ]
 }

@@ -14,7 +14,7 @@ export function FoodAddItem({ eventId,reloadData }: any) {
 
     const onChange = (value: any, type: string) => {
         if (type === "name") setForm({ ...form, name: value })
-        if (type === "price") setForm({ ...form, price: Number(value) })
+        if (type === "price") setForm({ ...form, price: value })
 
     }
     const onChangeImage = (e: any) => {
@@ -42,7 +42,7 @@ export function FoodAddItem({ eventId,reloadData }: any) {
             setForm({
                 image: null,
                 name: "",
-                price: 0,
+                price: "",
             })
         }else{
             toast.error("Created failed!");
@@ -70,7 +70,7 @@ export function FoodAddItem({ eventId,reloadData }: any) {
 
             <div className="p-3  pb-5 flex flex-col">
                 <input type="text" required onChange={e => onChange(e.target.value, "name")} placeholder="Food Name" value={form.name} className="border-b-2 outline-none focus:border-blue-400 mb-2" />
-                <input type="number" required onChange={e => onChange(e.target.value, "price")} placeholder="Food Price" value={form.price} className="border-b-2 outline-none focus:border-blue-400 mb-3 " />
+                <input type="number" step={0.01} required onChange={e => onChange(e.target.value, "price")} placeholder="Food Price" value={form.price} className="border-b-2 outline-none focus:border-blue-400 mb-3 " />
                 <Button size="small" variant="contained" color="success" onClick={onSubmit}>Add</Button>
             </div>
             {/* <CardActions>

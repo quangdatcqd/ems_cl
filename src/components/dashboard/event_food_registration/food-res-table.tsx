@@ -1,32 +1,23 @@
-
-
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import Divider from '@mui/material/Divider';
-import Stack from '@mui/material/Stack';
+import Collapse from '@mui/material/Collapse';
+import IconButton from '@mui/material/IconButton';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, LinearProgress, TablePagination } from '@mui/material';
+import { Divider } from 'rsuite';
 import dayjs from 'dayjs';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
-// import { useSelection } from '../../../hooks/use-selection';
-import { Button, ClickAwayListener, Dialog, DialogActions, DialogContent, DialogTitle, Grow, IconButton, LinearProgress, MenuItem, MenuList, Paper, Popper, useMediaQuery } from '@mui/material';
-import CheckIcon from '@mui/icons-material/Check';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-
-import toast from 'react-hot-toast';
-import eventService from '../../../services/admin/eventService.service';
-import { EventEditForm } from './food-res-edit';
-import { EventDataType } from '../../../types/event';
-import { Link } from 'react-router-dom';
-import { paths } from '../../../paths';
-import { FoodMenu } from './food_manager/food-menu';
-
+import eventParticipantService from '../../../services/client/eventParticipant.service';
+import PersonPinIcon from '@mui/icons-material/PersonPin'; 
+import FoodMenu from './FoodMenu';
 
 interface EvenManagerTableProps {
   count?: number;
@@ -34,48 +25,77 @@ interface EvenManagerTableProps {
   rows?: any;
   rowsPerPage?: number;
   isPending: boolean;
-  fetchFoodRes: Function,
   setSort: Function
 }
 
+function Row({ row,handleOpenMenu }: any) {
+  const [open, setOpen] = React.useState(false);
+
+  return (
+    <React.Fragment>
+      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+        <TableCell>
+          <IconButton
+            aria-label="expand row"
+            size="small"
+            onClick={() => setOpen(!open)}
+          >
+            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </IconButton>
+        </TableCell>
+        <TableCell component="th" scope="row">
+          {row.name}
+        </TableCell>
+        <TableCell align="right">{dayjs(row.startTime).format('YYYY-MM-DD')}</TableCell>
+        <TableCell align="right">{dayjs(row.endTime).format('YYYY-MM-DD')}</TableCell>
+        <TableCell align="right">{row.location}</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <Box sx={{ margin: 1 }}>
+              <ListUsers eventId={row._id} handleOpenMenu={handleOpenMenu} />
+            </Box>
+          </Collapse>
+        </TableCell>
+      </TableRow>
+    </React.Fragment>
+  );
+}
 
 
-export function FoodResTable({ count = 0, rows = [], page = 0, rowsPerPage = 0, isPending = false, fetchFoodRes, setSort }: EvenManagerTableProps): React.JSX.Element {
+function ListUsers({ eventId,handleOpenMenu }: any) {
+  const [listUsers, setListUsers] = React.useState([])
 
-  const [openDlgEdit, setOpenDlgEdit] = React.useState<any>({ open: false, userData: {} });
+  React.useEffect(() => {
+    const fetchUser = async () => {
+      const users = await eventParticipantService.getUserParticipants(eventId);
+      if (users?.data) setListUsers(users.data)
+    }
+    fetchUser()
+  }, [])
+  return (
+    <div className='  '>
+      <Typography variant="h6" gutterBottom component="div">
+        User ({listUsers?.length})
+      </Typography>
+      <div className='flex gap-5 '>
+        {listUsers?.map((user: any, index: number) => { 
+          return (
+            <div className='p-5 py-3  flex flex-col justify-center items-center bg-white font-bold shadow-lg rounded-xl' key={index}>
+              <PersonPinIcon color='success' sx={{ fontSize: 35 }} />
+              <div className='mb-2 text-center'>{user.user.name}</div>
+              <Button color="success" onClick={()=>handleOpenMenu(eventId,user.user._id)}>View Foods</Button>
+            </div>)
+        })}
+      </div>
+    </div>
+  )
+}
+
+
+export default function FoodResTable({ count = 0, rows = [], page = 0, rowsPerPage = 0, isPending = false, setSort }: EvenManagerTableProps) {
   const [openDlgMenu, setOpenDlgMenu] = React.useState<any>({ open: false, eventId: null });
-  const isMobile = useMediaQuery('(max-width: 600px)');
-
-  const handleOpenEdit = (value: any) => {
-
-    setOpenDlgEdit({
-      open: true,
-      userData: value
-    })
-  };
-  const handleCloseEdit = () => {
-    setOpenDlgEdit({
-      open: false,
-      userData: {}
-    })
-    fetchFoodRes();
-  };
-
-  const handleOpenMenu = (value: string) => { 
-    
-    setOpenDlgMenu({
-      open: true,
-      eventId: value
-    })
-  };
-  const handleCloseMenu = () => {
-    setOpenDlgMenu({
-      open: false,
-      eventId: null
-    }) 
-  };
-
-
   const handlePageChange = (_: React.MouseEvent | null, page: number) => {
     setSort((sort: any) => ({ ...sort, page: page + 1 }))
   }
@@ -84,71 +104,44 @@ export function FoodResTable({ count = 0, rows = [], page = 0, rowsPerPage = 0, 
     setSort((sort: any) => ({ ...sort, limit: e.target.value }))
   }
 
-  return (
-    <Card>
-      {isPending && <LinearProgress />}
+  
+  const handleOpenMenu = (eventId: string,userId:string) => { 
+    
+    setOpenDlgMenu({
+      open: true,
+      eventId: eventId,
+      userId: userId
+    })
+  };
+  const handleCloseMenu = () => {
+    setOpenDlgMenu({
+      open: false,
+      eventId: null,
+      userId: null
+    }) 
+  };
 
-      <Box sx={{ overflowX: 'auto' }}>
-        <Table sx={{ minWidth: '800px' }}>
+  return (
+    <>
+     {isPending && <LinearProgress />}
+      <TableContainer component={Paper}>
+        <Table aria-label="collapsible table">
           <TableHead>
             <TableRow>
-              {/* <TableCell padding="checkbox">
-                <Checkbox
-                  checked={selectedAll}
-                  indeterminate={selectedSome}
-                  onChange={(event) => {
-                    if (event.target.checked) {
-                      selectAll();
-                    } else {
-                      deselectAll();
-                    }
-                  }}
-                />
-              </TableCell> */}
+              <TableCell>Users</TableCell>
               <TableCell>Event Name</TableCell>
-              <TableCell>User Name</TableCell>
-              <TableCell>Time</TableCell> 
-              <TableCell>Food Ordered </TableCell> 
-              <TableCell>Action</TableCell>
+              <TableCell align="right">Start Time</TableCell>
+              <TableCell align="right">End Time</TableCell>
+              <TableCell align="right">Location</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row:any) => {
-              return (
-                <TableRow hover key={row._id}  >
-                  {/* <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={isSelected}
-                      onChange={(event) => {
-                        if (event.target.checked) {
-                          selectOne(row.id);
-                        } else {
-                          deselectOne(row.id);
-                        }
-                      }}
-                    />
-                  </TableCell> */}
-                  <TableCell>
-                    <Stack sx={{ alignItems: 'center' }} direction="row" spacing={2}>
-                      <Typography variant="subtitle2">{row.event.name}</Typography>
-                    </Stack>
-                  </TableCell>
-                  <TableCell>{row.user.name}</TableCell>
-                  <TableCell>{dayjs(row.createdAt).format('DD MMM YYYY')}</TableCell>
-              
-                  <TableCell> <Button onClick={()=>handleOpenMenu(row._id)}>Menu</Button> </TableCell>
-                  <TableCell >
-                    <IconButton aria-label="edit" color="success" onClick={() => handleOpenEdit(row)}>
-                      < BorderColorIcon />
-                    </IconButton>
-                    <ConfirmPopover idUser={row._id} fetchFoodRes={fetchFoodRes} />
-                  </TableCell>
-                </TableRow>
-              );
-            })}
+            {rows.map((row: any) => (
+              <Row key={row.name} row={row} handleOpenMenu={ handleOpenMenu }/>
+            ))}
           </TableBody>
         </Table>
-      </Box>
+      </TableContainer>
       <Divider />
       <TablePagination
         component="div"
@@ -160,130 +153,20 @@ export function FoodResTable({ count = 0, rows = [], page = 0, rowsPerPage = 0, 
         rowsPerPageOptions={[5, 10, 25]}
       />
 
-
-      <Dialog
-        open={openDlgEdit.open}
-        onClose={handleCloseEdit}
-        fullWidth={true}
-        maxWidth={"md"}
-      >
-        <DialogTitle>Modify User</DialogTitle>
-        <DialogContent sx={{ paddingBottom: 0 }}>
-          <EventEditForm eventData={openDlgEdit.userData} handleCloseEdit={handleCloseEdit} />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseEdit}>Close</Button>
-        </DialogActions>
-      </Dialog>
- 
       <Dialog
         open={openDlgMenu.open}
         onClose={handleCloseMenu}
         fullWidth={true}
-        maxWidth={"lg"}  
-        fullScreen={isMobile}
+        maxWidth={"xl"}
       >
         <DialogTitle>Food Menu</DialogTitle>
         <DialogContent sx={{ paddingBottom: 0 }}>
-           
+          <FoodMenu eventId={openDlgMenu.eventId} userId={openDlgMenu.userId}/>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseMenu}>Close</Button>
         </DialogActions>
       </Dialog>
-    </Card>
+    </>
   );
-}
-
-
-const ConfirmPopover = ({ idUser, fetchFoodRes }: { idUser: string, fetchFoodRes: Function }) => {
-
-  const handleRemoveUser = async (event: Event | React.SyntheticEvent) => {
-    const resRemove = await eventService.removeEvent(idUser);
-    if (resRemove?.data) {
-      handleClose(event)
-      toast.success("User remove successfully!")
-      fetchFoodRes();
-    } else {
-      toast.success(resRemove?.message)
-    }
-  };
-  const [open, setOpen] = React.useState(false);
-  const anchorRef = React.useRef<any>(null);
-
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
-  };
-  const handleClose = (event: Event | React.SyntheticEvent) => {
-    if (
-      anchorRef.current &&
-      anchorRef.current.contains(event.target as HTMLElement)
-    ) {
-      return;
-    }
-    setOpen(false);
-  };
-
-  function handleListKeyDown(event: React.KeyboardEvent) {
-    if (event.key === 'Tab') {
-      event.preventDefault();
-      setOpen(false);
-    } else if (event.key === 'Escape') {
-      setOpen(false);
-    }
-  }
-  // return focus to the button when we transitioned from !open -> open
-  const prevOpen = React.useRef(open);
-  React.useEffect(() => {
-    if (prevOpen.current === true && open === false) {
-      anchorRef.current!.focus();
-    }
-
-    prevOpen.current = open;
-  }, [open]);
-
-  return <>
-    <IconButton
-      ref={anchorRef} 
-      onClick={handleToggle}
-      color='error'
-    >
-      < DeleteForeverIcon />
-    </IconButton>
-    <Popper
-      open={open}
-      anchorEl={anchorRef.current}
-      role={undefined}
-      placement="left-start"
-      transition
-      disablePortal
-      sx={{ zIndex: 9999 }}
-    >
-      {({ TransitionProps, placement }) => (
-        <Grow
-          {...TransitionProps} style={{
-            transformOrigin:
-              placement === 'bottom-start' ? 'left top' : 'left bottom',
-          }}
-        >
-          <Paper  >
-            <ClickAwayListener onClickAway={handleClose}>
-              <MenuList
-                autoFocusItem={open}
-                id="composition-menu"
-                aria-labelledby="composition-button"
-                onKeyDown={handleListKeyDown}
-                sx={{ padding: 0 }}
-              >
-                <MenuItem sx={{ padding: 0 }}  >
-                  <Button sx={{ borderRadius: 1 }} color='warning' variant='outlined' onClick={handleRemoveUser} >
-                    <CheckIcon /> Confirm Deletion</Button>
-                </MenuItem>
-              </MenuList>
-            </ClickAwayListener>
-          </Paper>
-        </Grow>
-      )}
-    </Popper>
-  </>
 }

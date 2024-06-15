@@ -11,7 +11,7 @@ export function FoodMenu({ eventId }: any) {
   const [foodDataEdit, setFoodDataEdit] = React.useState<FoodDataType | null>(null);
   const [foodData, setFoodData] = React.useState([]);
   const fetchFood = async () => {
-    const foods = await foodService.getAllFood(eventId);
+    const foods = await foodService.getAllFood(eventId,"userId");
     setFoodData(foods.data);
   }
   React.useEffect(() => { 

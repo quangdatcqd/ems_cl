@@ -7,7 +7,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 import Stack from '@mui/material/Stack';
 import { Controller, useForm } from 'react-hook-form';
 import { z as zod } from 'zod';
-import { Dialog, DialogActions, DialogContent, DialogTitle, Divider, Grid, TextField } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControlLabel, Grid, Switch, TextField } from '@mui/material';
 import eventService from '../../../services/admin/eventService.service';
 import toast from 'react-hot-toast';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -17,10 +17,11 @@ const schema = zod.object({
   startTime: zod.string().min(1, { message: 'Start time is required' }),
   endTime: zod.string().min(1, { message: 'End time is required' }),
   location: zod.string().min(1, { message: 'Location is required' }),
+  useFood: zod.boolean()
 })
 type Values = zod.infer<typeof schema>;
 
-const defaultValues = { name: '', startTime: '', endTime: '', location: '' } satisfies Values;
+const defaultValues = { name: '', startTime: '', endTime: '', location: '', useFood: false } satisfies Values;
 
 interface EventCreateFormProps {
   openDlg: boolean,
@@ -46,8 +47,7 @@ export function EventCreateForm({ openDlg, handleCloseDlg }: EventCreateFormProp
     setIsPending(false);
   },
     [setError]
-  );
-
+  ); 
   return (
 
     <Dialog
@@ -115,6 +115,18 @@ export function EventCreateForm({ openDlg, handleCloseDlg }: EventCreateFormProp
                   )}
                 />
               </Grid>
+              <Grid md={6} xs={12} item={true}>
+                <Controller
+                  control={control}
+                  name="endTime"
+                  render={() => (
+                    <FormControl fullWidth={true} error={Boolean(errors.useFood)} >
+                      <FormControlLabel control={<Switch   defaultChecked={Boolean(defaultValues.useFood)}  onChange={(value) => setValue("useFood",value.target.checked)} name="useFood" />  } label="Use Food " />
+                      
+                    </FormControl>
+                  )}
+                />
+              </Grid>
               {errors.root ? <Grid xs={12} item={true}><Alert color="error">{errors.root.message}</Alert>  </Grid> : null}
               <Grid xs={12} item={true}>
                 <Grid container spacing={1}>
@@ -130,6 +142,7 @@ export function EventCreateForm({ openDlg, handleCloseDlg }: EventCreateFormProp
                   </Grid>
                 </Grid>
               </Grid>
+              
             </Grid>
           </Stack>
         </form>

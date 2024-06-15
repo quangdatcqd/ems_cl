@@ -21,3 +21,16 @@ export function generateNonce() {
       return v.toString(16);
     });
   }
+
+
+  export function setRedirectUrl(url:string) {
+    return localStorage.setItem('redirectUrl',url)
+  }
+
+  export function getRedirectUrl( ) {
+    return localStorage.getItem('redirectUrl')
+  }
+
+  export function removeRedirectUrl( ) {
+    return localStorage.removeItem('redirectUrl')
+  }

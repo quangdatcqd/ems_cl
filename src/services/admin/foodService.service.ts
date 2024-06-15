@@ -4,8 +4,10 @@ import axiosClient from "../axiosClient"
 const AdminRoute = "admin/event-foods";
 
 class FoodService {
-    async getAllFood(eventId: string) {
-        return axiosClient.get(AdminRoute + `/${eventId}`, {
+    async getAllFood(eventId: string, userId?: string) {
+        let URL =  AdminRoute + `/${eventId}`;;
+        if (!userId) URL =AdminRoute + `/${eventId}/public`;
+        return axiosClient.get(URL, {
             headers: authHeader()
         }).then((res: any) => {
             return res.data;
@@ -15,16 +17,16 @@ class FoodService {
 
     }
 
-    async getPublicFood(eventId: string) {
-        return axiosClient.get(AdminRoute + `/${eventId}/public`, {
-            headers: authHeader()
-        }).then((res: any) => {
-            return res.data;
-        }).catch((error: any) => {
-            return error.response.data
-        });
+    // async getPublicFood(eventId: string) {
+    //     return axiosClient.get(AdminRoute + `/${eventId}/public`, {
+    //         headers: authHeader()
+    //     }).then((res: any) => {
+    //         return res.data;
+    //     }).catch((error: any) => {
+    //         return error.response.data
+    //     });
 
-    }
+    // }
     async createFood(formData: object) { 
         return axiosClient.post(AdminRoute, formData, {
             headers: {

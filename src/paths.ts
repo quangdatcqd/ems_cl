@@ -37,7 +37,7 @@ export const paths = {
     auth: {
       signIn: pathClient + '/sign-in',
       signInFBRouter: pathClient + '/sign-in/:userData',
-      signFBPath: 'http://localhost:3000/client/auth/facebook/login',
+      signFBPath: 'http://localhost:3000/client/auth/facebook/redirect',
       signUp: pathClient + '/sign-up',
       resetPassword: pathClient + '/reset-password',
       changePassword: pathClient + '/reset-password/:userId/:code'
@@ -45,6 +45,7 @@ export const paths = {
     home: '/',
    
   },
+  WEB_URL: import.meta.env.VITE_WEB_URL,
   imagePath: import.meta.env.VITE_SERVER_URL + "/images/", 
   website: {
     viewRouter: '/website/:id',
