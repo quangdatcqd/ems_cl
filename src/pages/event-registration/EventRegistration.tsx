@@ -46,7 +46,7 @@ export default function EventRegistration() {
     }
 
     const getEventInfo = async () => {
-        const event = await eventService.getEventByID(params.eventId)
+        const event = await eventService.getEventByID(params.eventId,true)
         if (event?.data) {
             setEventData(event?.data)
         }

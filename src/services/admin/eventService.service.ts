@@ -22,8 +22,10 @@ class EventService {
             });
 
     }
-    async getEventByID(id?: string) { 
-        return axiosClient.get(AdminRoute+"/"+id, {
+    async getEventByID(id?: string, clientRequest: boolean = false) { 
+        let URL = AdminRoute + `/${id}`;
+        if (clientRequest) URL = AdminRoute + `/${id}/public`; 
+        return axiosClient.get(URL, {
             headers: authHeader() })
             .then((res: any) => {
                 return res.data;
@@ -32,6 +34,7 @@ class EventService {
             });
 
     }
+ 
     async createEvent(formData: object) {
         return axiosClient.post(AdminRoute, formData, { headers: authHeader() })
             .then((res: any) => {
