@@ -7,7 +7,7 @@ import ClientSignUp from "../pages/auth/Client/ClientSignUp";
 import ResetPassword from "../pages/auth/Client/ResetPassword";
 import EventRegistration from "../pages/event-registration/EventRegistration";
 import { WebRender } from "../pages/website/RenderWebSite";
-import { pathClient, paths } from "../paths";
+import {   paths } from "../paths";
 import { useAuth } from "../provider/authProvider";
 import { Navigate, Outlet } from "react-router-dom";
 
