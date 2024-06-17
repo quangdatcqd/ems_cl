@@ -20,9 +20,13 @@ const ClientProtectedRoute = () => {
 
 export const routesForPublicClient = [
     {
-        path: pathClient,
+        path: "/",
         element: <ClientAuthLayout><Outlet /></ClientAuthLayout>,
         children: [
+            {
+                path: "/",
+                element: <ClientSignIn />
+            },
             {
                 path: paths.client.auth.signIn,
                 element: <ClientSignIn />
