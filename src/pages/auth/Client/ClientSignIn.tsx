@@ -16,7 +16,7 @@ import { paths } from '../../../paths';
 import FacebookTwoToneIcon from '@mui/icons-material/FacebookTwoTone';
 import { CircularProgress } from '@mui/material';
 import clientAuthService from '../../../services/clientAuth.service';
-import { generateNonce, getLocalStorage, getRedirectUrl, removeRedirectUrl } from '../../../helpers/common.helper';
+import { generateNonce, getRedirectUrl, removeRedirectUrl } from '../../../helpers/common.helper';
 const schema = zod.object({
   username: zod.string().min(1, 'Username is required'),
   password: zod.string().min(8, "Password is too short - should be 8 chars minimum"),

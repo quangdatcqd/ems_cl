@@ -15,7 +15,7 @@ import { EyeSlash as EyeSlashIcon } from '@phosphor-icons/react/dist/ssr/EyeSlas
 import { Controller, useForm } from 'react-hook-form';
 import { z as zod } from 'zod';
 
-import { Link, useNavigate } from 'react-router-dom';
+import { Link  } from 'react-router-dom';
 import { useAuth } from '../../../provider/authProvider';
 import { paths } from '../../../paths';
 import adminAuthService from '../../../services/adminAuth.service';

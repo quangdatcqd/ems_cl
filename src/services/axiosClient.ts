@@ -1,6 +1,4 @@
-import axios from 'axios'; 
-import { paths } from '../paths';
-
+import axios from 'axios';  
 // Tạo một instance của Axios
 const axiosClient = axios.create({ baseURL: "http://localhost:3000/" ,withCredentials :true});
 

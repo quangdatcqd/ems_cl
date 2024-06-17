@@ -1,17 +1,14 @@
 
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link,   useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import eventService from '../../services/admin/eventService.service';
 import { WebConfigType } from '../../context/webEditorContext';
 import { WebComponents } from '../../components/website/components/WebComponent';
-import { NavTemplates } from '../../components/website/components/WebTemplates';
-import eventParticipantService from '../../services/client/eventParticipant.service';
-import toast from 'react-hot-toast';
+import { NavTemplates } from '../../components/website/components/WebTemplates'; 
 import { paths } from '../../paths';
 
 export function WebRender() {
-    const params = useParams();
-    const navigator = useNavigate();
+    const params = useParams(); 
     const [webConfig, setWebConfig] = useState<WebConfigType[]>();
 
 

@@ -1,8 +1,6 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
-import { Plus as PlusIcon } from '@phosphor-icons/react/dist/ssr/Plus';
- 
+import Stack from '@mui/material/Stack'; 
 import { UserManagerTable } from '../../../components/dashboard/users_manager/user-manager-table';
 import UserManagerService from '../../../services/admin/userManager.service';
 import DialogActions from '@mui/material/DialogActions';
@@ -55,9 +53,7 @@ export default function ClientAccountManager(): React.JSX.Element {
     fetchUsers();
     setOpenDlg(false)
   }
-  const handleOpenDlg = () => {
-    setOpenDlg(true)
-  }
+  
   return (
     <Stack spacing={2}>
       

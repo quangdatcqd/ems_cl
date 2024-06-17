@@ -15,8 +15,8 @@ import Typography from '@mui/material/Typography';
 import dayjs from 'dayjs';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 // import { useSelection } from '../../../hooks/use-selection';
-import { Button, ClickAwayListener, Dialog, DialogActions, DialogContent, DialogTitle, Grow, IconButton, LinearProgress, MenuItem, MenuList, Paper, Popper } from '@mui/material';
-import CheckIcon from '@mui/icons-material/Check';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle,   IconButton, LinearProgress  } from '@mui/material';
+ 
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import "./users_manager.css"
 import { EditForm } from './edit-form';
@@ -212,98 +212,98 @@ const Actions = ({ handleOpenEdit, handleRemoveUser }: any) => {
   )
 }
 
-const ConfirmPopodver = ({ idUser, fetchUsers }: { idUser: string, fetchUsers: Function }) => {
+// const ConfirmPopodver = ({ idUser, fetchUsers }: { idUser: string, fetchUsers: Function }) => {
 
-  const handleRemoveUser = async (event: Event | React.SyntheticEvent) => {
-    const resRemove = await userManagerService.removeAdminUser(idUser);
-    if (resRemove?.data) {
-      handleClose(event)
-      toast.success("User remove successfully!")
-      fetchUsers();
-    } else {
-      toast.success(resRemove?.message)
-    }
-  };
-  const [open, setOpen] = React.useState(false);
-  const anchorRef = React.useRef<HTMLButtonElement>(null);
+//   const handleRemoveUser = async (event: Event | React.SyntheticEvent) => {
+//     const resRemove = await userManagerService.removeAdminUser(idUser);
+//     if (resRemove?.data) {
+//       handleClose(event)
+//       toast.success("User remove successfully!")
+//       fetchUsers();
+//     } else {
+//       toast.success(resRemove?.message)
+//     }
+//   };
+//   const [open, setOpen] = React.useState(false);
+//   const anchorRef = React.useRef<HTMLButtonElement>(null);
 
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
-  };
-  const handleClose = (event: Event | React.SyntheticEvent) => {
-    if (
-      anchorRef.current &&
-      anchorRef.current.contains(event.target as HTMLElement)
-    ) {
-      return;
-    }
-    setOpen(false);
-  };
+//   const handleToggle = () => {
+//     setOpen((prevOpen) => !prevOpen);
+//   };
+//   const handleClose = (event: Event | React.SyntheticEvent) => {
+//     if (
+//       anchorRef.current &&
+//       anchorRef.current.contains(event.target as HTMLElement)
+//     ) {
+//       return;
+//     }
+//     setOpen(false);
+//   };
 
-  function handleListKeyDown(event: React.KeyboardEvent) {
-    if (event.key === 'Tab') {
-      event.preventDefault();
-      setOpen(false);
-    } else if (event.key === 'Escape') {
-      setOpen(false);
-    }
-  }
-  // return focus to the button when we transitioned from !open -> open
-  const prevOpen = React.useRef(open);
-  React.useEffect(() => {
-    if (prevOpen.current === true && open === false) {
-      anchorRef.current!.focus();
-    }
+//   function handleListKeyDown(event: React.KeyboardEvent) {
+//     if (event.key === 'Tab') {
+//       event.preventDefault();
+//       setOpen(false);
+//     } else if (event.key === 'Escape') {
+//       setOpen(false);
+//     }
+//   }
+//   // return focus to the button when we transitioned from !open -> open
+//   const prevOpen = React.useRef(open);
+//   React.useEffect(() => {
+//     if (prevOpen.current === true && open === false) {
+//       anchorRef.current!.focus();
+//     }
 
-    prevOpen.current = open;
-  }, [open]);
+//     prevOpen.current = open;
+//   }, [open]);
 
-  return <>
-    <IconButton
-      ref={anchorRef}
-      id="composition-button"
-      aria-controls={open ? 'composition-menu' : undefined}
-      aria-expanded={open ? 'true' : undefined}
-      aria-haspopup="true"
-      onClick={handleToggle}
-      color='error'
-    >
-      < DeleteForeverIcon />
-    </IconButton>
-    <Popper
-      open={open}
-      anchorEl={anchorRef.current}
-      role={undefined}
-      placement="left-start"
-      transition
-      disablePortal
-      sx={{ zIndex: 9999 }}
-    >
-      {({ TransitionProps, placement }) => (
-        <Grow
-          {...TransitionProps} style={{
-            transformOrigin:
-              placement === 'bottom-start' ? 'left top' : 'left bottom',
-          }}
-        >
-          <Paper  >
-            <ClickAwayListener onClickAway={handleClose}>
-              <MenuList
-                autoFocusItem={open}
-                id="composition-menu"
-                aria-labelledby="composition-button"
-                onKeyDown={handleListKeyDown}
-                sx={{ padding: 0 }}
-              >
-                <MenuItem sx={{ padding: 0 }}  >
-                  <Button sx={{ borderRadius: 1 }} color='warning' variant='outlined' onClick={handleRemoveUser} >
-                    <CheckIcon /> Confirm Deletion</Button>
-                </MenuItem>
-              </MenuList>
-            </ClickAwayListener>
-          </Paper>
-        </Grow>
-      )}
-    </Popper>
-  </>
-}
+//   return <>
+//     <IconButton
+//       ref={anchorRef}
+//       id="composition-button"
+//       aria-controls={open ? 'composition-menu' : undefined}
+//       aria-expanded={open ? 'true' : undefined}
+//       aria-haspopup="true"
+//       onClick={handleToggle}
+//       color='error'
+//     >
+//       < DeleteForeverIcon />
+//     </IconButton>
+//     <Popper
+//       open={open}
+//       anchorEl={anchorRef.current}
+//       role={undefined}
+//       placement="left-start"
+//       transition
+//       disablePortal
+//       sx={{ zIndex: 9999 }}
+//     >
+//       {({ TransitionProps, placement }) => (
+//         <Grow
+//           {...TransitionProps} style={{
+//             transformOrigin:
+//               placement === 'bottom-start' ? 'left top' : 'left bottom',
+//           }}
+//         >
+//           <Paper  >
+//             <ClickAwayListener onClickAway={handleClose}>
+//               <MenuList
+//                 autoFocusItem={open}
+//                 id="composition-menu"
+//                 aria-labelledby="composition-button"
+//                 onKeyDown={handleListKeyDown}
+//                 sx={{ padding: 0 }}
+//               >
+//                 <MenuItem sx={{ padding: 0 }}  >
+//                   <Button sx={{ borderRadius: 1 }} color='warning' variant='outlined' onClick={handleRemoveUser} >
+//                     <CheckIcon /> Confirm Deletion</Button>
+//                 </MenuItem>
+//               </MenuList>
+//             </ClickAwayListener>
+//           </Paper>
+//         </Grow>
+//       )}
+//     </Popper>
+//   </>
+// }
