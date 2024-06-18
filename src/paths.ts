@@ -1,6 +1,11 @@
+const WEB_URL = "http://localhost:5173"
+const SERVER_URL = "http://localhost:3000"
+
 
 export const pathAdmin = "/admin";
 export const pathClient = "/auth";
+export const  GOOGLE_CLIENT_ID= ""; 
+
 export const paths = {
   admin: {
     auth: {
@@ -26,7 +31,7 @@ export const paths = {
       viewRouter: pathAdmin + '/website/:id',
       viewPath: pathAdmin + '/website/',
       viewTemplateRouter: pathAdmin + '/website-demo/:template',
-      viewTemplatePath: pathAdmin + '/website-demo/', 
+      viewTemplatePath: pathAdmin + '/website-demo/',
     },
     sections: {
       sectionRouter: pathAdmin + '/section/:id',
@@ -37,19 +42,20 @@ export const paths = {
     auth: {
       signIn: pathClient + '/sign-in',
       signInFBRouter: pathClient + '/sign-in/:userData',
-      signFBPath: 'http://localhost:3000/client/auth/facebook/redirect',
+      signFBPath: SERVER_URL + '/client/auth/facebook/redirect',
       signUp: pathClient + '/sign-up',
       resetPassword: pathClient + '/reset-password',
       changePassword: pathClient + '/reset-password/:userId/:code'
     },
     home: '/',
-   
+
   },
-  WEB_URL: import.meta.env.VITE_WEB_URL,
-  imagePath: import.meta.env.VITE_SERVER_URL + "/images/", 
+  SERVER_URL: SERVER_URL,
+  WEB_URL: WEB_URL,
+  imagePath: SERVER_URL + "/images/",
   website: {
     viewRouter: '/website/:id',
-    viewPath:   '/website/', 
+    viewPath: '/website/',
     joinEventRouter: '/website/join-event/:eventId',
     joinEventPath: '/website/join-event/',
   },

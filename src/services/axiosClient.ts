@@ -1,7 +1,7 @@
 import axios from 'axios';  
 import { paths } from '../paths';
 // Tạo một instance của Axios
-const axiosClient = axios.create({ baseURL: "http://localhost:3000/" ,withCredentials :true});
+const axiosClient = axios.create({ baseURL: paths.SERVER_URL ,withCredentials :true});
 
 // Thiết lập interceptor
 axiosClient.interceptors.response.use(
@@ -13,7 +13,7 @@ axiosClient.interceptors.response.use(
     // Xử lý các lỗi
     if (error.response.status === 401) { 
       // Chuyển hướng đến trang đăng nhập
-      alert("Unauthorized login please!")
+      // alert("Unauthorized login please!")
       localStorage.removeItem("auth")
       window.location.href= paths.client.auth.signIn 
     } 

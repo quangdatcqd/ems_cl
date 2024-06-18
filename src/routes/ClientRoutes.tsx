@@ -7,7 +7,7 @@ import ClientSignUp from "../pages/auth/Client/ClientSignUp";
 import ResetPassword from "../pages/auth/Client/ResetPassword";
 import EventRegistration from "../pages/event-registration/EventRegistration";
 import { WebRender } from "../pages/website/RenderWebSite";
-import {   paths } from "../paths";
+import {   pathClient, paths } from "../paths";
 import { useAuth } from "../provider/authProvider";
 import { Navigate, Outlet } from "react-router-dom";
 
@@ -20,13 +20,9 @@ const ClientProtectedRoute = () => {
 
 export const routesForPublicClient = [
     {
-        path: "/",
+        path: pathClient,
         element: <ClientAuthLayout><Outlet /></ClientAuthLayout>,
-        children: [
-            {
-                path: "/",
-                element: <ClientSignIn />
-            },
+        children: [ 
             {
                 path: paths.client.auth.signIn,
                 element: <ClientSignIn />

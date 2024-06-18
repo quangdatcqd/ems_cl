@@ -1,4 +1,4 @@
-import {  useNavigate } from "react-router-dom";
+import {  Navigate, useNavigate } from "react-router-dom";
 
 import Lottie from "lottie-react";
 import NotFound from "../assets/animated/NotFound.json";
@@ -6,7 +6,8 @@ import { paths } from "../paths";
 
 const GenericNotFound = () => {
   const navigate = useNavigate(); 
-  // if(location.pathname.includes('admin')) return  <Navigate to={paths.admin.auth.signIn} />
+  if(location.pathname.includes('admin')) return  <Navigate to={paths.admin.auth.signIn} />
+  else  return  <Navigate to={paths.client.auth.signIn} />
  
   return (
     <div className="h-screen flex flex-row text-center items-center">
