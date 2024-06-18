@@ -3,10 +3,12 @@ import {  Navigate, useNavigate } from "react-router-dom";
 import Lottie from "lottie-react";
 import NotFound from "../assets/animated/NotFound.json";
 import { paths } from "../paths"; 
+import { useAuth } from "../provider/authProvider";
 
 const GenericNotFound = () => {
   const navigate = useNavigate(); 
-  if(location.pathname.includes('admin')) return  <Navigate to={paths.admin.auth.signIn} />
+  const {auth} = useAuth()
+  if(location.pathname.includes('admin') && auth?.userInfo?.type !== "Admin") return  <Navigate to={paths.admin.auth.signIn} />
   else  return  <Navigate to={paths.client.auth.signIn} />
  
   return (
