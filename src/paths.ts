@@ -24,6 +24,7 @@ export const paths = {
       clientAccountManager: pathAdmin + '/dashboard/client-account-manager',
       eventManager: pathAdmin + '/dashboard/event-manager',
       eventFoodRegis: pathAdmin + '/dashboard/event-food-regis',
+      eventRegis: pathAdmin + '/dashboard/event-regis',
     },
     website: {
       setupRouter: pathAdmin + '/website/setup/:id',

@@ -84,7 +84,7 @@ export default function EventRegistration() {
     }, [])
 
     return (<div>
-        <div className="m-w-[1200px] mx-auto  mt-5 px-5 "> 
+        <div className="m-w-[1200px] mx-auto  mt-5 px-5 ">
             <div className="mt-5 flex flex-col justify-center items-start md:max-w-[600px] m-auto  font-bold  ">
                 <div className="flex w-full justify-center items-center">
                     <EmojiEventsIcon sx={{ color: 'orange', fontSize: 40, borderRadius: '50%', border: '3px solid orange' }} />
@@ -187,7 +187,7 @@ function FormRegistration({ checkEventParticipant, eventData, seatsSelected }: {
         } else if (eventPartRs?.statusCode === 401) {
             setRedirectUrl(import.meta.env.VITE_WEB_URL + paths.website.joinEventPath + eventData._id)
             navigator(paths.client.auth.signIn)
-        }else  {
+        } else {
             toast.error(eventPartRs?.message, { position: "top-right" });
         }
     },

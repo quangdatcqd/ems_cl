@@ -1,14 +1,14 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import { Plus as PlusIcon } from '@phosphor-icons/react/dist/ssr/Plus'; 
+import { Plus as PlusIcon } from '@phosphor-icons/react/dist/ssr/Plus';
 import { EventManagerFilter } from '../../../components/dashboard/event_manager/event-manager-filter';
 import { EvenManagerTable } from '../../../components/dashboard/event_manager/event-manager-table';
 import { EventCreateForm } from '../../../components/dashboard/event_manager/event-create-form';
 import eventService from '../../../services/admin/eventService.service';
-import {  EventResponseType } from '../../../interface/event';
+import { EventResponseType } from '../../../interface/event';
 
- 
+
 export default function AccountManager(): React.JSX.Element {
   const initialValues = {
     data: [],
@@ -44,13 +44,14 @@ export default function AccountManager(): React.JSX.Element {
   }
   return (
     <Stack spacing={2}>
-      <Stack direction="row" spacing={3}>
+      <div className='flex justify-start gap-10'>
+        <EventManagerFilter setSort={setSort} />
         <Button startIcon={<PlusIcon fontSize="var(--icon-fontSize-md)" />} onClick={handleOpenDlg} variant="contained">
           Add
         </Button>
-      </Stack> 
+      </div>
       <EventCreateForm openDlg={openDlg} handleCloseDlg={handleCloseDlg} />
-      <EventManagerFilter setSort={setSort} />
+
       <EvenManagerTable
         fetchEvents={fetchEvents}
         count={eventData?.metadata?.count}

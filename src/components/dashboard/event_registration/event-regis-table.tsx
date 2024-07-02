@@ -8,16 +8,18 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Typography from '@mui/material/Typography';
+import ChairAltIcon from '@mui/icons-material/ChairAlt';
+import ContactEmergencyIcon from '@mui/icons-material/ContactEmergency';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, LinearProgress, TablePagination } from '@mui/material';
+import TransgenderIcon from '@mui/icons-material/Transgender';
+
+import { LinearProgress, TablePagination } from '@mui/material';
 import { Divider } from 'rsuite';
 import dayjs from 'dayjs';
 import eventParticipantService from '../../../services/client/eventParticipant.service';
-import PersonPinIcon from '@mui/icons-material/PersonPin';
-import FoodMenu from './FoodMenu';
+
 
 interface EvenManagerTableProps {
   count?: number;
@@ -28,7 +30,7 @@ interface EvenManagerTableProps {
   setSort: Function
 }
 
-function Row({ row, handleOpenMenu }: any) {
+function Row({ row }: any) {
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -54,7 +56,7 @@ function Row({ row, handleOpenMenu }: any) {
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
-              <ListUsers eventId={row._id} handleOpenMenu={handleOpenMenu} />
+              <ListUsers eventId={row._id} />
             </Box>
           </Collapse>
         </TableCell>
@@ -64,7 +66,7 @@ function Row({ row, handleOpenMenu }: any) {
 }
 
 
-function ListUsers({ eventId, handleOpenMenu }: any) {
+function ListUsers({ eventId }: any) {
   const [listUsers, setListUsers] = React.useState([])
 
   React.useEffect(() => {
@@ -76,26 +78,62 @@ function ListUsers({ eventId, handleOpenMenu }: any) {
   }, [])
   return (
     <div className='  '>
-      <Typography variant="h6" gutterBottom component="div">
+      <p className='mb-1'>
         User Joined ({listUsers?.length})
-      </Typography>
-      <div className='flex gap-5'>
+      </p>
+      <div className='grid  sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3'> 
         {listUsers?.map((user: any, index: number) => {
-          return (
-            <div className='p-5 py-3  flex flex-col justify-center items-center bg-white font-bold shadow-lg rounded-xl' key={index}>
-              <PersonPinIcon color='success' sx={{ fontSize: 35 }} />
-              <div className='mb-2 text-center'>{user.user.name}</div>
-              <Button color="success" onClick={() => handleOpenMenu(eventId, user.user._id)}>View Foods</Button>
-            </div>)
+          if (!user?.onWaitlist)
+            return (
+              <div className=' p-2 font-[500] px-3 border-2 border-[#fed995] border-dashed  bg-[#fff8ebb3]   rounded-xl text-slate-500' key={index}>
+                {/* <PersonPinIcon color='success' sx={{ fontSize: 35 }} /> */}
+                <p className='mt-0'>
+                  <ContactEmergencyIcon sx={{ fontSize: 18, color: "gray", marginTop: "-5px", marginRight: "5px" }} />
+                  <span className=''>{user.user.name}</span>
+                </p>
+                <p className="mt-0 italic text-slate-500  ">
+                  <TransgenderIcon sx={{ fontSize: 18, color: "gray", marginTop: "-5px", marginRight: "5px" }} />
+                  <span>{user.gender}</span>
+                </p>
+                <p className='mt-0'>
+                  <ChairAltIcon sx={{ fontSize: 18, color: "gray", marginTop: "-5px", marginRight: "5px" }} />
+                  <span className=''>{user.seat}</span>
+                </p>
+
+              </div>)
         })}
-      </div> 
+      </div>
+      <p className='mb-1 mt-4'>
+        Wait List:
+      </p>
+      <div className='grid  sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3'>
+        {listUsers?.map((user: any, index: number) => {
+          if (user?.onWaitlist)
+            return (
+              <div className=' p-2 font-[500] px-3 border-2 border-[#fed995] border-dashed  bg-[#fff8eb9a]   rounded-xl text-slate-500' key={index}>
+                {/* <PersonPinIcon color='success' sx={{ fontSize: 35 }} /> */}
+                <p className='mt-0'>
+                  <ContactEmergencyIcon sx={{ fontSize: 18, color: "gray", marginTop: "-5px", marginRight: "5px" }} />
+                  <span className=''>{user.user.name}</span>
+                </p>
+                <p className="mt-0 italic text-slate-500  ">
+                  <TransgenderIcon sx={{ fontSize: 18, color: "gray", marginTop: "-5px", marginRight: "5px" }} />
+                  <span>{user.gender}</span>
+                </p>
+                <p className='mt-0'>
+                  <ChairAltIcon sx={{ fontSize: 18, color: "gray", marginTop: "-5px", marginRight: "5px" }} />
+                  <span className=''>{user.seat}</span>
+                </p>
+
+              </div>)
+        })}
+      </div>
     </div>
   )
 }
 
 
-export default function FoodResTable({ count = 0, rows = [], page = 0, rowsPerPage = 0, isPending = false, setSort }: EvenManagerTableProps) {
-  const [openDlgMenu, setOpenDlgMenu] = React.useState<any>({ open: false, eventId: null });
+export default function EventResTable({ count = 0, rows = [], page = 0, rowsPerPage = 0, isPending = false, setSort }: EvenManagerTableProps) {
   const handlePageChange = (_: React.MouseEvent | null, page: number) => {
     setSort((sort: any) => ({ ...sort, page: page + 1 }))
   }
@@ -105,22 +143,6 @@ export default function FoodResTable({ count = 0, rows = [], page = 0, rowsPerPa
   }
 
 
-  const handleOpenMenu = (eventId: string, userId: string) => {
-
-    setOpenDlgMenu({
-      open: true,
-      eventId: eventId,
-      userId: userId
-    })
-  };
-  const handleCloseMenu = () => {
-    setOpenDlgMenu({
-      open: false,
-      eventId: null,
-      userId: null
-    })
-  };
-
   return (
     <>
       {isPending && <LinearProgress />}
@@ -128,7 +150,7 @@ export default function FoodResTable({ count = 0, rows = [], page = 0, rowsPerPa
         <Table aria-label="collapsible table">
           <TableHead>
             <TableRow>
-              <TableCell>Collapse</TableCell>
+              <TableCell>Users</TableCell>
               <TableCell>Event Name</TableCell>
               <TableCell align="right">Start Time</TableCell>
               <TableCell align="right">End Time</TableCell>
@@ -137,7 +159,7 @@ export default function FoodResTable({ count = 0, rows = [], page = 0, rowsPerPa
           </TableHead>
           <TableBody>
             {rows.map((row: any) => (
-              <Row key={row.name} row={row} handleOpenMenu={handleOpenMenu} />
+              <Row key={row.name} row={row} />
             ))}
           </TableBody>
         </Table>
@@ -152,21 +174,6 @@ export default function FoodResTable({ count = 0, rows = [], page = 0, rowsPerPa
         rowsPerPage={rowsPerPage}
         rowsPerPageOptions={[5, 10, 25]}
       />
-
-      <Dialog
-        open={openDlgMenu.open}
-        onClose={handleCloseMenu}
-        fullWidth={true}
-        maxWidth={"xl"}
-      >
-        <DialogTitle>Food Menu</DialogTitle>
-        <DialogContent sx={{ paddingBottom: 0 }}>
-          <FoodMenu eventId={openDlgMenu.eventId} userId={openDlgMenu.userId} />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseMenu}>Close</Button>
-        </DialogActions>
-      </Dialog>
     </>
   );
 }

@@ -24,8 +24,8 @@ interface UserType {
       createdAt: string
     }
   }
-} 
-export default function AdminAccountManager(): React.JSX.Element { 
+}
+export default function AdminAccountManager(): React.JSX.Element {
   const initialValues = {
     data: [],
     metadata: {
@@ -48,8 +48,8 @@ export default function AdminAccountManager(): React.JSX.Element {
     setUserData(users)
     setIsPending(false)
   }
-  React.useEffect(() => { 
-    fetchUsers(); 
+  React.useEffect(() => {
+    fetchUsers();
   }, [sort])
   const handleCloseDlg = () => {
     fetchUsers();
@@ -60,11 +60,12 @@ export default function AdminAccountManager(): React.JSX.Element {
   }
   return (
     <Stack spacing={2}>
-      <Stack direction="row" spacing={3}>
+      <div  className='flex justify-start gap-10 items-center'>
+        <AdminUserManagerFilter setSort={setSort} />
         <Button startIcon={<PlusIcon fontSize="var(--icon-fontSize-md)" />} onClick={handleOpenDlg} variant="contained">
           Add
         </Button>
-      </Stack>
+      </div>
       <Dialog
         open={openDlg}
         onClose={handleCloseDlg}
@@ -80,7 +81,7 @@ export default function AdminAccountManager(): React.JSX.Element {
         </DialogActions>
       </Dialog>
 
-      <AdminUserManagerFilter setSort={setSort} />
+
       <UserManagerTable
         fetchUsers={fetchUsers}
         count={userData.metadata.count}

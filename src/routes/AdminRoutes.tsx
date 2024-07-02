@@ -18,6 +18,7 @@ import { AdminAuthLayout } from "../layouts/Admin/AdminAuthLayout";
 import { ResetPassword } from "../pages/auth/Admin/ResetPassword";
 import { ChangeResetPassword } from "../pages/auth/Admin/ChangeResetPassword";
 import EventFoodRegistration from "../pages/dashboard/Admin/EventFoodRegistration";
+import EventRegistration from "../pages/dashboard/Admin/EventRegistration";
 
 const AdminProtectedRoute = () => {
     const { auth } = useAuth();
@@ -52,6 +53,10 @@ const routesForAdminAuthenticatedOnly = [
             {
                 path: paths.admin.dashboard.eventManager,
                 element: <EventManager />
+            },
+            {
+                path: paths.admin.dashboard.eventRegis,
+                element: <EventRegistration />
             },
             {
                 path: paths.admin.dashboard.eventFoodRegis,
