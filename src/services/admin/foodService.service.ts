@@ -5,8 +5,8 @@ const AdminRoute = "admin/event-foods";
 
 class FoodService {
     async getAllFood(eventId: string, userId?: string) {
-        let URL =  AdminRoute + `/${eventId}`;;
-        if (!userId) URL =AdminRoute + `/${eventId}/public`;
+        let URL = AdminRoute + `/${eventId}`;;
+        if (!userId) URL = AdminRoute + `/${eventId}/public`;
         return axiosClient.get(URL, {
             headers: authHeader()
         }).then((res: any) => {
@@ -27,7 +27,7 @@ class FoodService {
     //     });
 
     // }
-    async createFood(formData: object) { 
+    async createFood(formData: object) {
         return axiosClient.post(AdminRoute, formData, {
             headers: {
                 ...authHeader(),

@@ -69,7 +69,6 @@ export const routesForClientAuthenticatedOnly = [
         ],
     }
 ];
-export const ClientRoutes = () => {
-    const { auth } = useAuth();
-    return [...routesForPublicClient, ...(auth?.userInfo ? routesForClientAuthenticatedOnly : [])]
+export const ClientRoutes = () => { 
+    return [...routesForPublicClient, ...routesForClientAuthenticatedOnly]
 }

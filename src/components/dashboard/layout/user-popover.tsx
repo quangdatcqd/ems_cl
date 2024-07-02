@@ -28,7 +28,7 @@ export function UserPopover({ anchorEl, onClose, open }: UserPopoverProps): Reac
   const router = useNavigate(); 
   const handleSignOut = React.useCallback(async (): Promise<void> => {
     try {
-      const data = await authService.signOut(auth?.userInfo); 
+      const data = await authService.signOut(); 
       if(data.statusCode = 201){ 
         localStorage.removeItem("auth");
         setAuth(null);

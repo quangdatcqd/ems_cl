@@ -128,7 +128,7 @@ export default function FoodResTable({ count = 0, rows = [], page = 0, rowsPerPa
         <Table aria-label="collapsible table">
           <TableHead>
             <TableRow>
-              <TableCell>Users</TableCell>
+              <TableCell>Collapse</TableCell>
               <TableCell>Event Name</TableCell>
               <TableCell align="right">Start Time</TableCell>
               <TableCell align="right">End Time</TableCell>

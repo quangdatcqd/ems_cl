@@ -1,10 +1,10 @@
-const WEB_URL = "http://localhost:5173"
-const SERVER_URL = "http://localhost:3000"
+// const WEB_URL = "http://localhost:5173"
+// const SERVER_URL = "http://localhost:3000"
 
 
 export const pathAdmin = "/admin";
 export const pathClient = "/auth";
-export const  GOOGLE_CLIENT_ID= ""; 
+// export const GOOGLE_CLIENT_ID = "";
 
 export const paths = {
   admin: {
@@ -42,7 +42,7 @@ export const paths = {
     auth: {
       signIn: pathClient + '/sign-in',
       signInFBRouter: pathClient + '/sign-in/:userData',
-      signFBPath: SERVER_URL + '/client/auth/facebook/redirect',
+      signFBPath: import.meta.env.VITE_SERVER_URL + '/client/auth/facebook/redirect',
       signUp: pathClient + '/sign-up',
       resetPassword: pathClient + '/reset-password',
       changePassword: pathClient + '/reset-password/:userId/:code'
@@ -50,9 +50,7 @@ export const paths = {
     home: '/',
 
   },
-  SERVER_URL: SERVER_URL,
-  WEB_URL: WEB_URL,
-  imagePath: SERVER_URL + "/images/",
+  imagePath: import.meta.env.VITE_SERVER_URL + "/images/",
   website: {
     viewRouter: '/website/:id',
     viewPath: '/website/',
@@ -61,3 +59,7 @@ export const paths = {
   },
   errors: { notFound: pathAdmin + '/errors/not-found' },
 } as const;
+
+
+
+

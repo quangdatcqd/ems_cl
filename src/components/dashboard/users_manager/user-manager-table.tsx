@@ -22,7 +22,7 @@ import "./users_manager.css"
 import { EditForm } from './edit-form';
 import userManagerService from '../../../services/admin/userManager.service';
 import toast from 'react-hot-toast';
-import { UserDataType } from '../../../types/user';
+import { UserDataType } from '../../../interface/user';
 import { ConfirmPopover } from '../../ConfirmPopover';
 
 

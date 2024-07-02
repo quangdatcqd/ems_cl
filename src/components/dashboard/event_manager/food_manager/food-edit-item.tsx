@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import React from "react";
-import { FoodDataType } from "../../../../types/food";
+import { FoodDataType } from "../../../../interface/food";
 import { paths } from "../../../../paths";
 import toast from "react-hot-toast";
 

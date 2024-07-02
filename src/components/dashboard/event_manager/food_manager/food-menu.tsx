@@ -4,7 +4,7 @@ import { FoodEditItem } from './food-edit-item';
 import { FoodAddItem } from './food-add-item';
 import foodService from '../../../../services/admin/foodService.service';
 import toast from 'react-hot-toast';
-import { FoodDataType } from '../../../../types/food';
+import { FoodDataType } from '../../../../interface/food';
 
 
 export function FoodMenu({ eventId }: any) {

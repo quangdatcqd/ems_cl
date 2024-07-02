@@ -1,4 +1,4 @@
-import type { NavItemConfig } from '../../../types/nav';
+import type { NavItemConfig } from '../../../interface/nav';
 import { paths } from '../../../paths';
 import { getCurrentUser } from '../../../helpers/common.helper';
 

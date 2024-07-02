@@ -3,7 +3,7 @@
 import React from "react";
 import DefaultImage from "../../../assets/default.webp";
 import DoneOutlinedIcon from '@mui/icons-material/DoneOutlined';
-import { FoodDataType } from "../../../types/food";
+import { FoodDataType } from "../../../interface/food";
 import { paths } from "../../../paths";
 interface TypeProps {
     item: FoodDataType
@@ -27,7 +27,7 @@ export default function FoodItem({ item, setOrders, orders }: TypeProps) {
 
     }
     return (
-        <div className="relative" unselectable="on" onClick={onSelectDish}>
+        <div className="relative  " unselectable="on" onClick={onSelectDish}>
             <div className={`absolute -top-2 -right-2 z-50 bg-green-500  rounded-full ${isSelect ? "block" : "hidden"}`}>
                 <DoneOutlinedIcon sx={{ color: "white" }} />
             </div>

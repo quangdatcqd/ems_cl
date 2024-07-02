@@ -12,7 +12,7 @@ import { useWebEditorConfig } from '../../provider/webEditorProvider';
 import { Button } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
-import { EventDataType } from '../../types/event';
+import { EventDataType } from '../../interface/event';
 
 
 
@@ -28,11 +28,11 @@ export function MainNav({ eventData }: { eventData: EventDataType }): React.JSX.
     if (dataSave?.statusCode) {
       toast.error(dataSave.message);
     } else {
-      toast.success("Updated!", { position: "top-center" });
-
+      toast.success("Updated!", { position: "top-center" }); 
     }
     setLoading(false)
-  }
+  } 
+  
   return (
     <div className='h-[80px] fixed flex items-center justify-between  bg-white w-[100%]  z-[61] top-0 left-0 web-side-nav px-10'>
 

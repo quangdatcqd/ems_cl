@@ -2,7 +2,7 @@ import * as React from 'react';
 import Stack from '@mui/material/Stack'; 
 import { EventManagerFilter } from '../../../components/dashboard/event_manager/event-manager-filter'; 
 import eventService from '../../../services/admin/eventService.service';
-import {  EventResponseType } from '../../../types/event';
+import {  EventResponseType } from '../../../interface/event';
 import FoodResTable   from '../../../components/dashboard/event_food_registration/food-res-table'; 
 
  

@@ -1,7 +1,7 @@
 import React from "react";
 import FoodItem from "./food-item";
 import foodService from "../../../services/admin/foodService.service";
-import { FoodDataType } from "../../../types/food";
+import { FoodDataType } from "../../../interface/food";
 import { Button } from "@mui/material";
 import eventFoodRegisService from "../../../services/admin/eventFoodRegisService.service";
 import toast from "react-hot-toast";
@@ -45,7 +45,7 @@ export default function FoodMenu({ eventId, userId }: any) {
   return (
     <div className="flex gap-10 mb-56 items-start justify-between w-100">
       <div className=' mt-5 w-100 '>
-        <div className='grid xs:grid-cols-1 grid-cols-1  sm:grid-cols-2  md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4'>
+        <div className='grid   grid-cols-1  sm:grid-cols-2  md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4'>
           {
             foodData?.map((item: FoodDataType, index: number) => {
               return <FoodItem key={index} item={item} setOrders={setOrders} orders={orders} />
@@ -53,7 +53,7 @@ export default function FoodMenu({ eventId, userId }: any) {
           }
         </div>
       </div>
-      <div className={`w-[500px]   shadow-xl rounded-xl p-5 py-10`}>
+      <div className={`min-w-[350px]   shadow-xl rounded-xl p-5 py-10`}>
         <p className="text-slate-500 font-bold">Your ordered here:</p>
         <div className="border-t-2 my-2 "></div>
         {

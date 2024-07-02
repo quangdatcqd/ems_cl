@@ -14,8 +14,7 @@ import { Eye as EyeIcon } from '@phosphor-icons/react/dist/ssr/Eye';
 import { EyeSlash as EyeSlashIcon } from '@phosphor-icons/react/dist/ssr/EyeSlash';
 import { Controller, useForm } from 'react-hook-form';
 import { z as zod } from 'zod'; 
-import { Link, useParams } from 'react-router-dom'; 
-import DialogContext from '../../../context/dialogContext';
+import { Link, useNavigate, useParams } from 'react-router-dom';  
 import adminAuthService from '../../../services/adminAuth.service';
 import { paths } from '../../../paths';
 
@@ -48,11 +47,10 @@ const defaultValues = { newPassword: '', confirmPassword: '' } satisfies Values;
 
 export function ChangeResetPassword(): React.JSX.Element {
   const [isPending, setIsPending] = React.useState<boolean>(false);
-  const [showPassword, setShowPassword] = React.useState<boolean>();
-  const { setDialog } = React.useContext(DialogContext);
+  const [showPassword, setShowPassword] = React.useState<boolean>(); 
   const { control, handleSubmit, setError, formState: { errors }, } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
   const params = useParams(); 
-  
+  const navigator = useNavigate();
   const onSubmit = React.useCallback(
     async (values: Values): Promise<void> => {
       setIsPending(true);
@@ -60,13 +58,8 @@ export function ChangeResetPassword(): React.JSX.Element {
       if (dataReset?.statusCode !==201) {
         setError('root', { type: 'server', message: dataReset.message });
       }
-      else {
-        
-        setDialog({
-          title: "Reset password",
-          open: true,
-          text: dataReset?.message
-        })
+      else { 
+        navigator(paths.admin.auth.signIn)
       }
       setIsPending(false); 
     },

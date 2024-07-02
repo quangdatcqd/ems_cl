@@ -75,10 +75,10 @@ export default function ClientAccountManager(): React.JSX.Element {
       <ClientUserManagerFilter setSort={setSort} />
       <UserManagerTable
         fetchUsers={fetchUsers}
-        count={userData.metadata.count}
-        page={userData.metadata.page - 1}
-        rows={userData.data}
-        rowsPerPage={userData.metadata.limit}
+        count={userData?.metadata?.count}
+        page={userData?.metadata?.page - 1}
+        rows={userData?.data}
+        rowsPerPage={userData?.metadata?.limit}
         isPending={isPending}
         setSort={setSort}
       />

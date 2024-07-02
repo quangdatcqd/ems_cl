@@ -1,7 +1,7 @@
-import axios from 'axios';  
+import axios from 'axios';
 import { paths } from '../paths';
 // Tạo một instance của Axios
-const axiosClient = axios.create({ baseURL: paths.SERVER_URL ,withCredentials :true});
+const axiosClient = axios.create({ baseURL: import.meta.env.VITE_SERVER_URL, withCredentials: true });
 
 // Thiết lập interceptor
 axiosClient.interceptors.response.use(
@@ -9,14 +9,29 @@ axiosClient.interceptors.response.use(
     // Xử lý các phản hồi thành công
     return response;
   },
-  (error) => {
+  async (error) => {
     // Xử lý các lỗi
-    if (error.response.status === 401) { 
-      // Chuyển hướng đến trang đăng nhập
-      // alert("Unauthorized login please!")
-      localStorage.removeItem("auth")
-      window.location.href= paths.client.auth.signIn 
-    } 
+
+    if (error.response.status === 401) {
+      if (error.request.responseURL.includes('logout')) {
+        localStorage.removeItem("auth")
+        if (window.location.pathname.includes('admin')) 
+          return window.location.href = paths.admin.auth.signIn
+        return window.location.href = paths.client.auth.signIn
+      }
+
+      axios.post(import.meta.env.VITE_SERVER_URL + "/admin/auth/refresh", {}, {
+        withCredentials: true
+      }).then((res: any) => {
+        localStorage.setItem("auth", JSON.stringify(res?.data?.data));
+        window.location.reload() 
+      }).catch(() => {
+        localStorage.removeItem("auth")
+        if (window.location.pathname.includes('admin')) return window.location.href = paths.admin.auth.signIn
+        return window.location.href = paths.client.auth.signIn
+
+      }); 
+    }
     return Promise.reject(error);
   }
 );

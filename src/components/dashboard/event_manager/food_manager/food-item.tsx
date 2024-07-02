@@ -4,7 +4,7 @@ import EditOffIcon from '@mui/icons-material/EditOff';
 import DefaultImage from "../../../../assets/default.webp";
 import React from 'react'; 
 import { ConfirmPopover } from '../../../ConfirmPopover';
-import { FoodDataType } from '../../../../types/food';
+import { FoodDataType } from '../../../../interface/food';
 import { paths } from '../../../../paths';
 import dayjs from 'dayjs';
 

@@ -1,6 +1,6 @@
 import { getCurrentUser } from "../../helpers/common.helper";
 import { paths } from "../../paths";
-import { NavItemConfig } from "../../types/nav";
+import { NavItemConfig } from "../../interface/nav";
 
   
 

@@ -112,12 +112,10 @@ const routesForAdminAuthentication = [
     }
 ]
  
-export const AdminRoutes = () => {
-    const { auth } = useAuth();
-  
+export const AdminRoutes = () => { 
     return [
         // ...(!auth ? routesForNotAuthenticatedOnly : []),
-        ...(auth?.userInfo?.type === "Admin" ? routesForAdminAuthenticatedOnly : []),
+        ...routesForAdminAuthenticatedOnly,
         ...routesForPublicAdmin,
         ...routesForAdminAuthentication,
     ]

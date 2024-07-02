@@ -16,6 +16,16 @@ class EventParticipantService {
         });
     }
 
+    async checkEventParticipant(eventId: string) {
+        return   axiosClient.get(ClientRoute+`/check/${eventId}`, {
+            headers: authHeader() 
+        })  .then((res: any) => { 
+            return res.data;
+        }).catch((error: any) => { 
+            return error.response.data
+        });
+    }
+
     async createEventParticipant(formData: object) {
         return axiosClient.post(ClientRoute,formData, {
             headers: authHeader(),

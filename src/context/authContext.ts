@@ -1,7 +1,7 @@
 import { createContext } from "react";
 interface AuthProps {
     accessToken: string;
-    accessTokenExpiresIn: string;
+    accessTokenExpiresAt: number;
     userInfo: {
         id: string;
         name: string;

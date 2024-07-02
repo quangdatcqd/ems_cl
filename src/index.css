@@ -16,6 +16,29 @@
     src: url('assets/fonts/DINNeuzeitGrotesk.ttf') format('truetype');
     font-weight: bold;
 }
+/* seast status in event paticipant */
+.seat_unavailable{
+  background-color: #cbd5e1;
+  cursor: not-allowed;
+
+}
+
+.seat_available{
+  border: 1px solid #ffa500; 
+
+}
+.seat_available:hover{
+  background-color: #ffa500;
+  color: white;
+}
+
+.seat_selected{
+  background-color: orange;
+  color: white;
+}
+
+
+
 
 .google-icon {
     font-size: 30px;
@@ -25,7 +48,9 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
-
+.rs-picker-popup{
+  z-index: 1301;
+}
 .container {
     width: 980px;
 }
@@ -151,3 +176,4 @@
     opacity: 0;
   }
 }
+

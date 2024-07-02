@@ -6,7 +6,7 @@ import { EventManagerFilter } from '../../../components/dashboard/event_manager/
 import { EvenManagerTable } from '../../../components/dashboard/event_manager/event-manager-table';
 import { EventCreateForm } from '../../../components/dashboard/event_manager/event-create-form';
 import eventService from '../../../services/admin/eventService.service';
-import {  EventResponseType } from '../../../types/event';
+import {  EventResponseType } from '../../../interface/event';
 
  
 export default function AccountManager(): React.JSX.Element {
@@ -53,10 +53,10 @@ export default function AccountManager(): React.JSX.Element {
       <EventManagerFilter setSort={setSort} />
       <EvenManagerTable
         fetchEvents={fetchEvents}
-        count={eventData.metadata.count}
-        page={eventData.metadata.page - 1}
-        rows={eventData.data}
-        rowsPerPage={eventData.metadata.limit}
+        count={eventData?.metadata?.count}
+        page={eventData?.metadata?.page - 1}
+        rows={eventData?.data}
+        rowsPerPage={eventData?.metadata?.limit}
         isPending={isPending}
         setSort={setSort}
       />

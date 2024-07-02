@@ -1,10 +1,11 @@
 import {   useContext, useEffect, useMemo, useState, ReactNode } from "react";
 import { AuthContext } from "../context/authContext";
-import { getCurrentUser } from "../helpers/common.helper";
+import { getCurrentUser  } from "../helpers/common.helper";
+ 
 
 interface AuthProps {
   accessToken: string;
-  accessTokenExpiresIn: string;
+  accessTokenExpiresAt: number;
   userInfo: {
     id: string;
     name: string;
@@ -14,14 +15,12 @@ interface AuthProps {
     phoneNumber:string,
   }
 }
-
-
-
+ 
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [auth, setAuth] = useState<AuthProps | null>(getCurrentUser());
-
-  useEffect(() => {
+  
+  useEffect(() => { 
     if (auth) {
       localStorage.setItem("auth", JSON.stringify(auth));
     } else {
