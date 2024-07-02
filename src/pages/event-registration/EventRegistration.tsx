@@ -203,7 +203,7 @@ function FormRegistration({ checkEventParticipant, eventData, seatsSelected }: {
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={12}>
                         <FormControl fullWidth={true} error={Boolean(errors.birthday)} >
-                            <label className='text-slate-500 text-sm mb-1'>Registration Deadline</label>
+                            <label className='text-slate-500 text-sm mb-1'>Your birthday</label>
                             <DatePicker name='registrationDeadline'
                                 defaultValue={new Date(defaultValues.birthday)}
                                 size='lg'
