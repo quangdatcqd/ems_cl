@@ -12,7 +12,9 @@ import eventService from '../../../services/admin/eventService.service';
 import toast from 'react-hot-toast'; 
 import { EventDataType } from '../../../interface/event';
 import { Genders } from '../../../constants/event'; 
-import { DateRangePicker,DatePicker } from 'rsuite';
+import { DateRangePicker,DatePicker, RadioGroup } from 'rsuite';
+import Radio, { ValueType } from 'rsuite/esm/Radio';
+import { RadioLabel } from './radio-label';
 const schema = zod.object({
   _id: zod.string(),
   name: zod.string().min(1, { message: 'Name is required' }),
@@ -21,6 +23,7 @@ const schema = zod.object({
   location: zod.string().min(1, { message: 'Location is required' }),
   useFood: zod.boolean(),
   allowWaitlist: zod.boolean(),
+  typeCheckin: zod.string(),
   capacityLimit: zod.number(),
   registrationDeadline: zod.string().min(1, { message: 'Registration Deadline Expired is required' }),
   allowMinAge: zod.number(),
@@ -51,6 +54,7 @@ export function EventEditForm({ openDlgEdit, handleCloseEdit }: Props): React.JS
     useFood: eventData.useFood,
     allowWaitlist: eventData.allowWaitlist,
     capacityLimit: eventData.capacityLimit,
+    typeCheckin: eventData.typeCheckin,
     registrationDeadline: eventData.registrationDeadline,
     allowMinAge: eventData.allowMinAge,
     allowMaxAge: eventData.allowMaxAge,
@@ -205,7 +209,13 @@ export function EventEditForm({ openDlgEdit, handleCloseEdit }: Props): React.JS
                   </Grid>
                 </FormControl>
               </Grid>
-
+              <Grid md={12} item={true}>
+                <RadioGroup name="radio-group-inline-picker-label" onChange={(value:ValueType) => setValue("typeCheckin", value.toString())} inline appearance="default" defaultValue={defaultValues.typeCheckin}>
+                  <RadioLabel>Check In Type: </RadioLabel>
+                  <Radio value="Offline">Offline</Radio> 
+                  <Radio value="Online">Online</Radio>
+                </RadioGroup>
+              </Grid>
 
 
               {errors.root && <Grid xs={12} item={true}><Alert color="error">{errors.root.message}</Alert>  </Grid>}

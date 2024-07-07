@@ -1,0 +1,1 @@
+export const RadioLabel = ({ children }:any) => <label style={{ padding: 7 }}>{children}</label>;

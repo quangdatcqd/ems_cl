@@ -23,8 +23,11 @@ export const paths = {
       adminAccountManager: pathAdmin + '/dashboard/account-manager',
       clientAccountManager: pathAdmin + '/dashboard/client-account-manager',
       eventManager: pathAdmin + '/dashboard/event-manager',
+      eventPrintPreview: pathAdmin + '/dashboard/event-print-preview/:id',
+      eventPrintPath: pathAdmin + '/dashboard/event-print-preview',
       eventFoodRegis: pathAdmin + '/dashboard/event-food-regis',
       eventRegis: pathAdmin + '/dashboard/event-regis',
+
     },
     website: {
       setupRouter: pathAdmin + '/website/setup/:id',

@@ -6,6 +6,7 @@ export interface EventDataType {
   location: string ,
   useFood: boolean,
   allowWaitlist: boolean,
+  typeCheckin: string,
   capacityLimit: number,
   registrationDeadline: string,
   allowMinAge: number,

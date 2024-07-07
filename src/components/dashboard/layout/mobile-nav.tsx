@@ -13,7 +13,7 @@ import { Logo } from '../../../components/core/logo';
 
 import { navItems } from './config';
 import { navIcons } from './nav-icons';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Link } from '@mui/material';
 
 export interface MobileNavProps {
@@ -111,18 +111,10 @@ interface NavItemProps extends Omit<NavItemConfig, 'items'> {
 function NavItem({ disabled, external, href, icon, matcher, pathname, title }: NavItemProps): React.JSX.Element {
   const active = isNavItemActive({ disabled, external, href, matcher, pathname });
   const Icon = icon ? navIcons[icon] : null;
-
+  const navigate = useNavigate();
   return (
-    <li>
+    <li onClick={()=> navigate(href || paths.admin.dashboard.overview)}>
       <Box
-        {...(href
-          ? {
-              component: external ? 'a' : 'a',
-              href,
-              target: external ? '_blank' : undefined,
-              rel: external ? 'noreferrer' : undefined,
-            }
-          : { role: 'button' })}
         sx={{
           alignItems: 'center',
           borderRadius: 1,
@@ -142,6 +134,7 @@ function NavItem({ disabled, external, href, icon, matcher, pathname, title }: N
           }),
           ...(active && { bgcolor: 'var(--NavItem-active-background)', color: 'var(--NavItem-active-color)' }),
         }}
+        
       >
         <Box sx={{ alignItems: 'center', display: 'flex', justifyContent: 'center', flex: '0 0 auto' }}>
           {Icon ? (

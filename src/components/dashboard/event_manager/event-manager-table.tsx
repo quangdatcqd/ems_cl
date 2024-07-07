@@ -21,6 +21,9 @@ import ContactEmergencyIcon from '@mui/icons-material/ContactEmergency';
 import TransgenderIcon from '@mui/icons-material/Transgender';
 import RunningWithErrorsIcon from '@mui/icons-material/RunningWithErrors';
 import QueueIcon from '@mui/icons-material/Queue';
+import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
+import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop';
+import EventPrintPreview from './event-print-preview';
 
 interface EvenManagerTableProps {
   count?: number;
@@ -37,16 +40,17 @@ interface EvenManagerTableProps {
 export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage = 0, isPending = false, fetchEvents, setSort }: EvenManagerTableProps): React.JSX.Element {
 
   const [openDlgEdit, setOpenDlgEdit] = React.useState<any>({ open: false, eventData: {} });
+  const [openDlgPrint, setOpenDlgPrint] = React.useState<any>({ open: false, eventData: {} });
   const [openDlgMenu, setOpenDlgMenu] = React.useState<any>({ open: false, eventId: null });
   const isMobile = useMediaQuery('(max-width: 600px)');
 
   const handleOpenEdit = (value: any) => {
-
     setOpenDlgEdit({
       open: true,
       eventData: value
     })
   };
+
   const handleCloseEdit = () => {
     setOpenDlgEdit({
       open: false,
@@ -54,7 +58,18 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
     })
     fetchEvents();
   };
-
+  const handleOpenPrint = (row: EventDataType) => {
+    setOpenDlgPrint({
+      open: true,
+      eventData: row
+    })
+  };
+  const handleClosePrint = () => {
+    setOpenDlgPrint({
+      open: false,
+      eventData: {}
+    })
+  };
   const handleOpenMenu = (value: string) => {
 
     setOpenDlgMenu({
@@ -94,7 +109,7 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
               <TableCell>Location</TableCell>
               <TableCell>Food </TableCell>
               <TableCell>Website</TableCell>
-              <TableCell>Action</TableCell>
+              <TableCell align='center'>Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -106,6 +121,7 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
                   fetchEvents={fetchEvents}
                   handleOpenMenu={handleOpenMenu}
                   handleOpenEdit={handleOpenEdit}
+                  handleOpenPrint={handleOpenPrint}
                 />
               );
             })}
@@ -123,7 +139,9 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
         rowsPerPageOptions={[5, 10, 25]}
       />
 
-      { openDlgEdit.open && <EventEditForm openDlgEdit={openDlgEdit} handleCloseEdit={handleCloseEdit} />}
+      {openDlgEdit.open && <EventEditForm openDlgEdit={openDlgEdit} handleCloseEdit={handleCloseEdit} />}
+      {openDlgPrint.open && <EventPrintPreview openDlgPrint={openDlgPrint} handleClosePrint={handleClosePrint} />}
+
       <Dialog
         open={openDlgMenu.open}
         onClose={handleCloseMenu}
@@ -139,13 +157,15 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
           <Button onClick={handleCloseMenu}>Close</Button>
         </DialogActions>
       </Dialog>
+
+
     </Card>
   );
 }
 
 
 
-function Row({ row, handleOpenMenu, fetchEvents, handleOpenEdit }: any) {
+function Row({ row, handleOpenMenu, fetchEvents, handleOpenEdit, handleOpenPrint }: any) {
   const [open, setOpen] = React.useState(false);
   const copyToClipboard = (eventId: string) => {
     navigator.clipboard.writeText(import.meta.env.VITE_WEB_URL + paths.website.viewPath + eventId);
@@ -181,11 +201,17 @@ function Row({ row, handleOpenMenu, fetchEvents, handleOpenEdit }: any) {
         <TableCell><Link className='react-link' to={paths.admin.website.setupPath + `/${row._id}`}>editor</Link></TableCell>
         <TableCell >
           <IconButton aria-label="edit" color="success" onClick={() => copyToClipboard(row._id)}>
-            < ContentCopyIcon />
+            < ContentCopyIcon sx={{ fontSize: 20 }} />
           </IconButton>
           <IconButton aria-label="edit" color="success" onClick={() => handleOpenEdit(row)}>
-            < BorderColorIcon />
+            < BorderColorIcon sx={{ fontSize: 20 }} />
           </IconButton>
+          {
+            row?.typeCheckin === "Offline" && 
+            <IconButton aria-label="edit" color="success" onClick={() => handleOpenPrint(row)}>
+              < LocalPrintshopIcon sx={{ fontSize: 20 }} />
+            </IconButton>
+          }
           <ConfirmPopover idUser={row._id} fetchEvents={fetchEvents} />
         </TableCell>
       </TableRow>
@@ -206,8 +232,8 @@ function EventDetail({ event }: { event: EventDataType }) {
   return (
     <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
       <Grid container spacing={0} >
-        <Grid item xl={3}  lg={4} sm={6} xs={12}>
-          <ListItem sx={{padding:0}}>
+        <Grid item xl={3} lg={4} sm={6} xs={12}>
+          <ListItem sx={{ padding: 0 }}>
             <ListItemAvatar>
               <Avatar>
                 <RunningWithErrorsIcon />
@@ -216,8 +242,8 @@ function EventDetail({ event }: { event: EventDataType }) {
             <ListItemText primary="Registration Deadline" secondary={dayjs(event.registrationDeadline).format('YYYY-MM-DD')} />
           </ListItem>
         </Grid>
-        <Grid item xl={3}  lg={4} sm={6} xs={12}>
-          <ListItem sx={{padding:0}}>
+        <Grid item xl={3} lg={4} sm={6} xs={12}>
+          <ListItem sx={{ padding: 0 }}>
             <ListItemAvatar>
               <Avatar>
                 <PeopleAltIcon />
@@ -227,8 +253,8 @@ function EventDetail({ event }: { event: EventDataType }) {
           </ListItem>
         </Grid>
 
-        <Grid item xl={3}  lg={4} sm={6} xs={12}>
-          <ListItem sx={{padding:0}}>
+        <Grid item xl={3} lg={4} sm={6} xs={12}>
+          <ListItem sx={{ padding: 0 }}>
             <ListItemAvatar>
               <Avatar>
                 <ContactEmergencyIcon />
@@ -237,8 +263,8 @@ function EventDetail({ event }: { event: EventDataType }) {
             <ListItemText primary="Age Range" secondary={event.allowMinAge + ' - ' + event.allowMaxAge} />
           </ListItem>
         </Grid>
-        <Grid item xl={3}  lg={4} sm={6} xs={12}>
-          <ListItem sx={{padding:0}}>
+        <Grid item xl={3} lg={4} sm={6} xs={12}>
+          <ListItem sx={{ padding: 0 }}>
             <ListItemAvatar>
               <Avatar>
                 <TransgenderIcon />
@@ -248,16 +274,26 @@ function EventDetail({ event }: { event: EventDataType }) {
           </ListItem>
         </Grid>
         <Grid item xl={3} lg={4} sm={6} xs={12}>
-          <ListItem sx={{padding:0}}>
+          <ListItem sx={{ padding: 0 }}>
             <ListItemAvatar>
               <Avatar>
                 <QueueIcon />
               </Avatar>
             </ListItemAvatar>
-            <ListItemText primary="Allowed Waitlist" secondary={event.allowWaitlist ? "Yes":"No" } />
+            <ListItemText primary="Allowed Waitlist" secondary={event.allowWaitlist ? "Yes" : "No"} />
           </ListItem>
         </Grid>
-      </Grid> 
+        <Grid item xl={3} lg={4} sm={6} xs={12}>
+          <ListItem sx={{ padding: 0 }}>
+            <ListItemAvatar>
+              <Avatar>
+                <AssignmentTurnedInIcon />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary="Type Check In" secondary={event.typeCheckin} />
+          </ListItem>
+        </Grid>
+      </Grid>
     </List>
   );
 }
@@ -315,7 +351,7 @@ const ConfirmPopover = ({ idUser, fetchEvents }: { idUser: string, fetchEvents: 
       onClick={handleToggle}
       color='error'
     >
-      < DeleteForeverIcon />
+      < DeleteForeverIcon sx={{ fontSize: 23 }} />
     </IconButton>
     <Popper
       open={open}

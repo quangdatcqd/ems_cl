@@ -7,11 +7,13 @@ import FormHelperText from '@mui/material/FormHelperText';
 import Stack from '@mui/material/Stack';
 import { Controller, useForm } from 'react-hook-form';
 import { z as zod } from 'zod';
-import { Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControlLabel, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Switch, TextField, useMediaQuery } from '@mui/material';
+import { Box, Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControlLabel,  Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Switch, TextField, useMediaQuery } from '@mui/material';
 import eventService from '../../../services/admin/eventService.service';
 import toast from 'react-hot-toast';
 import { Genders } from '../../../constants/event';
-import { DateRangePicker, DatePicker } from 'rsuite';
+import { DateRangePicker, DatePicker, RadioGroup, Radio } from 'rsuite';
+import { ValueType } from 'rsuite/esm/Radio';
+import { RadioLabel } from './radio-label';
 
 
 const schema = zod.object({
@@ -21,6 +23,7 @@ const schema = zod.object({
   endTime: zod.string().min(1, { message: 'End time is required' }),
   useFood: zod.boolean(),
   allowWaitlist: zod.boolean(),
+  typeCheckin: zod.string(),
   capacityLimit: zod.number(),
   registrationDeadline: zod.string().min(1, { message: 'Registration Deadline Expired is required' }),
   allowMinAge: zod.number(),
@@ -42,7 +45,7 @@ export function EventCreateForm({ openDlg, handleCloseDlg }: EventCreateFormProp
 
   const defaultValues = {
     name: '', location: '', startTime: '',
-    endTime: '', useFood: false, allowWaitlist: false,
+    endTime: '', useFood: false, allowWaitlist: false, typeCheckin: "Offline",
     capacityLimit: 0, registrationDeadline: '',
     allowMinAge: 0, allowMaxAge: 150, allowGender: 'All',
   } satisfies Values;
@@ -111,7 +114,7 @@ export function EventCreateForm({ openDlg, handleCloseDlg }: EventCreateFormProp
                   {errors.startTime ? <FormHelperText>{errors.startTime.message}</FormHelperText> : null}
                 </FormControl>
               </Grid> */}
-{/* <Grid sm={6} xs={12} item={true}>
+              {/* <Grid sm={6} xs={12} item={true}>
                 <Controller
                   control={control}
                   name="endTime"
@@ -130,9 +133,9 @@ export function EventCreateForm({ openDlg, handleCloseDlg }: EventCreateFormProp
                 <FormControl fullWidth={true} error={Boolean(errors.startTime || errors.endTime)} >
                   <label className='text-slate-500 text-sm'>Duration Date</label>
                   <DateRangePicker
-                    ranges={[]} 
+                    ranges={[]}
                     showOneCalendar
-                    size='lg' 
+                    size='lg'
                     onChange={(value: any) => {
                       setValue("startTime", value[0]?.toISOString() || "")
                       setValue("endTime", value[1]?.toISOString() || "")
@@ -142,11 +145,11 @@ export function EventCreateForm({ openDlg, handleCloseDlg }: EventCreateFormProp
                   {errors.startTime && <FormHelperText>{errors.startTime.message}</FormHelperText>}
                   {errors.endTime && <FormHelperText>{errors.endTime.message}</FormHelperText>}
                 </FormControl>
-              </Grid> 
+              </Grid>
               <Grid sm={6} xs={12} item={true}>
                 <FormControl fullWidth={true} error={Boolean(errors.registrationDeadline)} >
                   <label className='text-slate-500 text-sm'>Registration Deadline</label>
-                  <DatePicker name='registrationDeadline' 
+                  <DatePicker name='registrationDeadline'
                     size='lg'
                     onChange={(value) => setValue("registrationDeadline", value?.toISOString() || "")} />
 
@@ -154,41 +157,27 @@ export function EventCreateForm({ openDlg, handleCloseDlg }: EventCreateFormProp
                 </FormControl>
               </Grid>
               <Grid md={6} sm={6} xs={12} item={true}>
-                <Controller
-                  control={control}
-                  name="useFood"
-                  render={() => (
-                    <FormControl fullWidth={true} error={Boolean(errors.useFood)} >
-                      <FormControlLabel control={<Switch defaultChecked={Boolean(defaultValues.useFood)} onChange={(value) => setValue("useFood", value.target.checked)} name="useFood" />} label="Use Food " />
-
-                    </FormControl>
-                  )}
-                />
+                <FormControl fullWidth={true} error={Boolean(errors.useFood)} >
+                  <FormControlLabel control={<Switch defaultChecked={Boolean(defaultValues.useFood)} onChange={(value) => setValue("useFood", value.target.checked)} name="useFood" />} label="Use Food " />
+                </FormControl>
               </Grid>
 
               <Grid md={6} sm={6} xs={12} item={true}>
-                <Controller
-                  control={control}
-                  name="allowWaitlist"
-                  render={() => (
-                    <FormControl fullWidth={true} error={Boolean(errors.allowWaitlist)} >
-                      <FormControlLabel control={<Switch defaultChecked={Boolean(defaultValues.allowWaitlist)} onChange={(value) => setValue("allowWaitlist", value.target.checked)} name="allowWaitlist" />} label="Allow For Waitlist" />
-
-                    </FormControl>
-                  )}
-                />
+                <FormControl fullWidth={true} error={Boolean(errors.allowWaitlist)} >
+                  <FormControlLabel control={<Switch defaultChecked={Boolean(defaultValues.allowWaitlist)} onChange={(value) => setValue("allowWaitlist", value.target.checked)} name="allowWaitlist" />} label="Allow For Waitlist" />
+                </FormControl>
               </Grid>
-              <Grid sm={3} xs={6} item={true}> 
+              <Grid sm={3} xs={6} item={true}>
                 <FormControl fullWidth={true} error={Boolean(errors.allowMinAge)}  >
-                  <TextField id="standard-basic" type='number' defaultValue={defaultValues.allowMinAge} onChange={(e:any) => setValue("allowMinAge", Number(e.target.value)|| 0)}   label="Allow Min Age" variant="standard" />
+                  <TextField id="standard-basic" type='number' defaultValue={defaultValues.allowMinAge} onChange={(e: any) => setValue("allowMinAge", Number(e.target.value) || 0)} label="Allow Min Age" variant="standard" />
                   {errors.allowMinAge ? <FormHelperText>{errors.allowMinAge.message}</FormHelperText> : null}
-                </FormControl> 
+                </FormControl>
               </Grid>
-              <Grid sm={3} xs={6} item={true}> 
+              <Grid sm={3} xs={6} item={true}>
                 <FormControl fullWidth={true} error={Boolean(errors.allowMaxAge)}>
-                  <TextField id="standard-basic" type='number' defaultValue={defaultValues.allowMaxAge}  onChange={(e:any) => setValue("allowMaxAge", Number(e.target.value)|| 0)}  label="Allow Max Age" variant="standard" />
+                  <TextField id="standard-basic" type='number' defaultValue={defaultValues.allowMaxAge} onChange={(e: any) => setValue("allowMaxAge", Number(e.target.value) || 0)} label="Allow Max Age" variant="standard" />
                   {errors.allowMaxAge ? <FormHelperText>{errors.allowMaxAge.message}</FormHelperText> : null}
-                </FormControl> 
+                </FormControl>
               </Grid>
               <Grid md={6} sm={6} xs={12} item={true}>
                 <FormControl fullWidth={true}>
@@ -211,25 +200,26 @@ export function EventCreateForm({ openDlg, handleCloseDlg }: EventCreateFormProp
                 </FormControl>
               </Grid>
               <Grid xs={12} item={true}>
-                <Controller
-                  control={control}
-                  name="capacityLimit"
-                  render={() => (
-                    <FormControl fullWidth={true} error={Boolean(errors.capacityLimit)} >
-                      <Grid container spacing={3}>
-                        <Grid sm={6} xs={7} item={true}>
-                          <FormControlLabel className='' control={<Switch checked={Boolean(showCapacityLimit)} onChange={(e) => setShowCapacityLimit(e.target.checked)} />} label="Event Capacity Limit" />
-                        </Grid>
-                        <Grid sm={6} xs={5} item={true}>
-                          {
-                            showCapacityLimit &&
-                            <TextField type="number" sx={{ marginTop: 0, width: "100%" }} onChange={(e) => setValue("capacityLimit", Number(e.target.value) || 0)} label="Capaticy Limit" variant="outlined" />
-                          }
-                        </Grid>
-                      </Grid>
-                    </FormControl>
-                  )}
-                />
+                <FormControl fullWidth={true} error={Boolean(errors.capacityLimit)} >
+                  <Grid container spacing={3}>
+                    <Grid sm={6} xs={7} item={true}>
+                      <FormControlLabel className='' control={<Switch checked={Boolean(showCapacityLimit)} onChange={(e) => setShowCapacityLimit(e.target.checked)} />} label="Event Capacity Limit" />
+                    </Grid>
+                    <Grid sm={6} xs={5} item={true}>
+                      {
+                        showCapacityLimit &&
+                        <TextField type="number" sx={{ marginTop: 0, width: "100%" }} onChange={(e) => setValue("capacityLimit", Number(e.target.value) || 0)} label="Capaticy Limit" variant="outlined" />
+                      }
+                    </Grid>
+                  </Grid>
+                </FormControl>
+              </Grid>
+              <Grid md={12} item={true}>
+                <RadioGroup name="radio-group-inline-picker-label" onChange={(value:ValueType) => setValue("typeCheckin", value.toString())} inline appearance="default" defaultValue={defaultValues.typeCheckin}>
+                  <RadioLabel>Check In Type: </RadioLabel>
+                  <Radio value="Offline">Offline</Radio> 
+                  <Radio value="Online">Online</Radio>
+                </RadioGroup>
               </Grid>
 
 
@@ -260,6 +250,4 @@ export function EventCreateForm({ openDlg, handleCloseDlg }: EventCreateFormProp
     </Dialog>
 
   );
-}
-
-
+} 

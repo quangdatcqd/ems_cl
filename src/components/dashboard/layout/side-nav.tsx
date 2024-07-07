@@ -11,7 +11,7 @@ import { isNavItemActive } from '../../../lib/is-nav-item-active';
 
 import { navItems } from './config';
 import { navIcons } from './nav-icons'; 
-import {  Link, useLocation, useNavigate  } from 'react-router-dom';
+import {  Link, NavLink, useLocation, useNavigate  } from 'react-router-dom';
 import { Logo } from '../../core/logo';
 
 export function SideNav(): React.JSX.Element {
@@ -46,9 +46,9 @@ export function SideNav(): React.JSX.Element {
       }}
     > 
        <Stack spacing={2} sx={{ p: 3 }}>
-       <Link  to={paths.admin.dashboard.overview} >
+       <NavLink  to={paths.admin.dashboard.overview} >
           <Logo color="light" height={32} width={122} />
-        </Link>
+        </NavLink>
         {/* <Box
           sx={{
             alignItems: 'center',

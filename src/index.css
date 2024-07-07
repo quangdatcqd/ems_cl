@@ -5,34 +5,49 @@
 @tailwind utilities;
 
 @font-face {
-    font-family: 'Avenir-Light';
-    src: url('assets/fonts/AvenirLight.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'Avenir-Light';
+  src: url('assets/fonts/AvenirLight.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'DINNeuzeitGrotesk';
-    src: url('assets/fonts/DINNeuzeitGrotesk.ttf') format('truetype');
-    font-weight: bold;
+  font-family: 'DINNeuzeitGrotesk';
+  src: url('assets/fonts/DINNeuzeitGrotesk.ttf') format('truetype');
+  font-weight: bold;
 }
+
+@page {
+  /* prevents electron's additional margins around sheet-content (the first printedPage of: the html already sized 8.5x22) */
+  margin: 5mm;
+  size:auto; margin-bottom:5mm;
+
+}
+
+@media print {
+  .print-domain {
+    display: none;
+  }
+}
+
 /* seast status in event paticipant */
-.seat_unavailable{
+.seat_unavailable {
   background-color: #cbd5e1;
   cursor: not-allowed;
 
 }
 
-.seat_available{
-  border: 1px solid #ffa500; 
+.seat_available {
+  border: 1px solid #ffa500;
 
 }
-.seat_available:hover{
+
+.seat_available:hover {
   background-color: #ffa500;
   color: white;
 }
 
-.seat_selected{
+.seat_selected {
   background-color: orange;
   color: white;
 }
@@ -41,96 +56,101 @@
 
 
 .google-icon {
-    font-size: 30px;
-    margin-top: -2px;
-    font-weight: bold;
-    background: linear-gradient(to top, #4285F4, #0F9D58, #F4B400, #DB4437);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+  font-size: 30px;
+  margin-top: -2px;
+  font-weight: bold;
+  background: linear-gradient(to top, #4285F4, #0F9D58, #F4B400, #DB4437);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
-.rs-picker-popup{
+
+.rs-picker-popup {
   z-index: 1301;
 }
+
 .container {
-    width: 980px;
+  width: 980px;
 }
 
 .react-link {
-    color: #1c7aff;
+  color: #1c7aff;
 }
 
 .react-link:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .rs-sidenav-item {
-    background-color: white !important;
+  background-color: white !important;
 }
 
 .rs-sidenav-item:hover {
-    background-color: rgb(240, 240, 240) !important;
+  background-color: rgb(240, 240, 240) !important;
 
 }
 
 .web-side-nav {
-    box-shadow: 1px 0px 8px 1px #d4d4d4;
+  box-shadow: 1px 0px 8px 1px #d4d4d4;
 }
 
 
 
 /* Tùy chỉnh kiểu thanh cuộn */
 .custom-scroll::-webkit-scrollbar {
-    width: 8px;
-    /* Độ rộng của thanh cuộn ngang và dọc */
+  width: 8px;
+  /* Độ rộng của thanh cuộn ngang và dọc */
 }
 
 .custom-scroll::-webkit-scrollbar-track {
-    background-color: #f1f1f1;
-    /* Màu nền của thanh cuộn */
+  background-color: #f1f1f1;
+  /* Màu nền của thanh cuộn */
 }
 
 .custom-scroll::-webkit-scrollbar-thumb {
-    background-color: #888;
-    /* Màu của thanh cuộn */
-    border-radius: 4px;
-    /* Bo góc thanh cuộn */
+  background-color: #888;
+  /* Màu của thanh cuộn */
+  border-radius: 4px;
+  /* Bo góc thanh cuộn */
 }
 
 .custom-scroll::-webkit-scrollbar-thumb:hover {
 
-    background-color: #555;
-    cursor: pointer;
-    /* Màu của thanh cuộn khi di chuột qua */
+  background-color: #555;
+  cursor: pointer;
+  /* Màu của thanh cuộn khi di chuột qua */
 }
 
 
 .join_button {
-    position: fixed;
-    bottom: 15px;
-    right: 15px;
-    background-color: red;
-    padding: 5px 20px;
-    border-radius: 10px;
-    color: white;
-    cursor: pointer;
-    font-weight: bold;
-    font-family: Avenir-Light;
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+  background-color: red;
+  padding: 5px 20px;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  font-family: Avenir-Light;
 }
-.join_button:hover { 
-    background-color: rgb(193, 5, 5); 
-    
-} 
+
+.join_button:hover {
+  background-color: rgb(193, 5, 5);
+
+}
+
 .join_button:before,
 .join_button:after {
   content: "";
   position: absolute;
   border: 1px solid rgba(255, 0, 0, 0.335);
   border-radius: 10px;
-  animation-duration:3s;
+  animation-duration: 3s;
   animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
 }
-.join_button:before{
+
+.join_button:before {
   animation-duration: 2s;
 
 }
@@ -151,6 +171,7 @@
     bottom: 0;
     opacity: 1;
   }
+
   100% {
     top: -8px;
     left: -10px;
@@ -168,6 +189,7 @@
     bottom: 0;
     opacity: 1;
   }
+
   100% {
     top: -18px;
     left: -20px;
@@ -176,4 +198,3 @@
     opacity: 0;
   }
 }
-
