@@ -65,7 +65,7 @@ function EventPrintPreview({ openDlgPrint, handleClosePrint }: Props) {
                                 {
                                     eventParticipant?.map((participant: any, index: number) => {
                                         return (<tr key={index}>
-                                            <td className="text-center border border-slate-300">{index}</td>
+                                            <td className="text-center border border-slate-300">{index + 1}</td>
                                             <td className="text-center border border-slate-300">{participant.user.name}</td>
                                             <td className="text-center border border-slate-300">{dayjs(participant.birthday).format('YYYY/MM/DD')}</td>
                                             <td className="text-center border border-slate-300">{participant.seat}</td>
