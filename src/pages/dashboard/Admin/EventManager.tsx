@@ -6,7 +6,7 @@ import { EventManagerFilter } from '../../../components/dashboard/event_manager/
 import { EvenManagerTable } from '../../../components/dashboard/event_manager/event-manager-table';
 import { EventCreateForm } from '../../../components/dashboard/event_manager/event-create-form';
 import eventService from '../../../services/admin/eventService.service';
-import { EventResponseType } from '../../../interface/event';
+import { EventResponseType } from '../../../interface/event'; 
 
 
 export default function AccountManager(): React.JSX.Element {
@@ -25,6 +25,7 @@ export default function AccountManager(): React.JSX.Element {
   const [eventData, setEventData] = React.useState<EventResponseType>(initialValues);
   const [isPending, setIsPending] = React.useState<boolean>(false);
   const [openDlg, setOpenDlg] = React.useState<boolean>(false);
+ 
   const [sort, setSort] = React.useState<any>();
   const fetchEvents = async () => {
     setIsPending(true)
@@ -42,6 +43,8 @@ export default function AccountManager(): React.JSX.Element {
   const handleOpenDlg = () => {
     setOpenDlg(true)
   }
+
+
   return (
     <Stack spacing={2}>
       <div className='flex justify-start gap-10'>
@@ -51,7 +54,7 @@ export default function AccountManager(): React.JSX.Element {
         </Button>
       </div>
       <EventCreateForm openDlg={openDlg} handleCloseDlg={handleCloseDlg} />
-
+    
       <EvenManagerTable
         fetchEvents={fetchEvents}
         count={eventData?.metadata?.count}

@@ -1,6 +1,7 @@
+import { paths } from "../../paths";
 import authHeader from "../authHeader";
 import axiosClient from "../axiosClient"
-
+import { saveAs } from 'file-saver';
 export interface SignInWithPasswordParams {
     username: string;
     password: string;
@@ -8,9 +9,18 @@ export interface SignInWithPasswordParams {
 const AdminRoute = "admin/events";
 
 class EventService {
+    async QRDownload(url:string) {
+        try {
+            const response = await axiosClient.get(paths.imagePath + `qr-code/${encodeURIComponent(url)}`, {
+                responseType: 'blob',
+            });
+            saveAs(response.data, 'qr-code.png');
+        } catch (error) {
+            console.error('Error downloading QR code:', error);
+        }
+    };
 
-
-    async getAllEvents(param: object) { 
+    async getAllEvents(param: object) {
         return axiosClient.get(AdminRoute, {
             headers: authHeader(),
             params: param
@@ -22,11 +32,12 @@ class EventService {
             });
 
     }
-    async getEventByID(id?: string, clientRequest: boolean = false) { 
+    async getEventByID(id?: string, clientRequest: boolean = false) {
         let URL = AdminRoute + `/${id}`;
-        if (clientRequest) URL = AdminRoute + `/${id}/public`; 
+        if (clientRequest) URL = AdminRoute + `/${id}/public`;
         return axiosClient.get(URL, {
-            headers: authHeader() })
+            headers: authHeader()
+        })
             .then((res: any) => {
                 return res.data;
             }).catch((error: any) => {
@@ -34,7 +45,7 @@ class EventService {
             });
 
     }
- 
+
     async createEvent(formData: object) {
         return axiosClient.post(AdminRoute, formData, { headers: authHeader() })
             .then((res: any) => {
@@ -63,8 +74,9 @@ class EventService {
     }
 
     async getWebConfigEvent(id?: string) {
-        return axiosClient.get(AdminRoute+`/webconfig/${id}`, {
-            headers: authHeader() })
+        return axiosClient.get(AdminRoute + `/webconfig/${id}`, {
+            headers: authHeader()
+        })
             .then((res: any) => {
                 return res.data;
             }).catch((error: any) => {

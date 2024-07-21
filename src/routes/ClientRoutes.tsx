@@ -5,6 +5,7 @@ import { ChangeResetPassword } from "../pages/auth/Client/ChangeResetPassword";
 import ClientSignIn from "../pages/auth/Client/ClientSignIn";
 import ClientSignUp from "../pages/auth/Client/ClientSignUp";
 import ResetPassword from "../pages/auth/Client/ResetPassword";
+import Test from "../pages/dashboard/Admin/Test";
 import EventRegistration from "../pages/event-registration/EventRegistration";
 import { WebRender } from "../pages/website/RenderWebSite";
 import {   pathClient, paths } from "../paths";
@@ -19,6 +20,11 @@ const ClientProtectedRoute = () => {
 };
 
 export const routesForPublicClient = [
+    {
+        path:"/test",
+        element: <Test/>, 
+    }
+    ,
     {
         path: pathClient,
         element: <ClientAuthLayout><Outlet /></ClientAuthLayout>,

@@ -3,7 +3,7 @@
 import * as React from 'react';
 import dayjs from 'dayjs';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-import { Table, TableBody, TablePagination, TableHead, Stack, Divider, Card, Box, TableRow, TableCell, Typography, ListItemText, Avatar, Button, ClickAwayListener, Collapse, Dialog, DialogActions, DialogContent, DialogTitle, Grow, IconButton, LinearProgress, List, ListItem, ListItemAvatar, MenuItem, MenuList, Paper, Popper, useMediaQuery, Grid } from '@mui/material';
+import { Table, TableBody, TablePagination, TableHead, Stack, Divider, Card, Box, TableRow, TableCell, Typography, ListItemText, Avatar, Button, ClickAwayListener, Collapse, Dialog, DialogActions, DialogContent, DialogTitle, Grow, IconButton, LinearProgress, List, ListItem, ListItemAvatar, MenuItem, MenuList, Paper, Popper, useMediaQuery, Grid, Tooltip } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import toast from 'react-hot-toast';
@@ -24,7 +24,9 @@ import QueueIcon from '@mui/icons-material/Queue';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop';
 import EventPrintPreview from './event-print-preview';
-
+import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
+import DownloadIcon from '@mui/icons-material/Download';
+import QRScanner from './qr-scanner';
 interface EvenManagerTableProps {
   count?: number;
   page?: number;
@@ -41,7 +43,11 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
 
   const [openDlgEdit, setOpenDlgEdit] = React.useState<any>({ open: false, eventData: {} });
   const [openDlgPrint, setOpenDlgPrint] = React.useState<any>({ open: false, eventData: {} });
-  const [openDlgMenu, setOpenDlgMenu] = React.useState<any>({ open: false, eventId: null });
+  const [openDlgMenu, setOpenDlgMenu] = React.useState<any>({ open: false, eventData: null });
+  const [openQRDlg, setOpenQRDlg] = React.useState<any>({
+    open:false,
+    eventData:null
+  });
   const isMobile = useMediaQuery('(max-width: 600px)');
 
   const handleOpenEdit = (value: any) => {
@@ -83,7 +89,18 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
       eventId: null
     })
   };
-
+  const handleCloseQRDlg = () => { 
+    setOpenQRDlg({
+      open:false,
+      eventData:null
+    })
+  }
+  const handleOpenQRDlg = (row:any) => {
+    setOpenQRDlg({
+      open:true,
+      eventData:row 
+    })
+  }
 
   const handlePageChange = (_: React.MouseEvent | null, page: number) => {
     setSort((sort: any) => ({ ...sort, page: page + 1 }))
@@ -94,11 +111,10 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
   }
 
 
-
+ 
   return (
     <Card>
       {isPending && <LinearProgress />}
-
       <Box sx={{ overflowX: 'auto' }}>
         <Table sx={{ minWidth: '800px' }}>
           <TableHead>
@@ -107,8 +123,9 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
               <TableCell>Event Name</TableCell>
               <TableCell>Duration</TableCell>
               <TableCell>Location</TableCell>
-              <TableCell>Food </TableCell>
-              <TableCell>Website</TableCell>
+              <TableCell align='center'>Food </TableCell>
+              <TableCell align='center'>Website</TableCell>
+              <TableCell align='center'>QR</TableCell>
               <TableCell align='center'>Action</TableCell>
             </TableRow>
           </TableHead>
@@ -122,6 +139,7 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
                   handleOpenMenu={handleOpenMenu}
                   handleOpenEdit={handleOpenEdit}
                   handleOpenPrint={handleOpenPrint}
+                  handleOpenQRDlg={()=>handleOpenQRDlg(row)}
                 />
               );
             })}
@@ -158,19 +176,21 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
         </DialogActions>
       </Dialog>
 
-
+      <QRScanner openDlg={openQRDlg} handleCloseDlg={handleCloseQRDlg}/>
     </Card>
   );
 }
 
 
 
-function Row({ row, handleOpenMenu, fetchEvents, handleOpenEdit, handleOpenPrint }: any) {
+function Row({ row, handleOpenMenu, fetchEvents, handleOpenEdit, handleOpenPrint,handleOpenQRDlg }: any) {
   const [open, setOpen] = React.useState(false);
   const copyToClipboard = (eventId: string) => {
     navigator.clipboard.writeText(import.meta.env.VITE_WEB_URL + paths.website.viewPath + eventId);
     toast.success('Copied to clipboard!');
   };
+  const handleDownload = (eventId: string) => eventService.QRDownload(import.meta.env.VITE_WEB_URL + paths.website.viewPath + eventId);
+
   return (
     <React.Fragment>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
@@ -183,39 +203,53 @@ function Row({ row, handleOpenMenu, fetchEvents, handleOpenEdit, handleOpenPrint
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-
         <TableCell>
-          <Stack sx={{ alignItems: 'center' }} direction="row" spacing={2}>
-            <Typography variant="subtitle2">{row.name}</Typography>
-          </Stack>
+          <Stack sx={{ alignItems: 'center' }} direction="row" spacing={2}><Typography variant="subtitle2">{row.name}</Typography></Stack>
         </TableCell>
         <TableCell>{dayjs(row.startTime).format('YYYY-MM-DD') + ' - ' + dayjs(row.endTime).format('YYYY-MM-DD')}</TableCell>
         <TableCell>{row.location}</TableCell>
-        <TableCell>
+        <TableCell align='center'>
           {
-            row?.useFood === true ?
-              <Button onClick={() => handleOpenMenu(row._id)}>Menu</Button>
-              : "Disabled"
+            row?.useFood === true ? <Button onClick={() => handleOpenMenu(row._id)}>Menu</Button> : "Disabled"
           }
         </TableCell>
-        <TableCell><Link className='react-link' to={paths.admin.website.setupPath + `/${row._id}`}>editor</Link></TableCell>
-        <TableCell >
-          <IconButton aria-label="edit" color="success" onClick={() => copyToClipboard(row._id)}>
-            < ContentCopyIcon sx={{ fontSize: 20 }} />
-          </IconButton>
-          <IconButton aria-label="edit" color="success" onClick={() => handleOpenEdit(row)}>
-            < BorderColorIcon sx={{ fontSize: 20 }} />
-          </IconButton>
-          {
-            row?.typeCheckin === "Offline" && 
-            <IconButton aria-label="edit" color="success" onClick={() => handleOpenPrint(row)}>
-              < LocalPrintshopIcon sx={{ fontSize: 20 }} />
+        <TableCell align='center' >
+          <Link className='react-link' to={paths.admin.website.setupPath + `/${row._id}`}>Editor</Link>
+        </TableCell>
+        <TableCell align='center'>
+          <Tooltip title="Scan QR">
+            <IconButton aria-label="edit" color="info" onClick={handleOpenQRDlg}>
+              <QrCodeScannerIcon sx={{ fontSize: 26 }}  />
             </IconButton>
+          </Tooltip>
+          <Tooltip title="Save QR URL ">
+            <IconButton aria-label="edit" color="success" onClick={() => handleDownload(row._id)}>
+              <DownloadIcon sx={{ fontSize: 26 }} />
+            </IconButton>
+          </Tooltip>
+        </TableCell>
+        <TableCell align='center'>
+          <Tooltip title="Copy URL">
+            <IconButton aria-label="edit" color="success" onClick={() => copyToClipboard(row._id)}>
+              < ContentCopyIcon sx={{ fontSize: 20 }} />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Edit Event">
+            <IconButton aria-label="edit" color="success" onClick={() => handleOpenEdit(row)}>
+              < BorderColorIcon sx={{ fontSize: 20 }} />
+            </IconButton>
+          </Tooltip>
+          {
+            row?.typeCheckin === "Offline" &&
+            <Tooltip title="Print check list user">
+              <IconButton aria-label="edit" color="success" onClick={() => handleOpenPrint(row)}>
+                < LocalPrintshopIcon sx={{ fontSize: 20 }} />
+              </IconButton>
+            </Tooltip>
           }
           <ConfirmPopover idUser={row._id} fetchEvents={fetchEvents} />
         </TableCell>
       </TableRow>
-
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={12}>
           <Collapse in={open} timeout="auto" unmountOnExit>
@@ -346,13 +380,15 @@ const ConfirmPopover = ({ idUser, fetchEvents }: { idUser: string, fetchEvents: 
   }, [open]);
 
   return <>
-    <IconButton
-      ref={anchorRef}
-      onClick={handleToggle}
-      color='error'
-    >
-      < DeleteForeverIcon sx={{ fontSize: 23 }} />
-    </IconButton>
+    <Tooltip title="Delete Event">
+      <IconButton
+        ref={anchorRef}
+        onClick={handleToggle}
+        color='error'
+      >
+        < DeleteForeverIcon sx={{ fontSize: 23 }} />
+      </IconButton>
+    </Tooltip>
     <Popper
       open={open}
       anchorEl={anchorRef.current}
@@ -387,6 +423,6 @@ const ConfirmPopover = ({ idUser, fetchEvents }: { idUser: string, fetchEvents: 
           </Paper>
         </Grow>
       )}
-    </Popper>
-  </>
+    </Popper></>
+
 }

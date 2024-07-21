@@ -7,7 +7,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 import Stack from '@mui/material/Stack';
 import { Controller, useForm } from 'react-hook-form';
 import { z as zod } from 'zod';
-import { Box, Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControlLabel,  Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Switch, TextField, useMediaQuery } from '@mui/material';
+import {  Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControlLabel,  Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Switch, TextField, useMediaQuery } from '@mui/material';
 import eventService from '../../../services/admin/eventService.service';
 import toast from 'react-hot-toast';
 import { Genders } from '../../../constants/event';

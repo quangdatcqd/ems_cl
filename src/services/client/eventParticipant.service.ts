@@ -4,7 +4,15 @@ const ClientRoute = "client/event-participants";
 
 class EventParticipantService {
 
-    
+    async checkinByTicketCode(eventId: string, ticketCode: string) {
+        return   axiosClient.get(ClientRoute+`/checkin/${eventId}/${ticketCode}`, {
+            headers: authHeader() 
+        })  .then((res: any) => { 
+            return res.data;
+        }).catch((error: any) => { 
+            return error.response.data
+        });
+    }
 
     async getUserParticipants(eventId: string) {
         return   axiosClient.get(ClientRoute+`/${eventId}`, {

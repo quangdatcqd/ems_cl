@@ -11,7 +11,7 @@ import { isNavItemActive } from '../../../lib/is-nav-item-active';
 
 import { navItems } from './config';
 import { navIcons } from './nav-icons'; 
-import {  Link, NavLink, useLocation, useNavigate  } from 'react-router-dom';
+import {  NavLink, useLocation, useNavigate  } from 'react-router-dom';
 import { Logo } from '../../core/logo';
 
 export function SideNav(): React.JSX.Element {

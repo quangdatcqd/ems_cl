@@ -14,7 +14,7 @@ import FoodItem from "../../components/dashboard/event_food_registration/food-it
 import eventService from "../../services/admin/eventService.service";
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import { Button, FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import {   FormControl, FormHelperText, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from "@mui/material";
 import { z as zod } from 'zod';
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -25,6 +25,7 @@ import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import TransgenderIcon from '@mui/icons-material/Transgender';
 import ChairAltIcon from '@mui/icons-material/ChairAlt';
 import toast from "react-hot-toast";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 
 export default function EventRegistration() {
@@ -122,7 +123,8 @@ export default function EventRegistration() {
                         <CheckIcon sx={{ color: 'white', fontSize: 35 }} />
                     </div>
                     <p className="text-md font-bold mt-0  ">Thank you</p>
-                    <p className="text-sm font-500 text-slate-500 mt-0 ">You have successfully registered to participate in the event</p>
+                    <p className="text-sm   text-slate-500 mt-0 ">You have successfully registered to participate in the event</p>
+                    <p className="text-sm  text-slate-500 mt-0 ">We sent a ticket, please check your email!</p>
                 </div>
             }
             {
@@ -161,20 +163,22 @@ export default function EventRegistration() {
 
 
 function FormRegistration({ checkEventParticipant, eventData, seatsSelected }: { checkEventParticipant: any, eventData: EventDataType | null, seatsSelected: string[] }) {
-
+    const [loadingButton, setLoadingButton] = React.useState(false)
     const navigator = useNavigate()
     const schema = zod.object({
         birthday: zod.string().min(1, { message: 'Gender is required' }),
         gender: zod.string().min(1, { message: 'Gender is required' }),
         seat: zod.string().min(1, { message: 'Seat is required' }),
+        email: zod.string().email().min(1, { message: 'Email is required' }),
     })
 
     type Values = zod.infer<typeof schema>;
 
-    const defaultValues = { birthday: "", gender: "", seat: "" } satisfies Values;
+    const defaultValues = { birthday: "", gender: "Male", seat: "", email: "" } satisfies Values;
     const { handleSubmit, setError, formState: { errors }, setValue } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
 
     const handleJoinEvent = React.useCallback(async (values: Values, _: any): Promise<void> => {
+        setLoadingButton(true)
         if (!eventData?._id) return
 
         if (eventData.allowGender !== "All" && values.gender !== eventData.allowGender) {
@@ -182,6 +186,7 @@ function FormRegistration({ checkEventParticipant, eventData, seatsSelected }: {
             return
         }
         const eventPartRs = await eventParticipantService.createEventParticipant({ eventId: eventData._id, ...values })
+        setLoadingButton(false)
         if (eventPartRs?.data) {
             checkEventParticipant();
         } else if (eventPartRs?.statusCode === 401) {
@@ -231,9 +236,27 @@ function FormRegistration({ checkEventParticipant, eventData, seatsSelected }: {
                         </FormControl>
 
                     </Grid>
+                    <Grid xs={12} md={12} item={true}>
+                        <FormControl fullWidth={true} error={Boolean(errors.email)}>
+                            {/* email to receive ticket */}
+                            <TextField id="standard-basic"  onChange={(e: any) => setValue("email", e.target.value)} label="Email to receive ticket" variant="outlined" />
+                            {errors.email && <FormHelperText>{errors.email.message}</FormHelperText>}
+                        </FormControl>
+
+                    </Grid>
                 </Grid>
                 <div className="mt-5">
-                    <Button color="warning" type="submit" fullWidth variant="contained">Join Now</Button>
+                    <LoadingButton
+                        loading={loadingButton}
+                        loadingIndicator="Joining..."
+                        variant="contained"
+                        fullWidth
+                        color="warning"
+                        type="submit"
+                    >
+                        Join Now
+                    </LoadingButton>
+
                 </div>
                 {
                     eventData && (eventData.participant_count >= eventData.capacityLimit) &&
