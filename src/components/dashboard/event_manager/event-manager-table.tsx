@@ -16,17 +16,15 @@ import { FoodMenu } from './food_manager/food-menu';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import ContactEmergencyIcon from '@mui/icons-material/ContactEmergency';
-import TransgenderIcon from '@mui/icons-material/Transgender';
-import RunningWithErrorsIcon from '@mui/icons-material/RunningWithErrors';
-import QueueIcon from '@mui/icons-material/Queue';
-import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
+
 import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop';
 import EventPrintPreview from './event-print-preview';
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
 import DownloadIcon from '@mui/icons-material/Download';
+
 import QRScanner from './qr-scanner';
+import { EventDetail } from './event-detail';
+import { RewardMenu } from './reward_manager/reward-menu';
 interface EvenManagerTableProps {
   count?: number;
   page?: number;
@@ -43,13 +41,27 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
 
   const [openDlgEdit, setOpenDlgEdit] = React.useState<any>({ open: false, eventData: {} });
   const [openDlgPrint, setOpenDlgPrint] = React.useState<any>({ open: false, eventData: {} });
-  const [openDlgMenu, setOpenDlgMenu] = React.useState<any>({ open: false, eventData: null });
+  const [openDlgMenu, setOpenDlgMenu] = React.useState<any>({ open: false, eventId: null });
+  const [openDlgReward, setOpenDlgReward] = React.useState<any>({ open: false, eventData: null });
   const [openQRDlg, setOpenQRDlg] = React.useState<any>({
     open:false,
     eventData:null
   });
   const isMobile = useMediaQuery('(max-width: 600px)');
 
+  const handleOpenReward = (value: any) => {
+    setOpenDlgReward({
+      open: true,
+      eventData: value
+    })
+  };
+
+  const handleCloseReward = () => {
+    setOpenDlgReward({
+      open: false,
+      eventData: {}
+    }) 
+  };
   const handleOpenEdit = (value: any) => {
     setOpenDlgEdit({
       open: true,
@@ -121,9 +133,9 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
             <TableRow>
               <TableCell>Collapse</TableCell>
               <TableCell>Event Name</TableCell>
-              <TableCell>Duration</TableCell>
-              <TableCell>Location</TableCell>
+              <TableCell>Duration</TableCell> 
               <TableCell align='center'>Food </TableCell>
+              <TableCell align='center'>Reward</TableCell>
               <TableCell align='center'>Website</TableCell>
               <TableCell align='center'>QR</TableCell>
               <TableCell align='center'>Action</TableCell>
@@ -137,6 +149,7 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
                   row={row}
                   fetchEvents={fetchEvents}
                   handleOpenMenu={handleOpenMenu}
+                  handleOpenReward={handleOpenReward}
                   handleOpenEdit={handleOpenEdit}
                   handleOpenPrint={handleOpenPrint}
                   handleOpenQRDlg={()=>handleOpenQRDlg(row)}
@@ -174,8 +187,23 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
         <DialogActions>
           <Button onClick={handleCloseMenu}>Close</Button>
         </DialogActions>
-      </Dialog>
+      </Dialog> 
 
+      <Dialog
+        open={openDlgReward.open}
+        onClose={handleCloseReward}
+        fullWidth={true}
+        maxWidth={"lg"}
+        fullScreen={isMobile}
+      >
+        <DialogTitle>Reward Menu</DialogTitle>
+        <DialogContent sx={{ paddingBottom: 0 }}>
+          <RewardMenu eventData={openDlgReward.eventData} />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseReward}>Close</Button>
+        </DialogActions>
+      </Dialog> 
       <QRScanner openDlg={openQRDlg} handleCloseDlg={handleCloseQRDlg}/>
     </Card>
   );
@@ -183,7 +211,7 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
 
 
 
-function Row({ row, handleOpenMenu, fetchEvents, handleOpenEdit, handleOpenPrint,handleOpenQRDlg }: any) {
+function Row({ row, handleOpenMenu, fetchEvents, handleOpenEdit, handleOpenPrint,handleOpenQRDlg,handleOpenReward }: any) {
   const [open, setOpen] = React.useState(false);
   const copyToClipboard = (eventId: string) => {
     navigator.clipboard.writeText(import.meta.env.VITE_WEB_URL + paths.website.viewPath + eventId);
@@ -207,12 +235,13 @@ function Row({ row, handleOpenMenu, fetchEvents, handleOpenEdit, handleOpenPrint
           <Stack sx={{ alignItems: 'center' }} direction="row" spacing={2}><Typography variant="subtitle2">{row.name}</Typography></Stack>
         </TableCell>
         <TableCell>{dayjs(row.startTime).format('YYYY-MM-DD') + ' - ' + dayjs(row.endTime).format('YYYY-MM-DD')}</TableCell>
-        <TableCell>{row.location}</TableCell>
+        
         <TableCell align='center'>
           {
             row?.useFood === true ? <Button onClick={() => handleOpenMenu(row._id)}>Menu</Button> : "Disabled"
           }
         </TableCell>
+        <TableCell align='center'><Button onClick={() => handleOpenReward(row)}>Reward</Button> </TableCell>
         <TableCell align='center' >
           <Link className='react-link' to={paths.admin.website.setupPath + `/${row._id}`}>Editor</Link>
         </TableCell>
@@ -260,75 +289,6 @@ function Row({ row, handleOpenMenu, fetchEvents, handleOpenEdit, handleOpenPrint
         </TableCell>
       </TableRow>
     </React.Fragment>
-  );
-}
-function EventDetail({ event }: { event: EventDataType }) {
-  return (
-    <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-      <Grid container spacing={0} >
-        <Grid item xl={3} lg={4} sm={6} xs={12}>
-          <ListItem sx={{ padding: 0 }}>
-            <ListItemAvatar>
-              <Avatar>
-                <RunningWithErrorsIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Registration Deadline" secondary={dayjs(event.registrationDeadline).format('YYYY-MM-DD')} />
-          </ListItem>
-        </Grid>
-        <Grid item xl={3} lg={4} sm={6} xs={12}>
-          <ListItem sx={{ padding: 0 }}>
-            <ListItemAvatar>
-              <Avatar>
-                <PeopleAltIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Capacity Limit" secondary={event.capacityLimit} />
-          </ListItem>
-        </Grid>
-
-        <Grid item xl={3} lg={4} sm={6} xs={12}>
-          <ListItem sx={{ padding: 0 }}>
-            <ListItemAvatar>
-              <Avatar>
-                <ContactEmergencyIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Age Range" secondary={event.allowMinAge + ' - ' + event.allowMaxAge} />
-          </ListItem>
-        </Grid>
-        <Grid item xl={3} lg={4} sm={6} xs={12}>
-          <ListItem sx={{ padding: 0 }}>
-            <ListItemAvatar>
-              <Avatar>
-                <TransgenderIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Allowed Gender" secondary={event.allowGender} />
-          </ListItem>
-        </Grid>
-        <Grid item xl={3} lg={4} sm={6} xs={12}>
-          <ListItem sx={{ padding: 0 }}>
-            <ListItemAvatar>
-              <Avatar>
-                <QueueIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Allowed Waitlist" secondary={event.allowWaitlist ? "Yes" : "No"} />
-          </ListItem>
-        </Grid>
-        <Grid item xl={3} lg={4} sm={6} xs={12}>
-          <ListItem sx={{ padding: 0 }}>
-            <ListItemAvatar>
-              <Avatar>
-                <AssignmentTurnedInIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Type Check In" secondary={event.typeCheckin} />
-          </ListItem>
-        </Grid>
-      </Grid>
-    </List>
   );
 }
 
