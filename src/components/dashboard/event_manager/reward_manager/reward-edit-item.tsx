@@ -38,7 +38,7 @@ export function RewardEditItem({ item, onCancelEdit, onUpdateItem }: TypeProps) 
         quantity: item.quantity,
         description: item.description
     } satisfies Values;
-    const { handleSubmit, setError, formState: { errors }, setValue } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) }); 
+    const { handleSubmit, setError , setValue } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) }); 
     
     const [image, setImage] = useState<any>(null) 
     const onSubmit = React.useCallback(async (values: Values, _: any): Promise<void> => {

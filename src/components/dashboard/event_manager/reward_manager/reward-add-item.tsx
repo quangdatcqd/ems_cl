@@ -32,7 +32,7 @@ const defaultValues = {
     description: ""
 } satisfies Values;
 export function RewardAddItem({ eventId, reloadData,onCancelAdd }: any) {
-    const {   handleSubmit, setError, formState: { errors }, setValue } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
+    const {   handleSubmit, setError,   setValue } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
 
     const [image, setImage] = useState<any>(null)
     const [isPending, setIsPending] = useState<boolean>(false) 
