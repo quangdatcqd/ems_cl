@@ -31,9 +31,10 @@ const defaultValues = { username: '', password: '' } satisfies Values;
 export function AdminSignIn(): React.JSX.Element {
    
   const { auth, setAuth } = useAuth();
+  
+  
   if (auth?.userInfo.type === 'Admin') {
-    setInterval(() => window.location.href=paths.admin.dashboard.overview , 100)
-
+    setInterval(() =>{console.log("login",auth); window.location.href=paths.admin.dashboard.overview }, 1000) 
   }
 
   const [showPassword, setShowPassword] = React.useState<boolean>();
@@ -51,7 +52,9 @@ export function AdminSignIn(): React.JSX.Element {
       }
       else {
         setAuth(data.data);
-        window.location.href = paths.admin.dashboard.overview
+        setTimeout(() => {
+          window.location.href = paths.admin.dashboard.overview
+        }, 1000);
       }
       setIsPending(false);
     },
