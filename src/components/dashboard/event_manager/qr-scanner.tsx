@@ -58,6 +58,8 @@ function QRScanner({ openDlg, handleCloseDlg }: EventCreateFormProps) {
         navigator.mediaDevices.enumerateDevices()
             .then(devices => {
                 const videoDevices = devices.filter(device => device.kind === 'videoinput'); 
+                console.log(videoDevices);
+                
                 if( videoDevices.length <=1 && !videoDevices[0]?.deviceId ) return
               
                 setCameras(videoDevices);
@@ -90,7 +92,7 @@ function QRScanner({ openDlg, handleCloseDlg }: EventCreateFormProps) {
                     cameras?.length <= 0 && <p className=" text-center  font-bold  text-red-500  ">No cameras found  </p>
                 }
                 {
-                    (!checkedInData && !(checkedInData === "404") && cameras?.length > 0) &&
+                    (!checkedInData && !(checkedInData === "404")  ) &&
                     < >
                         <div className='mx-auto w-100 sm:mb-0 mb-3'>
                             <label htmlFor="camera-select">Camera:</label>
@@ -107,7 +109,7 @@ function QRScanner({ openDlg, handleCloseDlg }: EventCreateFormProps) {
                         <div className='relative  mx-auto  sm:w-[400px]  w-100   '>
                             <p className=" absolute  text-slate-300 text-center left-[50%] -translate-x-[50%] top-14 font-bold z-50 w-[100%] ">Point the camera at the QR code  </p>
                             <QrReader
-                                key={selectedCamera}
+                                key={selectedCamera} 
                                 containerStyle={{ width: "100%" }}
                                 constraints={{ deviceId: selectedCamera }}
                                 onResult={handleCheckin}
