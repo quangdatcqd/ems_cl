@@ -10,7 +10,7 @@ class EventParticipantService {
         })  .then((res: any) => { 
             return res.data;
         }).catch((error: any) => { 
-            return error.response.data
+            return error
         });
     }
 
@@ -20,7 +20,7 @@ class EventParticipantService {
         })  .then((res: any) => { 
             return res.data;
         }).catch((error: any) => { 
-            return error.response.data
+            return error
         });
     }
 
@@ -30,7 +30,7 @@ class EventParticipantService {
         })  .then((res: any) => { 
             return res.data;
         }).catch((error: any) => { 
-            return error.response.data
+            return error
         });
     }
 
@@ -40,7 +40,7 @@ class EventParticipantService {
         }).then((res: any) => {
             return res.data;
         }).catch((error: any) => {
-            return error.response.data
+            return error
         });
     }
 }

@@ -12,7 +12,7 @@ class FoodService {
         }).then((res: any) => {
             return res.data;
         }).catch((error: any) => {
-            return error.response.data
+            return error
         });
 
     }
@@ -23,7 +23,7 @@ class FoodService {
     //     }).then((res: any) => {
     //         return res.data;
     //     }).catch((error: any) => {
-    //         return error.response.data
+    //         return error
     //     });
 
     // }
@@ -37,7 +37,7 @@ class FoodService {
             .then((res: any) => {
                 return res.data;
             }).catch((error: any) => {
-                return error.response.data
+                return error
             });
     }
 
@@ -51,7 +51,7 @@ class FoodService {
             .then((res: any) => {
                 return res.data;
             }).catch((error: any) => {
-                return error.response.data
+                return error
             });
     }
 
@@ -60,7 +60,7 @@ class FoodService {
             .then((res: any) => {
                 return res.data;
             }).catch((error: any) => {
-                return error.response.data
+                return error
             });
     }
 }

@@ -23,8 +23,9 @@ import EventRegistration from "../pages/dashboard/Admin/EventRegistration";
 const AdminProtectedRoute = () => {
     const { auth } = useAuth();
     // Check if the user is authenticated
-    console.log("route",auth);
-    if (auth?.userInfo?.type !== "Admin") setTimeout(() => {
+   
+    if ( !auth || auth?.userInfo?.type !== "Admin") setTimeout(() => {
+         console.log("route",!auth );
         return <Navigate to={paths.admin.auth.signIn} />;
     }, 1000);
     else return <AdminLayout><Outlet /></AdminLayout>;

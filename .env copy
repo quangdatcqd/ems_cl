@@ -3,6 +3,6 @@ VITE_GOOGLE_CLIENT_ID=754923245716-lr4bar37omhol71vjct1ggd6hni5sntl.apps.googleu
 # VITE_TIMEZONE=Asia/Taipei
 VITE_TIMEZONE=Asia/Ho_Chi_Minh
 
-VITE_SERVER_URL=https://af00ba5ef4520bf38af39271699cf90c.serveo.net
-VITE_WEB_URL=https://3529b4884135d71bc01eb5c96778eb7f.serveo.net
+VITE_SERVER_URL=https://ems-woad-sigma.vercel.app
+VITE_WEB_URL=https://ems-cl.vercel.app
 

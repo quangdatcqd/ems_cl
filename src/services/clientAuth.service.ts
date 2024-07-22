@@ -19,7 +19,7 @@ class ClientAuthService {
                 }
                 return res.data;
             }).catch((error: any) => {
-                return error.response.data
+                return error
             });
 
     }
@@ -34,7 +34,7 @@ class ClientAuthService {
                 }
                 return res.data;
             }).catch((error: any) => {
-                return error.response.data
+                return error
             });
 
     }
@@ -45,7 +45,7 @@ class ClientAuthService {
             .then((res: any) => {
                 return res.data;
             }).catch((error: any) => {
-                return error.response.data
+                return error
             });
     }
 
@@ -54,7 +54,7 @@ class ClientAuthService {
             .then((res: any) => {
                 return res.data;
             }).catch((error: any) => {
-                return error.response.data
+                return error
             });
     }
     async resetPassword(formData: object) {
@@ -62,7 +62,7 @@ class ClientAuthService {
         .then((res: any) => {
             return res.data;
         }).catch((error: any) => {
-            return error.response.data
+            return error
         });
     }
 

@@ -18,7 +18,7 @@ class UserManagerService {
             .then((res: any) => {
                 return res.data;
             }).catch((error: any) => {
-                return error.response.data
+                return error
             });
 
     }
@@ -27,7 +27,7 @@ class UserManagerService {
             .then((res: any) => {
                 return res.data;
             }).catch((error: any) => {
-                return error.response.data
+                return error
             });
     }
 
@@ -36,7 +36,7 @@ class UserManagerService {
             .then((res: any) => {
                 return res.data;
             }).catch((error: any) => {
-                return error.response.data
+                return error
             });
     }
 
@@ -45,7 +45,7 @@ class UserManagerService {
             .then((res: any) => {
                 return res.data;
             }).catch((error: any) => {
-                return error.response.data
+                return error
             });
     }
 }

@@ -28,7 +28,7 @@ class EventService {
             .then((res: any) => {
                 return res.data;
             }).catch((error: any) => {
-                return error.response.data
+                return error
             });
 
     }
@@ -41,7 +41,7 @@ class EventService {
             .then((res: any) => {
                 return res.data;
             }).catch((error: any) => {
-                return error.response.data
+                return error
             });
 
     }
@@ -51,7 +51,7 @@ class EventService {
             .then((res: any) => {
                 return res.data;
             }).catch((error: any) => {
-                return error.response.data
+                return error
             });
     }
 
@@ -60,7 +60,7 @@ class EventService {
             .then((res: any) => {
                 return res.data;
             }).catch((error: any) => {
-                return error.response.data
+                return error
             });
     }
 
@@ -69,7 +69,7 @@ class EventService {
             .then((res: any) => {
                 return res.data;
             }).catch((error: any) => {
-                return error.response.data
+                return error
             });
     }
 
@@ -80,7 +80,7 @@ class EventService {
             .then((res: any) => {
                 return res.data;
             }).catch((error: any) => {
-                return error.response.data
+                return error
             });
     }
 }

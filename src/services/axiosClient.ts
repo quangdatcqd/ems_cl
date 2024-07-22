@@ -12,7 +12,7 @@ axiosClient.interceptors.response.use(
   async (error) => {
     // Xử lý các lỗi
 
-    if (error.response.status === 401) {
+    if (error?.response?.status === 401) {
       if (error.request.responseURL.includes('logout')) {
         localStorage.removeItem("auth")
         if (window.location.pathname.includes('admin')) 
@@ -32,7 +32,7 @@ axiosClient.interceptors.response.use(
 
       }); 
     }
-    return Promise.reject(error);
+    return Promise.reject(error?.response?.data || error);
   }
 );
 

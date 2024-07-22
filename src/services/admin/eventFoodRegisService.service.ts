@@ -11,7 +11,7 @@ class EventFoodRegisService {
         }).then((res: any) => {
             return res.data;
         }).catch((error: any) => {
-            return error.response.data
+            return error
         });
 
     }
@@ -24,7 +24,7 @@ class EventFoodRegisService {
         }).then((res: any) => {
             return res.data;
         }).catch((error: any) => {
-            return error.response.data
+            return error
         });
     }
     async getPublicEventFoodRegis(eventId?: string) {
@@ -33,7 +33,7 @@ class EventFoodRegisService {
         }).then((res: any) => {
             return res.data;
         }).catch((error: any) => {
-            return error.response.data
+            return error
         });
     }
     async createEventFoodRegis(formData: any) {
@@ -45,7 +45,7 @@ class EventFoodRegisService {
             .then((res: any) => {
                 return res.data;
             }).catch((error: any) => {
-                return error.response.data
+                return error
             });
     }
 
@@ -59,7 +59,7 @@ class EventFoodRegisService {
             .then((res: any) => {
                 return res.data;
             }).catch((error: any) => {
-                return error.response.data
+                return error
             });
     }
 
@@ -68,7 +68,7 @@ class EventFoodRegisService {
             .then((res: any) => {
                 return res.data;
             }).catch((error: any) => {
-                return error.response.data
+                return error
             });
     }
 }

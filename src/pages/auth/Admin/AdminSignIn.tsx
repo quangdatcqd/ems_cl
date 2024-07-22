@@ -19,6 +19,7 @@ import { Link  } from 'react-router-dom';
 import { useAuth } from '../../../provider/authProvider';
 import { paths } from '../../../paths';
 import adminAuthService from '../../../services/adminAuth.service';
+import toast from 'react-hot-toast';
 const schema = zod.object({
   username: zod.string().min(1, 'username is required'),
   password: zod.string().min(8, "Password is too short - should be 8 chars minimum"),
@@ -33,7 +34,7 @@ export function AdminSignIn(): React.JSX.Element {
   const { auth, setAuth } = useAuth();
   
   
-  if (auth?.userInfo.type === 'Admin') {
+  if (auth?.userInfo?.type === 'Admin') {
     setInterval(() =>{console.log("login",auth); window.location.href=paths.admin.dashboard.overview }, 1000) 
   }
 
@@ -45,16 +46,18 @@ export function AdminSignIn(): React.JSX.Element {
     async (values: Values): Promise<void> => {
       setIsPending(true);
 
-      const data = await adminAuthService.signInWithPassword(values);
+      const data = await adminAuthService.signInWithPassword(values); 
       if (data?.statusCode) {
         setAuth(null);
         setError('root', { type: 'server', message: data.message });
       }
-      else {
+      else if(data?.data){ 
         setAuth(data.data);
         setTimeout(() => {
           window.location.href = paths.admin.dashboard.overview
         }, 1000);
+      }else{
+        toast.error(data?.message)
       }
       setIsPending(false);
     },

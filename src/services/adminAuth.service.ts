@@ -21,7 +21,7 @@ class AdminAuthService {
                 }
                 return res.data;
             }).catch((error: any) => {
-                return error.response.data
+                return error
             });
 
     }
@@ -33,7 +33,7 @@ class AdminAuthService {
             .then((res: any) => {
                 return res.data;
             }).catch((error: any) => {
-                return error.response.data
+                return error 
             });
     }
     async updatePassword(params: any) {
@@ -42,7 +42,7 @@ class AdminAuthService {
             .then((res: any) => {
                 return res.data;
             }).catch((error: any) => {
-                return error.response.data
+                return error 
             });
     }
 
@@ -51,7 +51,7 @@ class AdminAuthService {
             .then((res: any) => {
                 return res.data;
             }).catch((error: any) => {
-                return error.response.data
+                return error 
             });
     }
     async changeResetPassword(formData: object) {
@@ -62,7 +62,7 @@ class AdminAuthService {
             .then((res: any) => {
                 return res.data;
             }).catch((error: any) => {
-                return error.response.data
+                return error 
             });
     }
     async signUp(formData: object) {
@@ -70,7 +70,7 @@ class AdminAuthService {
             .then((res: any) => {
                 return res.data;
             }).catch((error: any) => {
-                return error.response.data
+                return error 
             });
     }
 
@@ -79,7 +79,7 @@ class AdminAuthService {
             .then((res: any) => {
                 return res.data;
             }).catch((error: any) => {
-                return error.response.data
+                return error 
             });
     }
 
