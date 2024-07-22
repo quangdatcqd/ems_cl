@@ -24,10 +24,9 @@ const AdminProtectedRoute = () => {
     const { auth } = useAuth();
     // Check if the user is authenticated
    
-    if ( !auth || auth?.userInfo?.type !== "Admin") setTimeout(() => {
-         console.log("route",!auth );
+    if ( !auth || auth?.userInfo?.type !== "Admin")   
         return <Navigate to={paths.admin.auth.signIn} />;
-    }, 1000);
+    
     else return <AdminLayout><Outlet /></AdminLayout>;
 };
 
