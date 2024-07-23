@@ -1,24 +1,9 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, useMediaQuery } from '@mui/material';
+ 
 import { useEffect, useState } from 'react';
-import { QrReader } from 'react-qr-reader';
-import TransgenderIcon from '@mui/icons-material/Transgender';
-import CheckIcon from '@mui/icons-material/Check';
-import ChairAltIcon from '@mui/icons-material/ChairAlt';
-import eventParticipantService from '../../../services/client/eventParticipant.service';
-import ContactEmergencyIcon from '@mui/icons-material/ContactEmergency';
-import dayjs from 'dayjs';
-import { EventDataType } from '../../../interface/event';
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import ErrorIcon from '@mui/icons-material/Error';
+import { QrReader } from 'react-qr-reader'; 
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents'; 
 
-interface EventCreateFormProps {
-
-  openDlg: {
-    open: boolean,
-    eventData: EventDataType
-  },
-  handleCloseDlg: any
-}
+ 
 interface CheckedInData {
   userName: string,
   eventName: string,
@@ -34,7 +19,28 @@ function Test() {
   const [checkedInData, setCheckedInData] = useState<CheckedInData | any>()
 
   useEffect(() => {
-    
+    // request permission
+    navigator.mediaDevices.getUserMedia(
+      // constraints
+      {
+        video: true
+      },
+    ).then(  // successCallback
+      function () {
+        navigator.mediaDevices.enumerateDevices()
+          .then(devices => {
+            const videoDevices = devices.filter(device => device.kind === 'videoinput');
+            if (videoDevices.length <= 1 && !videoDevices[0]?.deviceId) return
+            setCameras(videoDevices);
+            const lastDevice = videoDevices[videoDevices.length - 1];
+            setSelectedCamera(lastDevice?.deviceId || '');
+          })
+          .catch(error => console.error('Error getting media devices:', error));
+
+      },
+    ).catch(function (err) {
+      console.log(err.name + ": " + err.message);
+    }) 
     return () => setCheckedInData(null)
   }, [])
   const handleCameraChange = (event: any) => {
