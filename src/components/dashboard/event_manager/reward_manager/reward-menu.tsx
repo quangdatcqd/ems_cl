@@ -13,8 +13,7 @@ export function RewardMenu({ eventData }: any) {
   const [rewardDataEdit, setRewardDataEdit] = React.useState<RewardDataType | null>(null);
   const [rewardData, setRewardData] = React.useState([]);
   const [keyword, setKeyword] = React.useState("all");
-  const [showAddReward, setShowAddReward] = React.useState(false);
-
+  const [showAddReward, setShowAddReward] = React.useState(false); 
 
   const fetchReward = async () => {
     const rewards = await rewardService.getAllReward(eventData._id, keyword);

@@ -3,7 +3,7 @@
 import * as React from 'react';
 import dayjs from 'dayjs';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
-import { Table, TableBody, TablePagination, TableHead, Stack, Divider, Card, Box, TableRow, TableCell, Typography,   Button, ClickAwayListener, Collapse, Dialog, DialogActions, DialogContent, DialogTitle, Grow, IconButton, LinearProgress,  MenuItem, MenuList, Paper, Popper, useMediaQuery,   Tooltip } from '@mui/material';
+import { Table, TableBody, TablePagination, TableHead, Stack, Divider, Card, Box, TableRow, TableCell, Typography, Button, ClickAwayListener, Collapse, Dialog, DialogActions, DialogContent, DialogTitle, Grow, IconButton, LinearProgress, MenuItem, MenuList, Paper, Popper, useMediaQuery, Tooltip } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import toast from 'react-hot-toast';
@@ -44,8 +44,8 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
   const [openDlgMenu, setOpenDlgMenu] = React.useState<any>({ open: false, eventId: null });
   const [openDlgReward, setOpenDlgReward] = React.useState<any>({ open: false, eventData: null });
   const [openQRDlg, setOpenQRDlg] = React.useState<any>({
-    open:false,
-    eventData:null
+    open: false,
+    eventData: null
   });
   const isMobile = useMediaQuery('(max-width: 600px)');
 
@@ -60,7 +60,7 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
     setOpenDlgReward({
       open: false,
       eventData: {}
-    }) 
+    })
   };
   const handleOpenEdit = (value: any) => {
     setOpenDlgEdit({
@@ -101,16 +101,16 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
       eventId: null
     })
   };
-  const handleCloseQRDlg = () => { 
+  const handleCloseQRDlg = () => {
     setOpenQRDlg({
-      open:false,
-      eventData:null
+      open: false,
+      eventData: null
     })
   }
-  const handleOpenQRDlg = (row:any) => {
+  const handleOpenQRDlg = (row: any) => {
     setOpenQRDlg({
-      open:true,
-      eventData:row 
+      open: true,
+      eventData: row
     })
   }
 
@@ -123,7 +123,7 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
   }
 
 
- 
+
   return (
     <Card>
       {isPending && <LinearProgress />}
@@ -133,7 +133,7 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
             <TableRow>
               <TableCell>Collapse</TableCell>
               <TableCell>Event Name</TableCell>
-              <TableCell>Duration</TableCell> 
+              <TableCell>Duration</TableCell>
               <TableCell align='center'>Food </TableCell>
               <TableCell align='center'>Reward</TableCell>
               <TableCell align='center'>Website</TableCell>
@@ -152,7 +152,7 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
                   handleOpenReward={handleOpenReward}
                   handleOpenEdit={handleOpenEdit}
                   handleOpenPrint={handleOpenPrint}
-                  handleOpenQRDlg={()=>handleOpenQRDlg(row)}
+                  handleOpenQRDlg={() => handleOpenQRDlg(row)}
                 />
               );
             })}
@@ -187,7 +187,7 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
         <DialogActions>
           <Button onClick={handleCloseMenu}>Close</Button>
         </DialogActions>
-      </Dialog> 
+      </Dialog>
 
       <Dialog
         open={openDlgReward.open}
@@ -203,15 +203,19 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
         <DialogActions>
           <Button onClick={handleCloseReward}>Close</Button>
         </DialogActions>
-      </Dialog> 
-      <QRScanner openDlg={openQRDlg} handleCloseDlg={handleCloseQRDlg}/>
+      </Dialog>
+      <Dialog open={openQRDlg.open} onClose={handleCloseQRDlg}
+        maxWidth={"sm"} fullScreen={isMobile} fullWidth={true} >
+        <QRScanner eventData={openQRDlg.eventData} handleCloseDlg={handleCloseQRDlg} />
+      </Dialog>
+
     </Card>
   );
 }
 
 
 
-function Row({ row, handleOpenMenu, fetchEvents, handleOpenEdit, handleOpenPrint,handleOpenQRDlg,handleOpenReward }: any) {
+function Row({ row, handleOpenMenu, fetchEvents, handleOpenEdit, handleOpenPrint, handleOpenQRDlg, handleOpenReward }: any) {
   const [open, setOpen] = React.useState(false);
   const copyToClipboard = (eventId: string) => {
     navigator.clipboard.writeText(import.meta.env.VITE_WEB_URL + paths.website.viewPath + eventId);
@@ -235,7 +239,7 @@ function Row({ row, handleOpenMenu, fetchEvents, handleOpenEdit, handleOpenPrint
           <Stack sx={{ alignItems: 'center' }} direction="row" spacing={2}><Typography variant="subtitle2">{row.name}</Typography></Stack>
         </TableCell>
         <TableCell>{dayjs(row.startTime).format('YYYY-MM-DD') + ' - ' + dayjs(row.endTime).format('YYYY-MM-DD')}</TableCell>
-        
+
         <TableCell align='center'>
           {
             row?.useFood === true ? <Button onClick={() => handleOpenMenu(row._id)}>Menu</Button> : "Disabled"
@@ -248,7 +252,7 @@ function Row({ row, handleOpenMenu, fetchEvents, handleOpenEdit, handleOpenPrint
         <TableCell align='center'>
           <Tooltip title="Scan QR">
             <IconButton aria-label="edit" color="info" onClick={handleOpenQRDlg}>
-              <QrCodeScannerIcon sx={{ fontSize: 26 }}  />
+              <QrCodeScannerIcon sx={{ fontSize: 26 }} />
             </IconButton>
           </Tooltip>
           <Tooltip title="Save QR URL ">
