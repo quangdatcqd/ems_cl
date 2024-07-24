@@ -57,10 +57,10 @@ export default function EventRegistration() {
                 setRegistrationInfo(eventPartRs?.data)
                 return eventPartRs?.data
             }
-            else if (eventPartRs?.statusCode === 401) {
-                setRedirectUrl(import.meta.env.VITE_WEB_URL + paths.website.joinEventPath + params.eventId)
-                navigator(paths.client.auth.signIn)
-            }
+            // else if (eventPartRs?.statusCode === 401) {
+            //     setRedirectUrl(import.meta.env.VITE_WEB_URL + paths.website.joinEventPath + params.eventId)
+            //     navigator(paths.client.auth.signIn)
+            // }
         }
     }
 
