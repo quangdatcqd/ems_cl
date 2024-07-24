@@ -33,7 +33,7 @@ export default function EventRegistration() {
     const [orders, setOrders] = React.useState<any>([]);
     const [eventData, setEventData] = React.useState<EventDataType | null>(null);
     const params = useParams();
-    const navigator = useNavigate()
+    // const navigator = useNavigate()
     const now = getDate();
     const registrationClosed = dayjs(now).isAfter(dayjs(eventData?.registrationDeadline), 'day')
     var allowedJoin = React.useMemo(() => {
