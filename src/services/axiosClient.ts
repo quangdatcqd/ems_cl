@@ -24,11 +24,11 @@ axiosClient.interceptors.response.use(
         withCredentials: true
       }).then((res: any) => {
         localStorage.setItem("auth", JSON.stringify(res?.data?.data));
-        // window.location.reload() 
+        window.location.reload() 
       }).catch(() => {
-        // localStorage.removeItem("auth")
-        // if (window.location.pathname.includes('admin')) return window.location.href = paths.admin.auth.signIn
-        // return window.location.href = paths.client.auth.signIn
+        localStorage.removeItem("auth")
+        if (window.location.pathname.includes('admin')) return window.location.href = paths.admin.auth.signIn
+        return window.location.href = paths.client.auth.signIn
 
       }); 
     }
