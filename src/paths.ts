@@ -31,11 +31,15 @@ export const paths = {
     },
     website: {
       setupRouter: pathAdmin + '/website/setup/:id',
-      setupPath: pathAdmin + '/website/setup',
+      setupPath: pathAdmin + '/website/setup/',
       viewRouter: pathAdmin + '/website/:id',
       viewPath: pathAdmin + '/website/',
       viewTemplateRouter: pathAdmin + '/website-demo/:template',
       viewTemplatePath: pathAdmin + '/website-demo/',
+    },
+    reward: {
+      rewardRouter: pathAdmin + '/reward/:eventId',
+      rewardPath: pathAdmin + '/reward/',
     },
     sections: {
       sectionRouter: pathAdmin + '/section/:id',

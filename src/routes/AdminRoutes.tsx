@@ -19,6 +19,7 @@ import { ResetPassword } from "../pages/auth/Admin/ResetPassword";
 import { ChangeResetPassword } from "../pages/auth/Admin/ChangeResetPassword";
 import EventFoodRegistration from "../pages/dashboard/Admin/EventFoodRegistration";
 import EventRegistration from "../pages/dashboard/Admin/EventRegistration"; 
+import GetReward from "../pages/GetReward";
 
 const AdminProtectedRoute = () => {
     const { auth } = useAuth();
@@ -87,11 +88,14 @@ const routesForAdminAuthenticatedOnly = [
     {
         path: paths.admin.sections.sectionRouter,
         element: <RenderSection />
-    },
-    
+    }, 
     {
         path: paths.admin.website.viewTemplateRouter,
         element: <WebRender />
+    },
+    {
+        path: paths.admin.reward.rewardRouter,
+        element: <GetReward />,
     },
 ];
 const routesForAdminAuthentication = [

@@ -21,6 +21,8 @@ import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop';
 import EventPrintPreview from './event-print-preview';
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
 import DownloadIcon from '@mui/icons-material/Download';
+import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
+import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 
 import QRScanner from './qr-scanner';
 import { EventDetail } from './event-detail';
@@ -245,9 +247,22 @@ function Row({ row, handleOpenMenu, fetchEvents, handleOpenEdit, handleOpenPrint
             row?.useFood === true ? <Button onClick={() => handleOpenMenu(row._id)}>Menu</Button> : "Disabled"
           }
         </TableCell>
-        <TableCell align='center'><Button onClick={() => handleOpenReward(row)}>Reward</Button> </TableCell>
+        <TableCell align='center'>
+          <Tooltip title="Gift List">
+            <IconButton aria-label="edit" color="success" onClick={() => handleOpenReward(row)}>
+              <CardGiftcardIcon sx={{ fontSize: 26 }} />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Reward">
+            <Link className='react-link'   to={paths.admin.reward.rewardPath +  row._id }>
+              <VolunteerActivismIcon sx={{ fontSize: 26, color: '#15b79f' }} />
+            </Link>
+          </Tooltip>
+
+
+        </TableCell>
         <TableCell align='center' >
-          <Link className='react-link' to={paths.admin.website.setupPath + `/${row._id}`}>Editor</Link>
+          <Link className='react-link' to={paths.admin.website.setupPath + row._id}>Editor</Link>
         </TableCell>
         <TableCell align='center'>
           <Tooltip title="Scan QR">
