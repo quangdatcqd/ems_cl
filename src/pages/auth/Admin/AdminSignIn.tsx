@@ -55,7 +55,7 @@ export function AdminSignIn(): React.JSX.Element {
         setAuth(data.data);
         setTimeout(() => {
           window.location.href = paths.admin.dashboard.overview
-        }, 1000);
+        }, 500);
       }else{
         toast.error(data?.message)
       }

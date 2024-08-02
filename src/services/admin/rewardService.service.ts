@@ -4,8 +4,19 @@ import axiosClient from "../axiosClient"
 const AdminRoute = "admin/event-rewards";
 
 class RewardService {
+    async getAvailableReward(eventId: string ) {
+        let URL = AdminRoute + `/get-available-reward/${eventId}`;; 
+        return axiosClient.get(URL, {
+            headers: authHeader() 
+        }).then((res: any) => {
+            return res.data;
+        }).catch((error: any) => {
+            return error
+        });
+
+    } 
     async getAllReward(eventId: string, keyword?: string) {
-        let URL = AdminRoute + `/${eventId}/${keyword}`;;
+        let URL = AdminRoute + `/get-reward/${eventId}/${keyword}`;;
         // if (!userId) URL = AdminRoute + `/${eventId}/public`;
         return axiosClient.get(URL, {
             headers: authHeader() 

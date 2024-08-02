@@ -24,6 +24,16 @@ class EventParticipantService {
         });
     }
 
+    async findUserParticipant(eventId:string, keyword: string) {
+        return   axiosClient.get(ClientRoute+`/find-user/${eventId}/${keyword}`, {
+            headers: authHeader() 
+        })  .then((res: any) => { 
+            return res.data;
+        }).catch((error: any) => { 
+            return error
+        });
+    }
+
     async checkEventParticipant(eventId: string) {
         return   axiosClient.get(ClientRoute+`/check/${eventId}`, {
             headers: authHeader() 
