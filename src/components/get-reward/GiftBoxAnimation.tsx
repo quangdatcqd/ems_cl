@@ -1,8 +1,7 @@
  
 import React from "react";
 import rewardService from "../../services/admin/rewardService.service";
-import { useParams } from "react-router-dom";
-import { paths } from "../../paths"; 
+import { useParams } from "react-router-dom"; 
 import Carousel from "./Carousel"; 
 
 const GiftBoxAnimation = () => {

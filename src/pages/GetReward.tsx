@@ -1,5 +1,5 @@
 import GiftBoxAnimation from "../components/get-reward/GiftBoxAnimation";
-import FooterGift from "../components/get-reward/images/footer-gifts.svg";
+// import FooterGift from "../components/get-reward/images/footer-gifts.svg";
 
 import NavReward from "../components/get-reward/NavReward";
 function GetReward() {
