@@ -8,7 +8,7 @@ import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import { useDebouncedCallback } from 'use-debounce';
 import eventParticipantService from '../../services/client/eventParticipant.service';
 import { useParams } from 'react-router-dom';
-function NavReward() {
+function NavReward({rewardInfo,setRewardInfo}:any) {
     const [openNav, setOpenNav] = React.useState({
         type: "fixed",
         navClass: "absolute",
@@ -18,9 +18,7 @@ function NavReward() {
     const params = useParams();
 
     const [userList, setUserList] = React.useState([]);
-    const [isPending, setIsPending] = React.useState(false);
-    const [rewardInfo, setRewardInfo] = React.useState({ type: "user", userId: "", eventId: "", userName: "" });
-
+    const [isPending, setIsPending] = React.useState(false); 
 
     const onHover = () => {
         if (openNav.type === "flexible")
@@ -58,7 +56,9 @@ function NavReward() {
         setTimeout(() => {
             setOpenNav({
                 ...openNav,
-                boxUserClass: "hidden"
+                boxUserClass: "hidden",
+                navClass: "hidden",
+                boxHoverClass: "absolute"
             })
         }, 1000);
     }
@@ -80,11 +80,21 @@ function NavReward() {
             userId: user._id,
             userName: user.userName
         })
+        onCloseNav();
     } 
 
+    const selectType = (e: any) => { 
+        setRewardInfo({
+            ...rewardInfo,
+            type: e.target.value,
+            inputLabel: e.target.value === "user" ? "Type Gift Name":"Type Ticket, Name or Seat",
+            userId: "",
+
+        })
+    }
+
     return (
-        <div>
-            <div className='text-center text-4xl font-bold  py-5 w-full   text-white'>   {rewardInfo.userName && "Gift for " + rewardInfo.userName}</div>
+        <div> 
             <div className={`left-1 top-1 bg-[#07070734] rounded-xl shadow-2xl w-[25rem] p-5   z-10 ${openNav.navClass}`}>
                 <div className='color-white absolute -right-7 top-5 bg-[#0707072e] rounded-e-md py-3  pl-[5px] shadow-2xl cursor-pointer hover:bg-[#07070749] '
                     onClick={onCloseNav}>
@@ -96,16 +106,16 @@ function NavReward() {
                         <RadioGroup
                             row
                             value={rewardInfo.type}
-                            onChange={(e) => setRewardInfo({ ...rewardInfo, type: e.target.value })}
+                            onChange={selectType}
                         >
-                            <FormControlLabel value="user" control={<Radio />} label="Random User" />
                             <FormControlLabel value="gift" control={<Radio />} label="Random Gift" />
+                            <FormControlLabel value="user" control={<Radio />} label="Random User" />
                         </RadioGroup>
                     </FormControl>
                 </div>
                 <div className='relative'>
 
-                    <TextField label="Ticket Code or Name" onFocus={onDropdown} onBlur={onCloseDropdown} onChange={fetchUser} sx={{ backgroundColor: 'white', borderRadius: '10px' }} fullWidth variant="filled" color="success" />
+                    <TextField label={rewardInfo.inputLabel} onFocus={onDropdown} onBlur={onCloseDropdown} onChange={fetchUser} sx={{ backgroundColor: 'white', borderRadius: '10px' }} fullWidth variant="filled" color="success" />
                     <div className={`${openNav.boxUserClass} bg-[#f0f0f0] w-full top-[3.7rem] p-1 rounded-md`}>
                         {isPending && <LinearProgress />}
                         {
@@ -131,7 +141,7 @@ function NavReward() {
             </div>
             <div className={`absolute left-0 top-0 h-[20rem] w-8   z-10 ${openNav.boxHoverClass}`} onMouseEnter={onHover}>
                 <div className='color-white absolute left-0 top-2 bg-[#0707072e] rounded-e-md py-3  shadow-2xl   '
-                    onClick={onCloseNav}>
+                    onClick={onHover}>
                     <ArrowForwardIosIcon sx={{ fontSize: 30, color: 'white' }} />
                 </div>
             </div>

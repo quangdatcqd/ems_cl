@@ -63,6 +63,15 @@ class RewardService {
                 return error
             });
     }
+
+    async reduceRewardQty(id: string) {
+        return axiosClient.put(AdminRoute + `/reduce-qty/${id}`,{}, { headers: authHeader() })
+            .then((res: any) => {
+                return res.data;
+            }).catch((error: any) => {
+                return error
+            });
+    }
 }
 
 export default new RewardService();
