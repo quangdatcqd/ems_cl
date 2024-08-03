@@ -13,11 +13,11 @@ function NavReward({rewardInfo,setRewardInfo}:any) {
         type: "fixed",
         navClass: "absolute",
         boxHoverClass: "hidden",
-        boxUserClass: "hidden"
+        boxResultClass: "absolute"
     });
     const params = useParams();
 
-    const [userList, setUserList] = React.useState([]);
+    const [resultList, setResultList] = React.useState([]);
     const [isPending, setIsPending] = React.useState(false); 
 
     const onHover = () => {
@@ -26,7 +26,7 @@ function NavReward({rewardInfo,setRewardInfo}:any) {
                 ...openNav,
                 navClass: "absolute",
                 boxHoverClass: "hidden",
-                boxUserClass: "hidden"
+                boxResultClass: "hidden"
             })
         else
             setOpenNav({
@@ -40,37 +40,37 @@ function NavReward({rewardInfo,setRewardInfo}:any) {
             type: "flexible",
             navClass: "hidden",
             boxHoverClass: "absolute",
-            boxUserClass: "hidden"
+            boxResultClass: "hidden"
         })
     }
 
-    const onDropdown = () => {
+    const onDropdown = () => { 
         setOpenNav({
             ...openNav,
             navClass: "absolute",
-            boxUserClass: "block"
+            boxResultClass: "block"
         })
     }
 
     const onCloseDropdown = () => {
-        setTimeout(() => {
+        // setTimeout(() => {
             setOpenNav({
                 ...openNav,
-                boxUserClass: "hidden",
-                navClass: "hidden",
-                boxHoverClass: "absolute"
+                boxResultClass: "hidden",
+                navClass: "absolute",
+                boxHoverClass: "hidden"
             })
-        }, 1000);
+        // }, 1000);
     }
 
-    const fetchUser = useDebouncedCallback(async (e) => {
+    const fetchData = useDebouncedCallback(async (e) => {
         if (params?.eventId && e.target.value.trim().length > 0) {
             setIsPending(true)
             const userData = await eventParticipantService.findUserParticipant(params?.eventId, e.target.value);
-            setUserList(userData.data);
+            setResultList(userData.data);
             setIsPending(false)
         } else {
-            setUserList([])
+            setResultList([])
         }
     }, 200)
 
@@ -88,8 +88,7 @@ function NavReward({rewardInfo,setRewardInfo}:any) {
             ...rewardInfo,
             type: e.target.value,
             inputLabel: e.target.value === "user" ? "Type Gift Name":"Type Ticket, Name or Seat",
-            userId: "",
-
+            userId: "", 
         })
     }
 
@@ -113,13 +112,12 @@ function NavReward({rewardInfo,setRewardInfo}:any) {
                         </RadioGroup>
                     </FormControl>
                 </div>
-                <div className='relative'>
-
-                    <TextField label={rewardInfo.inputLabel} onFocus={onDropdown} onBlur={onCloseDropdown} onChange={fetchUser} sx={{ backgroundColor: 'white', borderRadius: '10px' }} fullWidth variant="filled" color="success" />
-                    <div className={`${openNav.boxUserClass} bg-[#f0f0f0] w-full top-[3.7rem] p-1 rounded-md`}>
+                <div className='relative'> 
+                    <TextField label={rewardInfo.inputLabel} onFocus={onDropdown} onBlur={onCloseDropdown} onChange={fetchData} sx={{ backgroundColor: 'white', borderRadius: '10px' }} fullWidth variant="filled" color="success" />
+                    <div className={`${openNav.boxResultClass} bg-[#f0f0f0] w-full top-[3.7rem] p-1 rounded-md`}  onClick={onDropdown}>
                         {isPending && <LinearProgress />}
                         {
-                            userList?.length > 0 ? userList.map((item: any, index) => (
+                            resultList?.length > 0 ? resultList.map((item: any, index) => (
                                 <div className='p-2 ' key={index} onClick={(e) => {
                                     e.preventDefault();
                                     selectUser(item)
@@ -133,7 +131,7 @@ function NavReward({rewardInfo,setRewardInfo}:any) {
                                     </div>
                                 </div>
                             )) :
-                                <div className='text-center p-2 font-bold text-slate-500'>User not found</div>
+                                <div className='text-center p-2 font-bold text-slate-500'>No data</div>
                         }
 
                     </div>
