@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from "react"; 
+import React, { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import "./reward.css";
 import { paths } from "../../paths";
 import rewardService from "../../services/admin/rewardService.service";
 import { useParams } from "react-router-dom";
 import SadImage from './images/4419047.jpg'
+import eventParticipantService from "../../services/client/eventParticipant.service";
 
-export default function CarouselGift({rewardInfo}: any) {
+export default function CarouselGift({ rewardInfo }: any) {
   const [activeSlide, setActiveSlide] = useState(0);
   const [isRandomizing, setIsRandomizing] = useState(false);
   const [rewardRemaining, setRewardRemaining] = useState<any>(null);
- 
+
   const [count, setCount] = useState(0);
   const params = useParams();
   const [rewardItems, setRewardItems] = React.useState<any>([]);
@@ -23,12 +24,16 @@ export default function CarouselGift({rewardInfo}: any) {
       }
     }
   }
-  const reduceRewardQty = async (index: number) => {
-    const giftId = rewardItems[index]._id;
-    const rewatdUpdatedData = await rewardService.reduceRewardQty(giftId); 
+  const reduceRewardQty = async (giftId: string) => { 
+    const rewatdUpdatedData = await rewardService.reduceRewardQty(giftId);
     if (rewatdUpdatedData?.quantity >= 0) {
       setRewardRemaining(rewatdUpdatedData?.quantity);
     }
+  }
+
+
+  const updateUserHasReceivedReward = async (giftId:string) => { 
+    await eventParticipantService.updateUserHasReceivedReward(rewardInfo.participantId,  giftId);
   }
 
   React.useEffect(() => {
@@ -48,7 +53,9 @@ export default function CarouselGift({rewardInfo}: any) {
         if (count >= rewardItems.length * 2) {
           const randomGiftIndex = Math.floor(Math.random() * rewardItems.length);
           setActiveSlide(randomGiftIndex);
-          reduceRewardQty(randomGiftIndex);
+          const giftId = rewardItems[randomGiftIndex]._id;
+          reduceRewardQty(giftId);
+          updateUserHasReceivedReward(giftId);
           clearInterval(randomInterval);
           setIsRandomizing(false);
           setCount(0);

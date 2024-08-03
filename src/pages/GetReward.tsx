@@ -4,7 +4,7 @@ import CarouselName from "../components/get-reward/carousel-name";
 import FooterGift from "../components/get-reward/images/footer-gifts.svg";
 import NavReward from "../components/get-reward/nav-reward"; 
 function GetReward() {
-    const [rewardInfo, setRewardInfo] = React.useState({ type: "gift", userId: "", eventId: "", userName: "", giftId: "", giftName: "", inputLabel: "Type Ticket, Name or Seat" });
+    const [rewardInfo, setRewardInfo] = React.useState({participantId: "", type: "gift", userId: "", eventId: "", userName: "", giftId: "", giftName: "", inputLabel: "Type Ticket, Name or Seat" });
     
     return (
         <div className="flex flex-col w-full min-h-screen pb-5 bg-[linear-gradient(102deg,#1de5e2,#b588f7)]">

@@ -45,7 +45,10 @@ export default function InputUserDropdown({ selectUser }: any) {
     }, []);
     return (
         <div >
-            <TextField ref={inputRef} label={"Type Name, Ticket or Seat"} onChange={fetchData} onFocus={() => setIsDropdownOpen("block")} sx={{ backgroundColor: 'white', borderRadius: '10px' }} fullWidth variant="filled" color="success" />
+            <TextField ref={inputRef} label={"Type Name, Ticket or Seat"} onChange={fetchData} onFocus={() => {
+                setIsDropdownOpen("block")
+                fetchData("all")
+            }} sx={{ backgroundColor: 'white', borderRadius: '10px' }} fullWidth variant="filled" color="success" />
             <div ref={dropdownRef} className={`${isDropdownOpen} bg-[#f0f0f0] w-full mt-1 p-1 rounded-md overflow-y-scroll max-h-[calc(100vh-220px)] custom-scroll`} >
                 {isPending && <LinearProgress />}
                 {

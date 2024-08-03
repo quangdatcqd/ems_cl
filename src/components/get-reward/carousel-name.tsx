@@ -74,8 +74,7 @@ export default function CarouselName({ rewardInfo }: any) {
   }
   React.useEffect(() => {
     fetchUser();
-  }, [])
-console.log(rewardRemaining);
+  }, []) 
 
   return (
     <> {

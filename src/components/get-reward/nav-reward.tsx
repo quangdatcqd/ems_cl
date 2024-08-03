@@ -40,17 +40,19 @@ function NavReward({ rewardInfo, setRewardInfo }: any) {
             type: e.target.value,
             inputLabel: e.target.value === "user" ? "Type Gift Name" : "Type Ticket, Name or Seat",
             userId: "",
+            participantId: "",
             userName: "",
             giftId: "",
             giftName: ""
         })
     }
 
-    const selectUser = (user: any) => {
+    const selectUser = (data: any) => {
         setRewardInfo({
             ...rewardInfo,
-            userId: user._id,
-            userName: user.userName
+            participantId: data._id,
+            userId: data.userId,
+            userName: data.userName
         })
         onCloseNav();
     }
@@ -60,6 +62,7 @@ function NavReward({ rewardInfo, setRewardInfo }: any) {
             ...rewardInfo,
             userId: "",
             userName: "", 
+            participantId: "",
             giftId: data._id,
             giftName: data.name  
         })
