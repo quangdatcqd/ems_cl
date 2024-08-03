@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from "react";
-import "./test.css";
+import React, { useState, useEffect } from "react"; 
 import { Button } from "@mui/material";
+import "./reward.css";
 import { paths } from "../../paths";
 import rewardService from "../../services/admin/rewardService.service";
 import { useParams } from "react-router-dom";
 import SadImage from './images/4419047.jpg'
 
-export default function CarouselGift() {
+export default function CarouselGift({rewardInfo}: any) {
   const [activeSlide, setActiveSlide] = useState(0);
   const [isRandomizing, setIsRandomizing] = useState(false);
+  const [rewardRemaining, setRewardRemaining] = useState<any>(null);
+ 
   const [count, setCount] = useState(0);
   const params = useParams();
   const [rewardItems, setRewardItems] = React.useState<any>([]);
@@ -23,13 +25,15 @@ export default function CarouselGift() {
   }
   const reduceRewardQty = async (index: number) => {
     const giftId = rewardItems[index]._id;
-    await rewardService.reduceRewardQty(giftId);
-    fetchReward();
+    const rewatdUpdatedData = await rewardService.reduceRewardQty(giftId); 
+    if (rewatdUpdatedData?.quantity >= 0) {
+      setRewardRemaining(rewatdUpdatedData?.quantity);
+    }
   }
 
   React.useEffect(() => {
     fetchReward();
-  }, [])
+  }, [rewardInfo])
   useEffect(() => {
     let randomInterval: any;
 
@@ -137,7 +141,7 @@ export default function CarouselGift() {
               size="large"
               sx={{ width: "330px" }}
               onClick={randomCard}
-              disabled={isRandomizing}
+              disabled={isRandomizing || rewardRemaining !== null}
             >
               Get Reward
             </Button>
