@@ -20,19 +20,18 @@ export default function RewardItem({ item, setDataEdit, onDeleteItem }: TypeProp
 
     return (
         <div>
-            <div className="group  overflow-hidden shadow-lg rounded-xl cursor-pointer  relative user-select-none hover:-translate-y-1 transition-all ease-in-out duration-300 ">
+            <div className="group  overflow-hidden shadow-lg rounded-xl cursor-pointer h-full relative user-select-none hover:-translate-y-1 transition-all ease-in-out duration-300 ">
                 <Actions setDataEdit={setDataEdit} item={item} onDeleteItem={onDeleteItem} />
                 <img
-                    className="object-cover h-[120px] w-full group-hover:bg-[#adadad]"
+                    className="object-cover h-[200px] w-full group-hover:bg-[#adadad]"
                     src={item.imageId ?  paths.imagePath + item.imageId : DefaultImage}
                     title="green iguana"
                 />
-                <div className="p-3 pt-2 pb-4">
+                <div className="p-3 pt-2 pb-2">
                     <p className="font-[500] text-slate-500">{item.name}</p>
-                    <p className="font-[500] text-green-700 mt-1">Price: ${item.price}</p>
-                    <p className="font-[500] text-green-700 mt-1">Quantity: {item.quantity}</p>
-                    <div className=" text-sm mt-1 bg-slate-100 rounded-md p-1"> {item.description}</div>
-                    <p className=" text-slate-500 mt-1 text-[12px] text-end italic">Created: {dayjs(item.createdAt).format('YYYY-MM-DD hh:mm')} </p>
+                    <p className="font-[500]  text-sm mt-2 flex justify-between"> <span>Price: ${item.price}</span> <span>Qty: {item.quantity}</span> </p> 
+                    <div className=" text-sm   bg-slate-50 text-slate-500 rounded-md p-1"> {item.description}</div>
+                    <p className=" text-slate-500 mt-3 text-[12px] text-end italic">Created: {dayjs(item.createdAt).format('YYYY-MM-DD hh:mm')} </p>
                 </div> 
             </div>
         </div>
@@ -54,8 +53,8 @@ const Actions = ({ setDataEdit, item, onDeleteItem }: any) => {
         })
     }
     return (
-        <div className="flex flex-col  items-end  gap-1 absolute top-1 right-1    group-hover:flex  hidden   ">
-            <div className="rounded-full px-2 pt-1 pb-2  shadow-xl bg-white hover:bg-[#d2d2d2] " onClick={onEdit}><EditOffIcon sx={{ fontSize: 22 }} color="primary" /></div>
+        <div className="flex-col  items-end  gap-1 absolute top-1 right-1    group-hover:flex    hidden ">
+            <div className="rounded-full px-2 pt-1 pb-2  shadow-xl bg-white hover:bg-[#d2d2d2] " onClick={onEdit}><EditOffIcon sx={{ fontSize: 22 }} color="success" /></div>
             <div className='relative'>
                 <div className="rounded-full px-2 pt-1 pb-2  shadow-xl bg-white hover:bg-[#d2d2d2] "
                     ref={anchorRef}

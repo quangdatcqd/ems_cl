@@ -195,7 +195,7 @@ export function EvenManagerTable({ count = 0, rows = [], page = 0, rowsPerPage =
         open={openDlgReward.open}
         onClose={handleCloseReward}
         fullWidth={true}
-        maxWidth={"lg"}
+        maxWidth={"xl"}
         fullScreen={isMobile}
       >
         <DialogTitle>Reward Menu</DialogTitle>
