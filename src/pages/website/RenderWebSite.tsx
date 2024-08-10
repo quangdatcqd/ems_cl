@@ -27,15 +27,14 @@ export function WebRender() {
             if (template) setEventData(template.config)
         }
         if (params?.id) fetchEventData();
-    }, [])
-
-    const webConfigs = eventData?.webConfig && JSON.parse(eventData?.webConfig)
+    }, []) 
+    const webConfigs = eventData?.webConfig ? JSON.parse(eventData?.webConfig) : eventData
     return (
         <div className='bg-white flexible-box flex-grow'  >
             <div className='group fixed -top-2 right-1 z-10 text-sm bg-white p-2 pt-5 rounded-md'>
                 <div className='group-hover:flex hidden flex-col gap-2  '> 
                     {
-                        eventData?.languages.split(",").map((lang: string, index: number) => {
+                        eventData?.languages?.split(",")?.map((lang: string, index: number) => {
                             if (lang === "EN")
                                 return <div key={index} onClick={() => setActiveLang("ENG")} className='rounded-full cursor-pointer flex flex-col items-center font-[500]'> <img src={UKFlag} className='w-6' alt="" /> ENG </div>
                             if (lang === "TW")
@@ -47,7 +46,7 @@ export function WebRender() {
                 </div>
                 <div className='group-hover:hidden block'>
                     {
-                        eventData?.languages.split(",").map((lang: string, index: number) => {
+                        eventData?.languages?.split(",")?.map((lang: string, index: number) => {
                             if (lang === "EN" && activeLang === "ENG")
                                 return <div key={index} className='rounded-full cursor-pointer flex flex-col items-center font-[500]'> <img src={UKFlag} className='w-6' alt="" /> ENG </div>
                             if (lang === "TW" && activeLang === "TW")
