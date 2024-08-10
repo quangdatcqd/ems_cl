@@ -72,7 +72,7 @@ export function EventEditForm({ openDlgEdit, handleCloseEdit }: Props): React.JS
   const [showCapacityLimit, setShowCapacityLimit] = React.useState<boolean>(eventData.capacityLimit > 0);
   const { control, handleSubmit, setError, formState: { errors }, setValue } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
   const fullScreenSM = useMediaQuery("(max-width:600px)")
-  const [languages, setLanguages] = React.useState<string[]>(eventData.languages.split(","));
+  const [languages, setLanguages] = React.useState<string[]>(eventData?.languages?.split(","));
 
   const onSubmit = React.useCallback(async (values: Values, e: any): Promise<void> => {
     setIsPending(true);
