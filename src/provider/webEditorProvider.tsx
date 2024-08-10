@@ -10,12 +10,15 @@ export default function WebEditorProvider({ children }: WebEditorProviderProps) 
   const [webConfig, setWebConfig] = useState<WebConfigType | null>(null);
   const [dragComponentName, setDragComponentName] = useState<string | null>(null);
   const [webConfigs, setWebConfigs] = useState<WebConfigType[]>([]); 
+  const [activeLang, setActiveLang] = useState<{ name:  "ENG_text"|"TW_text"|"VI_text", placeholder: string }  >({
+    name: "ENG_text",
+    placeholder: "Type your text here..."
+  }); 
+  
   
   const handleDragEnter = (index: number) => { 
     if (dragComponentName) {
-      const baseConfigSection = getBaseConfigSection(dragComponentName);
-      console.log(baseConfigSection);
-      
+      const baseConfigSection = getBaseConfigSection(dragComponentName); 
       if (baseConfigSection)
         setWebConfigs((prevWebConfigs) => {
           const newWebConfigs = [...prevWebConfigs];
@@ -43,9 +46,11 @@ export default function WebEditorProvider({ children }: WebEditorProviderProps) 
       handleDragEnter,
       setDragComponentName,
       dragComponentName,
-      handleRemoveSection
+      handleRemoveSection,
+      activeLang,
+      setActiveLang
     }),
-    [webConfig, webConfigs, dragComponentName]
+    [webConfig, webConfigs, dragComponentName,activeLang]
   );
 
   return <WebEditorContext.Provider value={contextValue}>{children}</WebEditorContext.Provider>;

@@ -12,7 +12,10 @@ export interface EventDataType {
   allowMinAge: number,
   allowMaxAge: number,
   allowGender: string,
-  participant_count: number
+  participant_count: number,
+  webConfig:string,
+  languages: string
+
 }
 export interface EventResponseType {
   data:EventDataType [];

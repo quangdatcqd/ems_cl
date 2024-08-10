@@ -11,7 +11,7 @@ import { NavTemplates } from './components/WebTemplates';
 
 
 
-export function SideNav({activeKey,setActiveKey}:any): React.JSX.Element {
+export function SideNav({ activeKey, setActiveKey }: any): React.JSX.Element {
 
   const handleSelectNav = (navKey: string) => {
     setActiveKey(navKey)
@@ -87,14 +87,6 @@ export function SideNavExpand({ activeKey, setActiveKey }: { activeKey: string, 
                     >{nav.key}</span>
                   ))
                 }
-                {/* {
-                activeKey === "Templates" && NavTemplates.map((nav, index) => (
-                  <span key={index}
-                    className={`py-1 px-10 pb-2 mb-2 hover:bg-sky-100 hover:text-sky-600 cursor-pointer rounded-3xl ${activeSection === nav.name && "text-sky-600 bg-sky-100"}`}
-                    onClick={() => handleClickTemplate(nav)}
-                  >{nav.name}</span>
-                ))
-              } */}
               </div>
             }
             {
@@ -124,7 +116,7 @@ export function SideNavExpand({ activeKey, setActiveKey }: { activeKey: string, 
                         name={temp?.name}
                         scaleFactor={0.2}
                         drag={false}
-                        src={paths.admin.website.viewTemplatePath + temp.name } 
+                        src={paths.admin.website.viewTemplatePath + temp.name}
                       />
                     </div>
                   ))
@@ -152,34 +144,46 @@ interface IframeProps {
 const ScaledIframe: React.FC<IframeProps> = ({ src, scaleFactor, name, drag = true }) => {
   const { setDragComponentName } = useWebEditorConfig();
   const [iframeHeight, setIframeHeight] = React.useState(0);
-  const adjustIframeHeight = (event: any) => { 
-    if (event.target) {
-      const iframeH = event.target.contentWindow?.document.body.scrollHeight || 0;
-      const newHeight = iframeH * scaleFactor;
-      event.target.style.height = `${iframeH>0?iframeH:3000}px`;
-      setIframeHeight(newHeight) 
-      
-    }
-  }; 
+  const adjustIframeHeight = async (event: any) => {
 
+
+    if (event.target) {
+      const iframeH = await waitForIframeLoad(event.target);
+        if (iframeH === 0) return;
+        const newHeight = iframeH * scaleFactor;
+        event.target.style.height = `${iframeH > 0 ? iframeH : 3000}px`;
+        setIframeHeight(newHeight);
+    }
+  };
+
+  const waitForIframeLoad = (iframe: HTMLIFrameElement): Promise<number> => {
+    return new Promise((resolve) => {
+      const interval = setInterval(() => {
+        var iframeContent = iframe?.contentDocument?.body?.scrollHeight; 
+        if (iframeContent) {
+          clearInterval(interval);
+          resolve(iframeContent);
+        }
+      }, 200);
+    });
+  }
   return (
     <div
       onDragStart={() => setDragComponentName(name)}
       className={`border-sky-50 border-4 hover:border-sky-200   w-100  overflow-hidden mt-2   rounded-xl select-none  `}
-      style={{ height: drag?iframeHeight:"300px" , cursor:drag?"move":"default", }}
+      style={{ height: drag ? iframeHeight : "300px", cursor: drag ? "move" : "default", }}
       draggable={drag}
     >
       <iframe
         onLoad={adjustIframeHeight}
         src={src}
         style={{
-          width: drag?'939.4px':"1805px",
+          width: drag ? '939.4px' : "1805px",
           height: "auto",
           transform: `scale(${scaleFactor})`,
           transformOrigin: 'top left',
           userSelect: "none",
           pointerEvents: 'none',
-         
         }}
       />
     </div>

@@ -22,7 +22,7 @@ export default function SetupSite() {
             if (eventRs?.data?.webConfig !== "") setWebConfigs(JSON.parse(eventRs?.data?.webConfig))
             else {
                 const configCache = getLocalStorage("webConfig");
-                if (configCache.id === params.id) setWebConfigs(configCache.config)
+                if (configCache?.id === params?.id) setWebConfigs(configCache?.config)
             }
         }
     }
@@ -36,7 +36,7 @@ export default function SetupSite() {
                     <MainNav eventData={eventData} />
                     <div className=' '>
                         <SideNav setActiveKey={setActiveKey} activeKey={activeKey} />
-                        <WebEditor setActiveKey={setActiveKey}/>
+                        <WebEditor setActiveKey={setActiveKey} languages={eventData?.languages}/>
                     </div>
                 </> : <GenericNotFound />
             }

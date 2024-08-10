@@ -13,24 +13,26 @@ import AlignLeftIcon from '@rsuite/icons/legacy/AlignLeft';
 import AlignCenterIcon from '@rsuite/icons/legacy/AlignCenter';
 import AlignRightIcon from '@rsuite/icons/legacy/AlignRight';
 import AlignJustifyIcon from '@rsuite/icons/legacy/AlignJustify';
-export default function WebEditor({ setActiveKey }: any) {
+import TaiwandFlag from '../../assets/flags/taiwand_flag.png';
+import UKFlag from '../../assets/flags/UK_flag.png';
+import VIFlag from '../../assets/flags/VI_flag.png';
+
+export default function WebEditor({ setActiveKey, languages }: any) {
     const [boxEditor, setBoxEditor] = useState<any>(null);
-    const { webConfigs, handleDragEnter, handleRemoveSection } = useWebEditorConfig();
+    const { activeLang, webConfigs, handleDragEnter, handleRemoveSection } = useWebEditorConfig();
 
     const handleSelectSection = (id: string, index: number) => {
         if (boxEditor?.config !== index) {
-            const selectedSection = webConfigs?.find(web => web.name === id)
-            if (selectedSection) {
-                setActiveKey("")
-                setBoxEditor({
-                    pos: {
-                        top: 85,
-                        right: -8
-                    },
-                    indexSection: index,
-                    config: { ...selectedSection }
-                })
-            }
+            setActiveKey("")
+            setBoxEditor({
+                pos: {
+                    top: 85,
+                    right: -8
+                },
+                indexSection: index,
+                config: webConfigs[index],
+                languages: languages
+            })
         } else setBoxEditor(null)
     }
 
@@ -72,7 +74,8 @@ export default function WebEditor({ setActiveKey }: any) {
                         return <div key={index}>
                             <div className='parent cursor-pointer border-2 hover:border-sky-300'
                                 onClick={() => handleSelectSection(element.name, index)} >
-                                <Element.component config={element} />
+
+                                <Element.component config={element} activeLang={activeLang?.name} />
                             </div>
                             <DropArea handleDragEnter={() => handleDragEnter(index + 1)} />
                         </div>
@@ -86,13 +89,10 @@ export default function WebEditor({ setActiveKey }: any) {
 
 
 
-
-
-
-
-
-
 function BoxEditor({ boxEditor }: any) {
+    const { activeLang, setActiveLang } = useWebEditorConfig();
+    console.log(boxEditor);
+
     return (
         <div
             className='px-1 pb-10 w-[250px]  rounded-xl overflow-y-scroll custom-scroll'
@@ -104,10 +104,32 @@ function BoxEditor({ boxEditor }: any) {
                 boxEditor?.config?.bgType &&
                 <ChangeBG indexSection={boxEditor?.indexSection} config={boxEditor?.config} />
             }
+            <div className='w-full  my-2 flex gap-2'>
+                {
+                    boxEditor.languages?.split(",").map((lang: string, index: number) => {
+                        if (lang === "EN")
+                            return (<div key={index} onClick={() => setActiveLang({ name: 'ENG_text', placeholder: 'Type here...' })}
+                                className={`w-6 rounded-full cursor-pointer border-2 ${activeLang?.name === 'ENG_text' ? 'border-sky-300' : ''}`}>
+                                <img src={UKFlag} className='w-6' alt="" />
+                            </div>)
+                        if (lang === "TW")
+                            return <div key={index} onClick={() => setActiveLang({ name: 'TW_text', placeholder: '在此輸入...' })}
+                                className={`w-6 rounded-full cursor-pointer border-2 ${activeLang?.name === 'TW_text' ? 'border-sky-300' : ''}`}>
+                                <img src={TaiwandFlag} className='w-6' alt="" />
+                            </div>
+
+                        if (lang === "VI")
+                            return <div key={index} onClick={() => setActiveLang({ name: 'VI_text', placeholder: 'Nhập...' })}
+                                className={`w-6 rounded-full cursor-pointer border-2 ${activeLang?.name === 'VI_text' ? 'border-sky-300' : ''}`}>
+                                <img src={VIFlag} className='w-6' alt="" />
+                            </div>
+
+                    })
+                }
+            </div>
             {
                 boxEditor?.config?.elements?.map((element: any, index: number) => {
                     if (element.name === "text") return <div key={index}  >
-
                         <TextArea index={index} indexSection={boxEditor?.indexSection} element={element} />
                     </div>
                     if (element.name === "image")
@@ -127,17 +149,18 @@ function BoxEditor({ boxEditor }: any) {
 
 function TextArea({ index, element, indexSection }: { index: number, element: any, indexSection: number }) {
     const { setWebConfigs } = useWebEditorConfig()
-    const [value, setValue] = useState(element.text.replace(/<br\/>/g, '\n'));
+
     const [showPicker, setShowPicker] = useState(false);
     const [colorValue, setColorValue] = useState(element.color);
+    const { activeLang } = useWebEditorConfig()
 
+    const [value, setValue] = useState(element[activeLang.name].replace(/<br\/>/g, '\n'));
     const handleTextChange = (event: any) => {
         setValue(event.target.value)
         let formattedText = event.target.value.replace(/\n/g, '<br/>');
-        //  formattedText = event.target.value.replace(/[<|>]/g, ''); 
         setWebConfigs(preConfigs => {
             const newConfig = [...preConfigs];
-            newConfig[indexSection].elements[index].text = formattedText;
+            newConfig[indexSection].elements[index][activeLang.name] = formattedText;
             return newConfig
         })
     };
@@ -157,23 +180,26 @@ function TextArea({ index, element, indexSection }: { index: number, element: an
         })
     }
 
-    useEffect(()=>{
-        setValue(element.text.replace(/<br\/>/g, '\n'))
+    useEffect(() => {
+        setValue(element[activeLang.name].replace(/<br\/>/g, '\n'))
         setColorValue(element.color)
-        setShowPicker(false)},[element])
+        setShowPicker(false)
+    }, [element, activeLang])
 
     return <div className='relative mt-2'>
-        <div className='font-[500] flex items-center justify-between  ' >
+        <div className='font-[500] flex items-center justify-between' >
             <p>Text edit:</p>
             <Button variant='text' style={{ padding: 5 }} onClick={() => setShowPicker(showPicker ? false : true)}>
-                {showPicker ? "Close" : "Change Color"}
+                {showPicker ? "Close" : "Style"}
             </Button>
         </div>
+
         <textarea
-            rows={2}
+            rows={3}
             value={value}
             onChange={handleTextChange}
-            className='w-[100%]  p-2 rounded-md border-2 border-dashed border-slate-300  outline-sky-200 custom-scroll  '
+            placeholder={activeLang?.placeholder}
+            className='w-[100%]  px-2 rounded-md border-2 border-dashed border-slate-300  outline-sky-200 custom-scroll  '
         />
 
         {

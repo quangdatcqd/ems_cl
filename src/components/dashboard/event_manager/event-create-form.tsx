@@ -7,14 +7,16 @@ import FormHelperText from '@mui/material/FormHelperText';
 import Stack from '@mui/material/Stack';
 import { Controller, useForm } from 'react-hook-form';
 import { z as zod } from 'zod';
-import {  Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControlLabel,  Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Switch, TextField, useMediaQuery } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControlLabel, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Switch, TextField, useMediaQuery } from '@mui/material';
 import eventService from '../../../services/admin/eventService.service';
 import toast from 'react-hot-toast';
 import { Genders } from '../../../constants/event';
 import { DateRangePicker, DatePicker, RadioGroup, Radio } from 'rsuite';
 import { ValueType } from 'rsuite/esm/Radio';
 import { RadioLabel } from './radio-label';
-
+import TaiwandFlag from '../../../assets/flags/taiwand_flag.png';
+import UKFlag from '../../../assets/flags/UK_flag.png';
+import VIFlag from '../../../assets/flags/VI_flag.png';
 
 const schema = zod.object({
   name: zod.string().min(1, { message: 'Name is required' }),
@@ -29,6 +31,7 @@ const schema = zod.object({
   allowMinAge: zod.number(),
   allowMaxAge: zod.number(),
   allowGender: zod.string().min(1, { message: 'Gender Allowed required' }),
+  languages: zod.string().min(1, { message: 'Language is required' }),
 })
 type Values = zod.infer<typeof schema>;
 
@@ -40,14 +43,14 @@ interface EventCreateFormProps {
 export function EventCreateForm({ openDlg, handleCloseDlg }: EventCreateFormProps) {
   const [isPending, setIsPending] = React.useState<boolean>(false);
   const [showCapacityLimit, setShowCapacityLimit] = React.useState<boolean>(false);
+  const [languages, setLanguages] = React.useState<string[]>(["EN"]);
   const fullScreenSM = useMediaQuery("(max-width:600px)")
-
 
   const defaultValues = {
     name: '', location: '', startTime: '',
     endTime: '', useFood: false, allowWaitlist: false, typeCheckin: "Offline",
     capacityLimit: 0, registrationDeadline: '',
-    allowMinAge: 0, allowMaxAge: 150, allowGender: 'All',
+    allowMinAge: 0, allowMaxAge: 150, allowGender: 'All', languages: "EN"
   } satisfies Values;
   const { control, handleSubmit, setError, formState: { errors }, setValue } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
   const onSubmit = React.useCallback(async (values: Values, e: any): Promise<void> => {
@@ -67,8 +70,21 @@ export function EventCreateForm({ openDlg, handleCloseDlg }: EventCreateFormProp
   },
     [setError]
   );
-  return (
 
+
+  const handleSelectLang = (lang: string) => {
+
+    const exists = languages.includes(lang);
+    if (exists && languages.length <= 1) return;
+
+    if (exists) setLanguages(languages.filter(l => l !== lang))
+    else setLanguages([...languages, lang])
+
+    setValue("languages", [...languages, lang].join(","))
+  }
+
+
+  return (
     <Dialog
       open={openDlg}
       onClose={handleCloseDlg}
@@ -106,29 +122,6 @@ export function EventCreateForm({ openDlg, handleCloseDlg }: EventCreateFormProp
                   )}
                 />
               </Grid>
-              {/* <Grid sm={6} xs={12} item={true}>
-                <FormControl fullWidth={true} error={Boolean(errors.startTime)}>
-                  <DatePicker name='startTime' label="Start time"
-                    onChange={(value) => setValue("startTime", value?.toISOString() || "")}
-                    format='YYYY-MM-DD' />
-                  {errors.startTime ? <FormHelperText>{errors.startTime.message}</FormHelperText> : null}
-                </FormControl>
-              </Grid> */}
-              {/* <Grid sm={6} xs={12} item={true}>
-                <Controller
-                  control={control}
-                  name="endTime"
-                  render={() => (
-                    <FormControl fullWidth={true} error={Boolean(errors.endTime)} >
-                      <DatePicker name='endTime' label="End Time"
-                        format='YYYY-MM-DD'
-                        onChange={(value) => setValue("endTime", value?.toISOString() || "")} />
-
-                      {errors.endTime && <FormHelperText>{errors.endTime.message}</FormHelperText>}
-                    </FormControl>
-                  )}
-                />
-              </Grid> */}
               <Grid sm={6} xs={12} item={true}>
                 <FormControl fullWidth={true} error={Boolean(errors.startTime || errors.endTime)} >
                   <label className='text-slate-500 text-sm'>Duration Date</label>
@@ -214,12 +207,26 @@ export function EventCreateForm({ openDlg, handleCloseDlg }: EventCreateFormProp
                   </Grid>
                 </FormControl>
               </Grid>
-              <Grid md={12} item={true}>
-                <RadioGroup name="radio-group-inline-picker-label" onChange={(value:ValueType) => setValue("typeCheckin", value.toString())} inline appearance="default" defaultValue={defaultValues.typeCheckin}>
-                  <RadioLabel>Check In Type: </RadioLabel>
-                  <Radio value="Offline">Offline</Radio> 
+              <Grid sm={6} xs={12} item={true}>
+                <RadioLabel>Check In: </RadioLabel>
+                <RadioGroup name="radio-group-inline-picker-label" onChange={(value: ValueType) => setValue("typeCheckin", value.toString())} inline appearance="default" defaultValue={defaultValues.typeCheckin}>
+                  <Radio value="Offline">Offline</Radio>
                   <Radio value="Online">Online</Radio>
                 </RadioGroup>
+              </Grid>
+              <Grid sm={6} xs={12} item={true}>
+                <RadioLabel>Languages: </RadioLabel>
+                <div className='flex gap-2 text-sm my-2'>
+                  <div onClick={() => handleSelectLang("EN")}
+                    className={` ${languages.includes("EN") ? "bg-white border-sky-200" : "bg-slate-300"} select-none hover:bg-white hover:border-sky-200  rounded-full cursor-pointer flex gap-2 items-center font-[500]  px-2 py-1 border-2`}>
+                    <img src={UKFlag} className='w-6' alt="" /> EN </div>
+                  <div onClick={() => handleSelectLang("TW")}
+                    className={` ${languages.includes("TW") ? "bg-white border-sky-200" : "bg-slate-300"} select-none hover:bg-white hover:border-sky-200 rounded-full cursor-pointer flex gap-2 items-center font-[500]  px-2 py-1 border-2`}>
+                    <img src={TaiwandFlag} className='w-6' alt="" /> TW </div>
+                  <div onClick={() => handleSelectLang("VI")}
+                    className={` ${languages.includes("VI") ? "bg-white border-sky-200" : "bg-slate-300"} select-none hover:bg-white hover:border-sky-200 rounded-full cursor-pointer flex gap-2 items-center font-[500]  px-2 py-1 border-2`}>
+                    <img src={VIFlag} className='w-6' alt="" /> VI </div>
+                </div>
               </Grid>
 
 

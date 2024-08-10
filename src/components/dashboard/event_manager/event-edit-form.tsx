@@ -9,12 +9,16 @@ import { Controller, useForm } from 'react-hook-form';
 import { z as zod } from 'zod';
 import { Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControlLabel, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, Switch, TextField, useMediaQuery } from '@mui/material';
 import eventService from '../../../services/admin/eventService.service';
-import toast from 'react-hot-toast'; 
+import toast from 'react-hot-toast';
 import { EventDataType } from '../../../interface/event';
-import { Genders } from '../../../constants/event'; 
-import { DateRangePicker,DatePicker, RadioGroup } from 'rsuite';
+import { Genders } from '../../../constants/event';
+import { DateRangePicker, DatePicker, RadioGroup } from 'rsuite';
 import Radio, { ValueType } from 'rsuite/esm/Radio';
 import { RadioLabel } from './radio-label';
+import TaiwandFlag from '../../../assets/flags/taiwand_flag.png';
+import UKFlag from '../../../assets/flags/UK_flag.png';
+import VIFlag from '../../../assets/flags/VI_flag.png';
+
 const schema = zod.object({
   _id: zod.string(),
   name: zod.string().min(1, { message: 'Name is required' }),
@@ -29,6 +33,7 @@ const schema = zod.object({
   allowMinAge: zod.number(),
   allowMaxAge: zod.number(),
   allowGender: zod.string().min(1, { message: 'Gender Allowed required' }),
+  languages: zod.string().min(1, { message: 'Language is required' }),
 })
 
 type Values = zod.infer<typeof schema>;
@@ -58,20 +63,19 @@ export function EventEditForm({ openDlgEdit, handleCloseEdit }: Props): React.JS
     registrationDeadline: eventData.registrationDeadline,
     allowMinAge: eventData.allowMinAge,
     allowMaxAge: eventData.allowMaxAge,
-    allowGender: eventData.allowGender
+    allowGender: eventData.allowGender,
+    languages: eventData.languages
   } satisfies Values;
 
 
   const [isPending, setIsPending] = React.useState<boolean>(false);
   const [showCapacityLimit, setShowCapacityLimit] = React.useState<boolean>(eventData.capacityLimit > 0);
-
   const { control, handleSubmit, setError, formState: { errors }, setValue } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
   const fullScreenSM = useMediaQuery("(max-width:600px)")
-  console.log(control._formValues);
+  const [languages, setLanguages] = React.useState<string[]>(eventData.languages.split(","));
 
   const onSubmit = React.useCallback(async (values: Values, e: any): Promise<void> => {
     setIsPending(true);
-    console.log(values);
 
     const data = await eventService.modifyEvent(values);
     if (data?.statusCode) {
@@ -86,7 +90,16 @@ export function EventEditForm({ openDlgEdit, handleCloseEdit }: Props): React.JS
   },
     [setError]
   );
+  const handleSelectLang = (lang: string) => {
+    const exists = languages.includes(lang);
+    if (exists && languages.length <= 1) return;
 
+    let langs = languages;
+    if (exists) langs = langs.filter(l => l !== lang)
+    else langs = [...langs, lang]
+    setValue("languages", langs.join(","))
+    setLanguages(langs)
+  }
   return (
     <Dialog
       open={open}
@@ -129,10 +142,10 @@ export function EventEditForm({ openDlgEdit, handleCloseEdit }: Props): React.JS
                 <FormControl fullWidth={true} error={Boolean(errors.startTime || errors.endTime)} >
                   <label className='text-slate-500 text-sm'>Duration Date</label>
                   <DateRangePicker
-                    ranges={[]} 
+                    ranges={[]}
                     showOneCalendar
                     size='lg'
-                    defaultValue={[new Date(defaultValues.startTime), new Date(defaultValues.endTime)]} 
+                    defaultValue={[new Date(defaultValues.startTime), new Date(defaultValues.endTime)]}
                     onChange={(value: any) => {
                       setValue("startTime", value[0]?.toISOString() || "")
                       setValue("endTime", value[1]?.toISOString() || "")
@@ -142,11 +155,11 @@ export function EventEditForm({ openDlgEdit, handleCloseEdit }: Props): React.JS
                   {errors.startTime && <FormHelperText>{errors.startTime.message}</FormHelperText>}
                   {errors.endTime && <FormHelperText>{errors.endTime.message}</FormHelperText>}
                 </FormControl>
-              </Grid> 
+              </Grid>
               <Grid sm={6} xs={12} item={true}>
                 <FormControl fullWidth={true} error={Boolean(errors.registrationDeadline)} >
                   <label className='text-slate-500 text-sm'>Registration Deadline</label>
-                  <DatePicker name='registrationDeadline' 
+                  <DatePicker name='registrationDeadline'
                     defaultValue={new Date(defaultValues.registrationDeadline)}
                     size='lg'
                     onChange={(value) => setValue("registrationDeadline", value?.toISOString() || "")} />
@@ -165,17 +178,17 @@ export function EventEditForm({ openDlgEdit, handleCloseEdit }: Props): React.JS
                   <FormControlLabel control={<Switch defaultChecked={Boolean(defaultValues.allowWaitlist)} onChange={(value) => setValue("allowWaitlist", value.target.checked)} name="allowWaitlist" />} label="Allow For Waitlist" />
                 </FormControl>
               </Grid>
-              <Grid sm={3} xs={6} item={true}> 
+              <Grid sm={3} xs={6} item={true}>
                 <FormControl fullWidth={true} error={Boolean(errors.allowMinAge)}  >
-                  <TextField id="standard-basic" type='number' defaultValue={defaultValues.allowMinAge} onChange={(e:any) => setValue("allowMinAge", Number(e.target.value)|| 0)}   label="Allow Min Age" variant="standard" />
+                  <TextField id="standard-basic" type='number' defaultValue={defaultValues.allowMinAge} onChange={(e: any) => setValue("allowMinAge", Number(e.target.value) || 0)} label="Allow Min Age" variant="standard" />
                   {errors.allowMinAge ? <FormHelperText>{errors.allowMinAge.message}</FormHelperText> : null}
-                </FormControl> 
+                </FormControl>
               </Grid>
-              <Grid sm={3} xs={6} item={true}> 
+              <Grid sm={3} xs={6} item={true}>
                 <FormControl fullWidth={true} error={Boolean(errors.allowMaxAge)}>
-                  <TextField id="standard-basic" type='number' defaultValue={defaultValues.allowMaxAge}  onChange={(e:any) => setValue("allowMaxAge", Number(e.target.value)|| 0)}  label="Allow Max Age" variant="standard" />
+                  <TextField id="standard-basic" type='number' defaultValue={defaultValues.allowMaxAge} onChange={(e: any) => setValue("allowMaxAge", Number(e.target.value) || 0)} label="Allow Max Age" variant="standard" />
                   {errors.allowMaxAge ? <FormHelperText>{errors.allowMaxAge.message}</FormHelperText> : null}
-                </FormControl> 
+                </FormControl>
               </Grid>
               <Grid md={6} sm={6} xs={12} item={true}>
                 <FormControl fullWidth={true}>
@@ -209,12 +222,28 @@ export function EventEditForm({ openDlgEdit, handleCloseEdit }: Props): React.JS
                   </Grid>
                 </FormControl>
               </Grid>
-              <Grid md={12} item={true}>
-                <RadioGroup name="radio-group-inline-picker-label" onChange={(value:ValueType) => setValue("typeCheckin", value.toString())} inline appearance="default" defaultValue={defaultValues.typeCheckin}>
-                  <RadioLabel>Check In Type: </RadioLabel>
-                  <Radio value="Offline">Offline</Radio> 
+
+
+              <Grid sm={6} xs={12} item={true}>
+                <RadioLabel>Check In: </RadioLabel>
+                <RadioGroup name="radio-group-inline-picker-label" onChange={(value: ValueType) => setValue("typeCheckin", value.toString())} inline appearance="default" defaultValue={defaultValues.typeCheckin}>
+                  <Radio value="Offline">Offline</Radio>
                   <Radio value="Online">Online</Radio>
                 </RadioGroup>
+              </Grid>
+              <Grid sm={6} xs={12} item={true}>
+                <RadioLabel>Languages: </RadioLabel>
+                <div className='flex gap-2 text-sm my-2'>
+                  <div onClick={() => handleSelectLang("EN")}
+                    className={` ${languages.includes("EN") ? "bg-white border-sky-200" : "bg-slate-300"} select-none hover:bg-white hover:border-sky-200 rounded-full cursor-pointer flex gap-2 items-center font-[500]  p-2 border`}>
+                    <img src={UKFlag} className='w-6' alt="" /> EN </div>
+                  <div onClick={() => handleSelectLang("TW")}
+                    className={` ${languages.includes("TW") ? "bg-white border-sky-200" : "bg-slate-300"} select-none hover:bg-white hover:border-sky-200 rounded-full cursor-pointer flex gap-2 items-center font-[500]  p-2 border`}>
+                    <img src={TaiwandFlag} className='w-6' alt="" /> TW </div>
+                  <div onClick={() => handleSelectLang("VI")}
+                    className={` ${languages.includes("VI") ? "bg-white border-sky-200" : "bg-slate-300"} select-none hover:bg-white hover:border-sky-200 rounded-full cursor-pointer flex gap-2 items-center font-[500]  p-2 border`}>
+                    <img src={VIFlag} className='w-6' alt="" /> VI </div>
+                </div>
               </Grid>
 
 
