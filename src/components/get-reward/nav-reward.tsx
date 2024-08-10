@@ -2,7 +2,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import React from 'react';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material';
-import InputUserDropdown from './input-user-dropdown';
+// import InputUserDropdown from './input-user-dropdown';
 import InputGiftDropdown from './input-gift-dropdown';
 function NavReward({ rewardInfo, setRewardInfo }: any) {
     const [openNav, setOpenNav] = React.useState({
@@ -47,15 +47,15 @@ function NavReward({ rewardInfo, setRewardInfo }: any) {
         })
     }
 
-    const selectUser = (data: any) => {
-        setRewardInfo({
-            ...rewardInfo,
-            participantId: data._id,
-            userId: data.userId,
-            userName: data.userName
-        })
-        onCloseNav();
-    }
+    // const selectUser = (data: any) => {
+    //     setRewardInfo({
+    //         ...rewardInfo,
+    //         participantId: data._id,
+    //         userId: data.userId,
+    //         userName: data.userName
+    //     })
+    //     onCloseNav();
+    // }
 
     const selectGift = (data: any) => {
         setRewardInfo({
