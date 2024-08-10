@@ -75,6 +75,25 @@ class EventParticipantService {
                 return error
             });
     }
+
+    async randomAllReward(id: string) {
+        return axiosClient.put(ClientRoute + `/random-all/${id}`,{}, { headers: authHeader() })
+            .then((res: any) => {
+                return res.data;
+            }).catch((error: any) => {
+                return error
+            });
+    }
+
+    
+    async getUserReward(id: string) {
+        return axiosClient.get(ClientRoute + `/user-reward/${id}`,  { headers: authHeader() })
+            .then((res: any) => {
+                return res.data;
+            }).catch((error: any) => {
+                return error
+            });
+    }
 }
 
 export default new EventParticipantService();

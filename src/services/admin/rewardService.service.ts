@@ -72,6 +72,8 @@ class RewardService {
                 return error
             });
     }
+
+   
 }
 
 export default new RewardService();

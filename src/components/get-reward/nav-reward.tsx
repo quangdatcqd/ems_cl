@@ -90,7 +90,7 @@ function NavReward({ rewardInfo, setRewardInfo }: any) {
                     </FormControl>
                 </div>
                 {
-                    rewardInfo.type === "gift" ? <InputUserDropdown selectUser={selectUser} /> : <InputGiftDropdown selectGift={selectGift} />
+                    rewardInfo.type === "user" && <InputGiftDropdown selectGift={selectGift} />
                 }
             </div>
             <div className={`absolute left-0 top-0 h-[20rem] w-8   z-10 ${openNav.boxHoverClass}`} onMouseEnter={onHover}>
