@@ -21,7 +21,7 @@ export default function WebEditor({ setActiveKey, languages }: any) {
     const [boxEditor, setBoxEditor] = useState<any>(null);
     const { activeLang, webConfigs, handleDragEnter, handleRemoveSection } = useWebEditorConfig();
 
-    const handleSelectSection = (id: string, index: number) => {
+    const handleSelectSection = (  index: number) => {
         if (boxEditor?.config !== index) {
             setActiveKey("")
             setBoxEditor({
@@ -66,14 +66,13 @@ export default function WebEditor({ setActiveKey, languages }: any) {
 
                         <BoxEditor boxEditor={boxEditor} />
                     </div>
-                }
-
+                } 
                 {
                     webConfigs?.map((element, index) => {
                         const Element: any = WebComponents.find(Section => Section.component.name === element.name);
                         return <div key={index}>
                             <div className='parent cursor-pointer border-2 hover:border-sky-300'
-                                onClick={() => handleSelectSection(element.name, index)} >
+                                onClick={() => handleSelectSection( index)} >
 
                                 <Element.component config={element} activeLang={activeLang?.name} />
                             </div>
