@@ -13,6 +13,7 @@ import { EventDataType } from '../../interface/event';
 export function WebRender() {
     const params = useParams();
     const [eventData, setEventData] = useState<EventDataType>();
+    const [eventTemplate, setTemplate] = useState<EventDataType>();
     const [activeLang, setActiveLang] = useState<"ENG" | "TW" | "VI">("ENG");
 
     const fetchEventData = async () => {
@@ -24,11 +25,11 @@ export function WebRender() {
     useEffect(() => {
         if (params?.template) {
             const template = NavTemplates.find(temp => temp.name === params.template);
-            if (template) setEventData(template.config)
+            if (template) setTemplate(template.config)
         }
         if (params?.id) fetchEventData();
     }, []) 
-    const webConfigs = eventData?.webConfig ? JSON.parse(eventData?.webConfig) : eventData
+    const webConfigs = (eventData?.webConfig &&  eventData?.webConfig !== "" ) ? JSON.parse(eventData?.webConfig) : eventTemplate 
     return (
         <div className='bg-white flexible-box flex-grow'  >
             <div className='group fixed -top-2 right-1 z-10 text-sm bg-white p-2 pt-5 rounded-md'>

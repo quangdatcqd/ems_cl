@@ -17,7 +17,7 @@ import { EventDataType } from '../../interface/event';
 
 
 
-export function MainNav({ eventData }: { eventData: EventDataType }): React.JSX.Element {
+export function MainNav({ eventData }: { eventData: EventDataType }): React.JSX.Element { 
   const [loading, setLoading] = React.useState(false)
   const router = useNavigate();
   const { webConfigs,setWebConfigs } = useWebEditorConfig();
@@ -69,7 +69,7 @@ export function MainNav({ eventData }: { eventData: EventDataType }): React.JSX.
             variant="text"
             tabIndex={-1}
             startIcon={<VisibilityIcon />}
-            onClick={() => router(paths.website.viewPath + eventData._id)}
+            onClick={() => router(paths.website.viewPath + eventData?._id)}
           >
             Preview
           </LoadingButton>
