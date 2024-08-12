@@ -34,6 +34,7 @@ const schema = zod.object({
   allowMaxAge: zod.number(),
   allowGender: zod.string().min(1, { message: 'Gender Allowed required' }),
   languages: zod.string().min(1, { message: 'Language is required' }),
+  webConfig: zod.string()
 })
 
 type Values = zod.infer<typeof schema>;
@@ -64,6 +65,7 @@ export function EventEditForm({ openDlgEdit, handleCloseEdit }: Props): React.JS
     allowMinAge: eventData.allowMinAge,
     allowMaxAge: eventData.allowMaxAge,
     allowGender: eventData.allowGender,
+    webConfig: eventData.webConfig,
     languages: eventData.languages
   } satisfies Values;
 
@@ -91,11 +93,13 @@ export function EventEditForm({ openDlgEdit, handleCloseEdit }: Props): React.JS
     [setError]
   );
   const handleSelectLang = (lang: string) => {
+    console.log(languages);
+
     const exists = languages.includes(lang);
     if (exists && languages.length <= 1) return;
 
     let langs = languages;
-    if (exists) langs = langs.filter(l => l !== lang)
+    if (exists) langs = langs.filter(l => (l !== lang) && (l !== ''))
     else langs = [...langs, lang]
     setValue("languages", langs.join(","))
     setLanguages(langs)
@@ -235,13 +239,13 @@ export function EventEditForm({ openDlgEdit, handleCloseEdit }: Props): React.JS
                 <RadioLabel>Languages: </RadioLabel>
                 <div className='flex gap-2 text-sm my-2'>
                   <div onClick={() => handleSelectLang("EN")}
-                    className={` ${languages.includes("EN") ? "bg-white border-sky-200" : "bg-slate-300"} select-none hover:bg-white hover:border-sky-200 rounded-full cursor-pointer flex gap-2 items-center font-[500]  p-2 border`}>
+                    className={` ${languages.includes("EN") ? "bg-white border-sky-200" : "bg-slate-300"} select-none   hover:border-sky-200 rounded-full cursor-pointer flex gap-2 items-center font-[500]  p-2 border`}>
                     <img src={UKFlag} className='w-6' alt="" /> EN </div>
                   <div onClick={() => handleSelectLang("TW")}
-                    className={` ${languages.includes("TW") ? "bg-white border-sky-200" : "bg-slate-300"} select-none hover:bg-white hover:border-sky-200 rounded-full cursor-pointer flex gap-2 items-center font-[500]  p-2 border`}>
+                    className={` ${languages.includes("TW") ? "bg-white border-sky-200" : "bg-slate-300"} select-none   hover:border-sky-200 rounded-full cursor-pointer flex gap-2 items-center font-[500]  p-2 border`}>
                     <img src={TaiwandFlag} className='w-6' alt="" /> TW </div>
                   <div onClick={() => handleSelectLang("VI")}
-                    className={` ${languages.includes("VI") ? "bg-white border-sky-200" : "bg-slate-300"} select-none hover:bg-white hover:border-sky-200 rounded-full cursor-pointer flex gap-2 items-center font-[500]  p-2 border`}>
+                    className={` ${languages.includes("VI") ? "bg-white border-sky-200" : "bg-slate-300"} select-none   hover:border-sky-200 rounded-full cursor-pointer flex gap-2 items-center font-[500]  p-2 border`}>
                     <img src={VIFlag} className='w-6' alt="" /> VI </div>
                 </div>
               </Grid>
