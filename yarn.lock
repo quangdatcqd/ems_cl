@@ -3063,7 +3063,7 @@ survey-core@^1.11.11, survey-core@1.11.11:
   resolved "https://registry.npmjs.org/survey-core/-/survey-core-1.11.11.tgz"
   integrity sha512-TNF3dQfMjWn2kXxNS0PCpvUclfIoLMv29IEFA832Uvp9yEUVYh/g7Fs5OLJff8smQJ1s3ul2saSy1NbMeJFv/Q==
 
-survey-creator-core@1.11.11:
+survey-creator-core@^1.11.11, survey-creator-core@1.11.11:
   version "1.11.11"
   resolved "https://registry.npmjs.org/survey-creator-core/-/survey-creator-core-1.11.11.tgz"
   integrity sha512-c0cgS2twaklP2boIaNnFnSQHCD6xeozlGQOwRGkVDtffuJUND6ZwZct20AX+KcDqjd1Rt0/fxp2wG9Ce3rfZrg==
