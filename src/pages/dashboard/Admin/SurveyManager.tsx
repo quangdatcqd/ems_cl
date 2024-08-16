@@ -7,7 +7,6 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
-import { SignUpForm } from '../../../components/dashboard/users_manager/sign-up-form';
 import { ClientUserManagerFilter } from '../../../components/dashboard/users_manager/client-user-manager-filter';
 import { Plus as PlusIcon } from '@phosphor-icons/react/dist/ssr/Plus';
 import CreateSurvey from '../../../components/dashboard/surveys_manager/survey-creator';
