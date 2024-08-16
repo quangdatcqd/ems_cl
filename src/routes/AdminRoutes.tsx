@@ -20,6 +20,7 @@ import { ChangeResetPassword } from "../pages/auth/Admin/ChangeResetPassword";
 import EventFoodRegistration from "../pages/dashboard/Admin/EventFoodRegistration";
 import EventRegistration from "../pages/dashboard/Admin/EventRegistration"; 
 import GetReward from "../pages/GetReward";
+import Survey from "../pages/dashboard/Admin/SurveyManager";
 
 const AdminProtectedRoute = () => {
     const { auth } = useAuth();
@@ -45,7 +46,10 @@ const routesForAdminAuthenticatedOnly = [
         path: pathAdmin,
         element: <AdminProtectedRoute />, // Wrap the component in AdminProtectedRoute
         children: [
-
+            {
+                path: paths.admin.dashboard.surveyManager,
+                element: <Survey/>
+            },
             {
                 path: paths.admin.dashboard.adminAccountManager,
                 element: <AdminAccountManager />

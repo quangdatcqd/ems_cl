@@ -26,6 +26,7 @@ if (auth?.userInfo?.type === AccountType.Admin) {
     { key: 'event-manager', title: 'Events', href: paths.admin.dashboard.eventManager, icon: 'users' },
     { key: 'event-regis', title: 'Event Registration', href: paths.admin.dashboard.eventRegis, icon: 'users' },
     { key: 'event-food-regis', title: 'Food Registration', href: paths.admin.dashboard.eventFoodRegis, icon: 'users' },
+    { key: 'survey', title: 'Surveys', href: paths.admin.dashboard.surveyManager, icon: 'users' },
   );
 } else if (auth?.userInfo?.type === AccountType.Admin) {
   navItems.push(

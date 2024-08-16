@@ -120,7 +120,9 @@
   /* Màu của thanh cuộn khi di chuột qua */
 }
 
-
+.svc-creator__banner{
+  display: none;
+}
 .join_button {
   position: fixed;
   bottom: 15px;

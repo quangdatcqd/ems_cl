@@ -27,6 +27,7 @@ export const paths = {
       eventPrintPath: pathAdmin + '/dashboard/event-print-preview',
       eventFoodRegis: pathAdmin + '/dashboard/event-food-regis',
       eventRegis: pathAdmin + '/dashboard/event-regis',
+      surveyManager: pathAdmin + '/dashboard/survey-manager' 
 
     },
     website: {
@@ -44,7 +45,7 @@ export const paths = {
     sections: {
       sectionRouter: pathAdmin + '/section/:id',
       sectionPath: pathAdmin + '/section/',
-    },
+    } 
   },
   client: {
     auth: {
@@ -65,6 +66,7 @@ export const paths = {
     joinEventRouter: '/website/join-event/:eventId',
     joinEventPath: '/website/join-event/',
   },
+  surveyUI: '/survey-ui',
   errors: { notFound: pathAdmin + '/errors/not-found' },
 } as const;
 

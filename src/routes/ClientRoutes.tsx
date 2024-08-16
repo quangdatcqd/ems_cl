@@ -1,6 +1,7 @@
 
 import ClientAuthLayout from "../layouts/Client/ClientAuthLayout";
 import Home from "../pages/Home";
+import SurveyUI from "../pages/SurveyUI";
 import { ChangeResetPassword } from "../pages/auth/Client/ChangeResetPassword";
 import ClientSignIn from "../pages/auth/Client/ClientSignIn";
 import ClientSignUp from "../pages/auth/Client/ClientSignUp";
@@ -59,6 +60,11 @@ export const routesForPublicClient = [
         path: paths.website.joinEventRouter,
         element: <EventRegistration />
     },
+    {
+        path: paths.surveyUI,
+        element: <SurveyUI />
+    },
+
    
 ];
 
