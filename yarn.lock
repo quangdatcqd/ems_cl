@@ -3058,7 +3058,7 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.npmjs.org/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
-survey-core@1.11.11:
+survey-core@^1.11.11, survey-core@1.11.11:
   version "1.11.11"
   resolved "https://registry.npmjs.org/survey-core/-/survey-core-1.11.11.tgz"
   integrity sha512-TNF3dQfMjWn2kXxNS0PCpvUclfIoLMv29IEFA832Uvp9yEUVYh/g7Fs5OLJff8smQJ1s3ul2saSy1NbMeJFv/Q==
