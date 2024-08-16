@@ -5,7 +5,7 @@ import { SurveyCreatorComponent, SurveyCreator } from "survey-creator-react";
 
 const creatorOptions = {
     // showLogicTab: true,
-    questionTypes: ["text", "checkbox", "radiogroup", "dropdown", "yesno"],
+    // questionTypes: ["text", "checkbox", "radiogroup", "dropdown" ],
     isAutoSave: true,
     showJSONEditorTab: false,
     // showLogicTab: false,
@@ -20,12 +20,7 @@ const creatorOptions = {
 export default function SurveyCreatorWidget() {
     const creator = new SurveyCreator(creatorOptions);
    
-    creator.saveSurveyFunc = (saveNo:any, callback:any) => {
-        // If you use localStorage:
-        window.localStorage.setItem("survey-json", creator.text);
-        callback(saveNo, true); 
-    };
-
+  
 
     return (<SurveyCreatorComponent creator={creator}   />)
   
