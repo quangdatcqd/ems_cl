@@ -66,7 +66,12 @@ export const paths = {
     joinEventRouter: '/website/join-event/:eventId',
     joinEventPath: '/website/join-event/',
   },
-  surveyUI: '/survey-ui',
+  survey: {
+    surveyRouter: '/survey/:surveyId',
+    surveyPath: '/survey/',
+    surveyResultPath: '/survey-result/',
+    surveyResultRouter: '/survey-result/:surveyId',
+  },
   errors: { notFound: pathAdmin + '/errors/not-found' },
 } as const;
 

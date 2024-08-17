@@ -1,7 +1,7 @@
 
 import ClientAuthLayout from "../layouts/Client/ClientAuthLayout";
 import Home from "../pages/Home";
-import SurveyUI from "../pages/SurveyUI";
+import SurveyUI from "../pages/survey/SurveyUI";
 import { ChangeResetPassword } from "../pages/auth/Client/ChangeResetPassword";
 import ClientSignIn from "../pages/auth/Client/ClientSignIn";
 import ClientSignUp from "../pages/auth/Client/ClientSignUp";
@@ -61,7 +61,7 @@ export const routesForPublicClient = [
         element: <EventRegistration />
     },
     {
-        path: paths.surveyUI,
+        path: paths.survey.surveyRouter,
         element: <SurveyUI />
     },
 

@@ -20,7 +20,8 @@ import { ChangeResetPassword } from "../pages/auth/Admin/ChangeResetPassword";
 import EventFoodRegistration from "../pages/dashboard/Admin/EventFoodRegistration";
 import EventRegistration from "../pages/dashboard/Admin/EventRegistration"; 
 import GetReward from "../pages/GetReward";
-import Survey from "../pages/dashboard/Admin/SurveyManager";
+import SurveyManager from "../pages/dashboard/Admin/SurveyManager";
+import SurveyResult from "../pages/survey/SurveyResult";
 
 const AdminProtectedRoute = () => {
     const { auth } = useAuth();
@@ -48,7 +49,7 @@ const routesForAdminAuthenticatedOnly = [
         children: [
             {
                 path: paths.admin.dashboard.surveyManager,
-                element: <Survey/>
+                element: <SurveyManager/>
             },
             {
                 path: paths.admin.dashboard.adminAccountManager,
@@ -101,7 +102,13 @@ const routesForAdminAuthenticatedOnly = [
         path: paths.admin.reward.rewardRouter,
         element: <GetReward />,
     },
+    {
+        path: paths.survey.surveyResultRouter,
+        element: <SurveyResult/>,
+    },
+
 ];
+
 const routesForAdminAuthentication = [
     {
         path: pathAdmin,
