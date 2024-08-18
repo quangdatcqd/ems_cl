@@ -85,7 +85,10 @@ export default function SurveyManager(): React.JSX.Element {
       toast.error(survey?.message, { position: "top-center" })
       return;
     }
-    if (openDlg?.surveyId) toast.success("Updated successfully", { position: "top-center" })
+    if (openDlg?.surveyId) {
+      toast.success("Updated successfully", { position: "top-center" })
+      setOpenDlg({ ...openDlg, open: true, survey: "{}" })
+    }
     else {
       toast.success("Created successfully", { position: "top-center" })
       handleCloseDlg();
