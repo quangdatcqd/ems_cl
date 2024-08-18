@@ -130,6 +130,7 @@ export default function SurveyManager(): React.JSX.Element {
             role={undefined}
             variant="contained"
             tabIndex={-1}
+            disabled={openDlg?.surveyId ? true : false}
             color='success'
             startIcon={<SaveIcon />}
             onClick={handleCreateOrUpdateSurvey}
@@ -139,7 +140,7 @@ export default function SurveyManager(): React.JSX.Element {
           </LoadingButton> 
         </DialogActions>
         <DialogContent sx={{ padding: "0px 15px" }}>
-          <CreateSurvey survey={openDlg.survey} />
+          <CreateSurvey survey={openDlg.survey} idSurvey={openDlg.surveyId} />
         </DialogContent>
       </Dialog>
       <SurveyManagerFilter setSort={setSort} />
