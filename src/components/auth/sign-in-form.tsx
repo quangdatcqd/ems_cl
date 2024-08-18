@@ -1,4 +1,4 @@
- 
+
 
 import * as React from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -18,7 +18,7 @@ import { z as zod } from 'zod';
 import { paths } from '../../paths';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../provider/authProvider';
-import adminAuthService from '../../services/adminAuth.service'; 
+import adminAuthService from '../../services/adminAuth.service';
 const schema = zod.object({
   username: zod.string().min(1, { message: 'username is required' }),
   password: zod.string().min(8, "Password is too short - should be 8 chars minimum"),
@@ -28,16 +28,14 @@ type Values = zod.infer<typeof schema>;
 
 const defaultValues = { username: '', password: '' } satisfies Values;
 
-export function SignInForm(): React.JSX.Element { 
+export function SignInForm(): React.JSX.Element {
   const router = useNavigate();
-  const {auth, setAuth } = useAuth();
+  const { auth, setAuth } = useAuth();
   if (auth) {
-    setInterval(()=>router(paths.client.home),100)
-    
+    setTimeout(() => router(paths.client.home), 100)
   } 
-
-  const [showPassword, setShowPassword] = React.useState<boolean>(); 
-  const [isPending, setIsPending] = React.useState<boolean>(false); 
+  const [showPassword, setShowPassword] = React.useState<boolean>();
+  const [isPending, setIsPending] = React.useState<boolean>(false);
   const { control, handleSubmit, setError, formState: { errors }, } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
 
   const onSubmit = React.useCallback(
@@ -62,7 +60,7 @@ export function SignInForm(): React.JSX.Element {
   return (
     <Stack spacing={4}>
       <Stack spacing={1}>
-        <Typography variant="h4">Sign in</Typography> 
+        <Typography variant="h4">Sign in</Typography>
       </Stack>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={2}>
@@ -111,17 +109,17 @@ export function SignInForm(): React.JSX.Element {
               </FormControl>
             )}
           />
-          <div> 
+          <div>
             <Link to={paths.admin.auth.resetPassword} className='react-link' >
               Forgot password?
-            </Link> 
+            </Link>
           </div>
           {errors.root ? <Alert color="error">{errors.root.message}</Alert> : null}
           <Button disabled={isPending} type="submit" variant="contained">
             Sign in
           </Button>
         </Stack>
-      </form> 
+      </form>
     </Stack>
   );
 }
