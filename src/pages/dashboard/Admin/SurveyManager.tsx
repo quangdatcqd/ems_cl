@@ -69,7 +69,7 @@ export default function SurveyManager(): React.JSX.Element {
     })
   }
   const handleClearSurvey = () => {
-    setOpenDlg({ open: true, survey: false })
+    setOpenDlg({ ...openDlg, open: true, survey: false })
   }
 
   const handleCreateOrUpdateSurvey = async () => {
