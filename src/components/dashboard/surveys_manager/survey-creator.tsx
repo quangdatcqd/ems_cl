@@ -23,7 +23,7 @@ export default function SurveyCreatorWidget({ survey }: any) {
             callback(saveNo, true);
         };
 
-    }, [])
+    }, [creator])
 
 
     return (<SurveyCreatorComponent creator={creator} />)
