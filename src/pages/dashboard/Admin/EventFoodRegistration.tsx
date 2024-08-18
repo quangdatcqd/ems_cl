@@ -35,10 +35,10 @@ export default function EventFoodRegistration(): React.JSX.Element {
     <Stack spacing={2}> 
       <EventManagerFilter setSort={setSort} />
       <FoodResTable 
-        count={eventData.metadata.count}
-        page={eventData.metadata.page - 1}
-        rows={eventData.data}
-        rowsPerPage={eventData.metadata.limit}
+        count={eventData?.metadata.count}
+        page={eventData?.metadata.page - 1}
+        rows={eventData?.data}
+        rowsPerPage={eventData?.metadata?.limit}
         isPending={isPending}
         setSort={setSort}
       />

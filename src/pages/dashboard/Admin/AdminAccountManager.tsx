@@ -84,10 +84,10 @@ export default function AdminAccountManager(): React.JSX.Element {
 
       <UserManagerTable
         fetchUsers={fetchUsers}
-        count={userData.metadata.count}
-        page={userData.metadata.page - 1}
-        rows={userData.data}
-        rowsPerPage={userData.metadata.limit}
+        count={userData?.metadata?.count}
+        page={userData?.metadata?.page - 1}
+        rows={userData?.data}
+        rowsPerPage={userData?.metadata?.limit}
         isPending={isPending}
         setSort={setSort}
       />
