@@ -30,7 +30,7 @@ export default function SurveyCreatorWidget({ survey, idSurvey }: any) {
             callback(saveNo, true);
         };
 
-    }, [ survey,creator])
+    }, [creator])
     const handleUpdateSurvey = async () => {
         const title = JSON.parse(creator.text)?.title || ""; 
         const surveyRs = await surveyService.createOrUpdateSurvey({
@@ -40,7 +40,7 @@ export default function SurveyCreatorWidget({ survey, idSurvey }: any) {
         })
         if (!surveyRs?.data) {
             toast.error(surveyRs?.message, { position: "top-center" })
-            return;
+           
         } 
     }
 

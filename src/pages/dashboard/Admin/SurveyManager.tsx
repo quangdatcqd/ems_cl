@@ -131,6 +131,7 @@ export default function SurveyManager(): React.JSX.Element {
             variant="contained"
             tabIndex={-1} 
             color='success'
+            disabled={(openDlg?.survey ? true : false) || (openDlg?.survey !== false)}
             startIcon={<SaveIcon />}
             onClick={handleCreateOrUpdateSurvey}
             loading={isPending}
