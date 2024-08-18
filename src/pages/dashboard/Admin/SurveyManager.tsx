@@ -12,6 +12,7 @@ import { SurveyManagerFilter } from '../../../components/dashboard/surveys_manag
 import { SurveyManagerTable } from '../../../components/dashboard/surveys_manager/survey-manager-table';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ClearAllIcon from '@mui/icons-material/ClearAll';
+import SaveIcon from '@mui/icons-material/Save';
 import LoadingButton from '@mui/lab/LoadingButton';
 interface surveyType {
   data: any;
@@ -72,6 +73,7 @@ export default function SurveyManager(): React.JSX.Element {
   }
 
   const handleCreateOrUpdateSurvey = async () => {
+    setIsPending(true)
     const data = localStorage.getItem("survey-json") || "{}";
     const JSONdata = JSON.parse(data);
     const survey = await surveyService.createOrUpdateSurvey({
@@ -88,6 +90,7 @@ export default function SurveyManager(): React.JSX.Element {
       toast.success("Created successfully", { position: "top-center" })
       handleCloseDlg();
     }
+    setIsPending(false)
   }
 
   return (
@@ -113,19 +116,27 @@ export default function SurveyManager(): React.JSX.Element {
           >
             Home
           </Button>
-          <LoadingButton
-            component="label"
-            role={undefined}
-            variant="outlined"
-            tabIndex={-1}
+          <Button  
+            variant="outlined" 
             color='error'
             startIcon={<ClearAllIcon />}
             onClick={handleClearSurvey}
           >
             Clear section
-          </LoadingButton>
+          </Button>
 
-          <Button onClick={handleCreateOrUpdateSurvey} variant='contained' color='success'>Save</Button>
+          <LoadingButton
+            component="label"
+            role={undefined}
+            variant="contained"
+            tabIndex={-1}
+            color='success'
+            startIcon={<SaveIcon />}
+            onClick={handleCreateOrUpdateSurvey}
+            loading={isPending}
+          >
+            Save
+          </LoadingButton> 
         </DialogActions>
         <DialogContent sx={{ padding: "0px 15px" }}>
           <CreateSurvey survey={openDlg.survey} />
