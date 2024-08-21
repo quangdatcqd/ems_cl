@@ -74,6 +74,8 @@ export default function SurveyManager(): React.JSX.Element {
 
   const handleCreateOrUpdateSurvey = async () => {
     setIsPending(true)
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+
     const data = localStorage.getItem("survey-json") || "{}";
     const JSONdata = JSON.parse(data);
     const survey = await surveyService.createOrUpdateSurvey({
@@ -86,16 +88,17 @@ export default function SurveyManager(): React.JSX.Element {
       return;
     }
     if (openDlg?.surveyId) {
+      localStorage.removeItem("survey-json");
       toast.success("Updated successfully", { position: "top-center" })
       setOpenDlg({ ...openDlg, open: true, survey: "{}" })
     }
     else {
+      localStorage.removeItem("survey-json");
       toast.success("Created successfully", { position: "top-center" })
       handleCloseDlg();
     }
     setIsPending(false)
-  }
-  console.log(openDlg);
+  } 
   
   return (
     <Stack spacing={2}>
