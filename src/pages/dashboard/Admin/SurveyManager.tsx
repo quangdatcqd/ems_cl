@@ -95,7 +95,8 @@ export default function SurveyManager(): React.JSX.Element {
     }
     setIsPending(false)
   }
-
+  console.log(openDlg);
+  
   return (
     <Stack spacing={2}>
       <div className='flex justify-start gap-10'>
@@ -134,7 +135,7 @@ export default function SurveyManager(): React.JSX.Element {
             variant="contained"
             tabIndex={-1} 
             color='success'
-            disabled={(openDlg?.survey ? true : false) || (openDlg?.survey !== false)}
+            disabled={(openDlg?.survey ? true : false) || (openDlg?.survey !== false) && (openDlg?.survey !== null)}
             startIcon={<SaveIcon />}
             onClick={handleCreateOrUpdateSurvey}
             loading={isPending}
