@@ -19,8 +19,7 @@ export default function SurveyCreatorWidget({ survey, idSurvey }: any) {
     const creator = new SurveyCreator(creatorOptions);
     React.useEffect(() => { 
         if (survey) creator.JSON = JSON.parse(survey || "{}"); 
-        else if (survey === false) localStorage.setItem("survey-json", "{}");
-        else creator.JSON = JSON.parse(localStorage.getItem("survey-json") || "{}");
+        else if (survey === false)  creator.JSON = JSON.parse("{}"); 
         creator.saveSurveyFunc = (saveNo: any, callback: any) => {
             if (idSurvey) {
                 handleUpdateSurvey(); 
